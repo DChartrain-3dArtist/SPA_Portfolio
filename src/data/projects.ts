@@ -14,7 +14,8 @@ export async function getProjects(): Promise<Project[]> {
   }
 
   try {
-    const jsonDirectory = path.join(process.cwd(), 'public', 'data');
+    // Corrected path to read from 'src' directory
+    const jsonDirectory = path.join(process.cwd(), 'src', 'data');
     const fileContents = await fs.readFile(path.join(jsonDirectory, 'projects.json'), 'utf8');
     const projects: Project[] = JSON.parse(fileContents);
     cachedProjects = projects;

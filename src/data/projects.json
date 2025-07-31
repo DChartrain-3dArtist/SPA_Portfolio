@@ -1,0 +1,174 @@
+
+[
+  {
+    "id": "projet-1",
+    "title": { "fr": "Scène Rustique", "en": "Rustic Scene" },
+    "description": { "fr": "Modélisation et rendu d'une scène d'intérieur rustique.", "en": "Modeling and rendering of a rustic interior scene." },
+    "longDescription": { "fr": "Ce projet personnel visait à créer une ambiance chaleureuse et rustique. La modélisation a été réalisée sur Blender, et le rendu avec Cycles pour un maximum de réalisme.", "en": "This personal project aimed to create a warm and rustic atmosphere. Modeling was done in Blender, and rendering with Cycles for maximum realism." },
+    "sector": "Infographie 3D",
+    "productionType": "Rendu",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["Blender", "Cycles"],
+    "hint": "interior design",
+    "date": "2023-01-15",
+    "isVisualizable": true,
+    "visualizerItems": [
+      {
+        "id": "chaise-rustique",
+        "name": { "fr": "Chaise en bois", "en": "Wooden Chair" },
+        "description": { "fr": "Une chaise en bois modélisée pour la scène rustique.", "en": "A wooden chair modeled for the rustic scene." },
+        "image": "https://placehold.co/400x300.png",
+        "modelUrl": "/models/chaise.glb",
+        "hint": "wooden chair"
+      }
+    ]
+  },
+  {
+    "id": "projet-2",
+    "title": { "fr": "Personnage Sci-Fi", "en": "Sci-Fi Character" },
+    "description": { "fr": "Création d'un personnage pour un jeu vidéo de science-fiction.", "en": "Creation of a character for a science fiction video game." },
+    "longDescription": { "fr": "Ce personnage a été sculpté dans ZBrush, avec un retopologie dans Maya. Les textures ont été créées avec Substance Painter pour un look PBR réaliste. Le rendu final est effectué dans Marmoset Toolbag.", "en": "This character was sculpted in ZBrush, with retopology in Maya. The textures were created with Substance Painter for a realistic PBR look. The final rendering is done in Marmoset Toolbag." },
+    "sector": "3D Temps Réel",
+    "productionType": "Application",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["ZBrush", "Maya", "Substance Painter", "Marmoset Toolbag"],
+    "hint": "sci-fi character",
+    "date": "2023-03-22",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-3",
+    "title": { "fr": "Visualisation Architecturale", "en": "Architectural Visualization" },
+    "description": { "fr": "Rendu d'une villa moderne pour un projet immobilier.", "en": "Rendering of a modern villa for a real estate project." },
+    "longDescription": { "fr": "Collaboration avec un cabinet d'architectes pour produire une série de rendus extérieurs et intérieurs. L'objectif était de mettre en valeur les volumes et la lumière naturelle. Utilisation de 3ds Max et V-Ray.", "en": "Collaboration with an architectural firm to produce a series of exterior and interior renderings. The goal was to highlight volumes and natural light. Use of 3ds Max and V-Ray." },
+    "sector": "Infographie 3D",
+    "productionType": "Rendu",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["3ds Max", "V-Ray", "Photoshop"],
+    "hint": "modern architecture",
+    "date": "2023-05-10",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-4",
+    "title": { "fr": "Configurateur de Produit", "en": "Product Configurator" },
+    "description": { "fr": "Application web permettant de personnaliser un meuble en 3D.", "en": "Web application to customize a piece of furniture in 3D." },
+    "longDescription": { "fr": "Développement d'une application React avec une intégration Three.js (React Three Fiber) pour permettre aux utilisateurs de changer les couleurs et les matériaux d'un canapé en temps réel. Le modèle 3D a été optimisé pour le web.", "en": "Development of a React application with a Three.js integration (React Three Fiber) to allow users to change the colors and materials of a sofa in real time. The 3D model was optimized for the web." },
+    "sector": "Développement Web",
+    "productionType": "Application",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["React", "Three.js", "React Three Fiber", "Next.js"],
+    "hint": "product configurator",
+    "date": "2023-07-01",
+    "isVisualizable": true,
+    "visualizerItems": [
+      {
+        "id": "canape-configurable",
+        "name": { "fr": "Canapé Configurable", "en": "Configurable Sofa" },
+        "description": { "fr": "Un canapé dont vous pouvez changer les matériaux.", "en": "A sofa whose materials you can change." },
+        "image": "https://placehold.co/400x300.png",
+        "modelUrl": "/models/sofa.glb",
+        "hint": "sofa furniture"
+      }
+    ]
+  },
+  {
+    "id": "projet-5",
+    "title": { "fr": "Animation de Logo", "en": "Logo Animation" },
+    "description": { "fr": "Animation 3D du logo pour une startup technologique.", "en": "3D logo animation for a tech startup." },
+    "longDescription": { "fr": "Création d'une courte animation de logo pour une utilisation en introduction de vidéos et sur les réseaux sociaux. Le travail a été réalisé sur Cinema 4D avec Redshift pour un rendu rapide et de haute qualité.", "en": "Creation of a short logo animation for use in video intros and on social media. The work was done in Cinema 4D with Redshift for fast, high-quality rendering." },
+    "sector": "Infographie 3D",
+    "productionType": "Animation",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["Cinema 4D", "Redshift", "After Effects"],
+    "hint": "logo animation",
+    "date": "2023-08-18",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-6",
+    "title": { "fr": "Site Vitrine pour Artisan", "en": "Showcase Site for a Craftsman" },
+    "description": { "fr": "Site web responsive pour un artisan local.", "en": "Responsive website for a local craftsman." },
+    "longDescription": { "fr": "Conception et développement d'un site WordPress sur mesure pour un ébéniste, mettant en avant ses créations à travers une galerie d'images optimisée. Un formulaire de contact personnalisé a également été mis en place.", "en": "Design and development of a custom WordPress site for a cabinetmaker, showcasing his creations through an optimized image gallery. A custom contact form was also implemented." },
+    "sector": "Développement Web",
+    "productionType": "Site Web",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["WordPress", "PHP", "CSS", "JavaScript"],
+    "hint": "craftsman portfolio",
+    "date": "2023-09-05",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-7",
+    "title": { "fr": "Environnement Forestier", "en": "Forest Environment" },
+    "description": { "fr": "Création d'un environnement 3D temps réel dans Unreal Engine.", "en": "Creation of a real-time 3D environment in Unreal Engine." },
+    "longDescription": { "fr": "Ce projet explore les capacités d'Unreal Engine 5 pour créer des environnements naturels réalistes. Utilisation des technologies Nanite et Lumen pour un rendu détaillé et un éclairage dynamique. Les assets végétaux proviennent de Quixel Megascans.", "en": "This project explores the capabilities of Unreal Engine 5 to create realistic natural environments. Use of Nanite and Lumen technologies for detailed rendering and dynamic lighting. The plant assets come from Quixel Megascans." },
+    "sector": "3D Temps Réel",
+    "productionType": "Application",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png",
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["Unreal Engine 5", "Nanite", "Lumen", "Quixel Megascans"],
+    "hint": "forest environment",
+    "date": "2023-11-20",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-8",
+    "title": { "fr": "Visite Virtuelle d'Appartement", "en": "Apartment Virtual Tour" },
+    "description": { "fr": "Application de visite virtuelle interactive pour un promoteur.", "en": "Interactive virtual tour application for a developer." },
+    "longDescription": { "fr": "Développement d'une application de visite virtuelle sur Unity, permettant de se déplacer librement dans un appartement non encore construit. L'application a été optimisée pour une utilisation sur tablettes tactiles lors de salons immobiliers.", "en": "Development of a virtual tour application on Unity, allowing free movement in an apartment not yet built. The application was optimized for use on touch tablets at real estate fairs." },
+    "sector": "3D Temps Réel",
+    "productionType": "Application",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["Unity", "C#", "URP"],
+    "hint": "virtual tour",
+    "date": "2024-02-14",
+    "isVisualizable": false
+  },
+  {
+    "id": "projet-9",
+    "title": { "fr": "Portfolio Next.js", "en": "Next.js Portfolio" },
+    "description": { "fr": "Le site sur lequel vous naviguez actuellement.", "en": "The site you are currently browsing." },
+    "longDescription": { "fr": "Ce portfolio a été entièrement développé avec Next.js et React, en utilisant TypeScript pour la robustesse du code. Le design a été réalisé sur Figma, et l'interface utilise Tailwind CSS et ShadCN/UI pour les composants. Le site est déployé sur Vercel.", "en": "This portfolio was fully developed with Next.js and React, using TypeScript for code robustness. The design was done in Figma, and the interface uses Tailwind CSS and ShadCN/UI for the components. The site is deployed on Vercel." },
+    "sector": "Développement Web",
+    "productionType": "Site Web",
+    "image": "https://placehold.co/800x600.png",
+    "images": [
+      "https://placehold.co/1280x720.png"
+    ],
+    "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "ShadCN/UI"],
+    "hint": "web portfolio",
+    "date": "2024-04-01",
+    "isVisualizable": false
+  }
+]
