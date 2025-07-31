@@ -23,7 +23,7 @@
         "name": { "fr": "Chaise en bois", "en": "Wooden Chair" },
         "description": { "fr": "Une chaise en bois modélisée pour la scène rustique.", "en": "A wooden chair modeled for the rustic scene." },
         "image": "https://placehold.co/400x300.png",
-        "modelUrl": "/models/chaise.glb",
+        "modelUrl": "/models/chair.glb",
         "hint": "wooden chair"
       }
     ]
