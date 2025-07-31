@@ -12,7 +12,7 @@ import { Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/header';
-import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays } from 'lucide-react';
+import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Carousel,
@@ -52,14 +52,16 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
       if (currentProject) {
         setProject(currentProject);
       } else {
-        router.push('/portfolio');
+        // If project not found, don't redirect immediately.
+        // Let the render handle the "not found" state.
+        setProject(null);
       }
       setIsLoading(false);
     }
     if (projectId) {
       loadData();
     }
-  }, [projectId, router]);
+  }, [projectId]);
 
   const suggestedProjects = useMemo(() => {
     return allProjects.filter(p => p.id !== projectId).slice(0, 3);
@@ -127,7 +129,22 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
   }
 
   if (!project) {
-    return null;
+     return (
+      <>
+        <Header />
+        <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+           <Link href="/portfolio" className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline underline-offset-4 mb-8">
+              <ArrowLeft className="h-5 w-5" />
+              <span>{c.back_to_portfolio}</span>
+            </Link>
+          <div className="flex flex-col items-center justify-center text-center h-96 border rounded-lg bg-card/50">
+             <AlertTriangle className="mx-auto h-12 w-12 mb-4 text-destructive" />
+            <h1 className="text-2xl font-bold">Projet non trouvé</h1>
+            <p className="text-muted-foreground mt-2">Le projet que vous cherchez n'existe pas ou a été déplacé.</p>
+          </div>
+        </main>
+      </>
+    )
   }
   
   const formattedDate = new Date(project.date).toLocaleDateString(language, {

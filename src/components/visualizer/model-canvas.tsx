@@ -7,7 +7,7 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import { Button } from '../ui/button';
-import { Expand, Shrink, Mouse, Fingerprint, Pause, Play, RotateCcw, HelpCircle, X } from 'lucide-react';
+import { Expand, Shrink, Mouse, Fingerprint, Pause, Play, RotateCcw, HelpCircle, X, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
 import { Card } from '../ui/card';
@@ -98,6 +98,21 @@ const HelpPanel = ({onClose}: {onClose: () => void}) => {
     )
 }
 
+interface FullScreenElement extends HTMLElement {
+  webkitRequestFullscreen?: () => Promise<void>;
+  mozRequestFullScreen?: () => Promise<void>;
+  msRequestFullscreen?: () => Promise<void>;
+}
+
+interface FullScreenDocument extends Document {
+  webkitExitFullscreen?: () => Promise<void>;
+  mozCancelFullScreen?: () => Promise<void>;
+  msExitFullscreen?: () => Promise<void>;
+  webkitFullscreenElement?: Element;
+  mozFullScreenElement?: Element;
+  msFullscreenElement?: Element;
+}
+
 export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -106,8 +121,30 @@ export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
   
   const [isRotating, setIsRotating] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullscreenSupported, setIsFullscreenSupported] = useState(true);
   const [showHelp, setShowHelp] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [modelExists, setModelExists] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    async function checkModel() {
+      if (!modelUrl) {
+        setModelExists(false);
+        return;
+      }
+      try {
+        const response = await fetch(modelUrl, { method: 'HEAD' });
+        if (response.ok) {
+          setModelExists(true);
+        } else {
+          setModelExists(false);
+        }
+      } catch (error) {
+        setModelExists(false);
+      }
+    }
+    checkModel();
+  }, [modelUrl]);
 
   const onLoaded = useCallback(() => {
     if (!isLoaded) {
@@ -118,11 +155,24 @@ export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
 
 
   useEffect(() => {
+    const fsDoc = document as FullScreenDocument;
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      setIsFullscreen(!!(document.fullscreenElement || fsDoc.webkitFullscreenElement));
     };
+
+    if (containerRef.current) {
+        const el = containerRef.current as FullScreenElement;
+        setIsFullscreenSupported(
+            !!(el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen)
+        );
+    }
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+        document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    }
   }, []);
 
   useEffect(() => {
@@ -144,11 +194,19 @@ export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
   
   const handleToggleFullscreen = () => {
       if (!containerRef.current) return;
+      const el = containerRef.current as FullScreenElement;
+      const fsDoc = document as FullScreenDocument;
 
       if (!isFullscreen) {
-          containerRef.current.requestFullscreen();
+          if (el.requestFullscreen) el.requestFullscreen();
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+          else if (el.msRequestFullscreen) el.msRequestFullscreen();
       } else {
-          document.exitFullscreen();
+          if (fsDoc.exitFullscreen) fsDoc.exitFullscreen();
+          else if (fsDoc.webkitExitFullscreen) fsDoc.webkitExitFullscreen();
+          else if (fsDoc.mozCancelFullScreen) fsDoc.mozCancelFullScreen();
+          else if (fsDoc.msExitFullscreen) fsDoc.msExitFullscreen();
       }
   };
   
@@ -158,27 +216,39 @@ export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
     handleResetView();
   };
 
-  return (
-    <div 
-      ref={containerRef} 
-      className="relative h-full w-full rounded-xl overflow-hidden border-2 border-white/50 p-1"
-      style={{ backgroundColor: '#3d3d3d' }}
-      onDoubleClick={handleDoubleClick}
-    >
-       {showHelp && (
-           <HelpPanel onClose={() => setShowHelp(false)} />
-        )}
+  const renderContent = () => {
+    if (modelExists === null) {
+      // Still checking
+      return (
+        <div className="flex h-full w-full items-center justify-center rounded-lg border bg-card/50">
+          <p className="text-foreground">{c.item_detail_loading}</p>
+        </div>
+      );
+    }
 
-      <Canvas shadows camera={{ position: [0, 0, 2], fov: 50 }}>
-          <Suspense fallback={null}>
-              <ModelWrapper modelUrl={modelUrl} onLoaded={onLoaded} />
-              <ambientLight intensity={2.5} />
-              <directionalLight position={[5, 5, 5]} intensity={1.5} castShadow />
-              <directionalLight position={[-5, -5, -5]} intensity={0.5} />
-              <OrbitControls ref={controlsRef} autoRotate={isRotating} autoRotateSpeed={0.8} />
-          </Suspense>
-      </Canvas>
-        
+    if (modelExists === false) {
+      return (
+        <div className="flex h-full w-full items-center justify-center rounded-lg border bg-card/50">
+          <div className="text-center text-destructive">
+            <AlertTriangle className="mx-auto h-12 w-12 mb-4" />
+            <p className="font-bold">{c.item_detail_no_model}</p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <Canvas shadows camera={{ position: [0, 0, 2], fov: 50 }}>
+            <Suspense fallback={null}>
+                <ModelWrapper modelUrl={modelUrl} onLoaded={onLoaded} />
+                <ambientLight intensity={2.5} />
+                <directionalLight position={[5, 5, 5]} intensity={1.5} castShadow />
+                <directionalLight position={[-5, -5, -5]} intensity={0.5} />
+                <OrbitControls ref={controlsRef} autoRotate={isRotating} autoRotateSpeed={0.8} />
+            </Suspense>
+        </Canvas>
+          
         <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
             <Button variant="outline" size="icon" onClick={() => setShowHelp(true)} title={c.help_button_title}>
                 <HelpCircle className="h-5 w-5" />
@@ -191,11 +261,28 @@ export default function ModelCanvas({ modelUrl }: { modelUrl:string }) {
             </Button>
         </div>
         
-        <div className="absolute top-4 right-4 z-10">
-            <Button variant="outline" size="icon" onClick={handleToggleFullscreen} title={isFullscreen ? c.fullscreen_button_title_exit : c.fullscreen_button_title_enter}>
-                {isFullscreen ? <Shrink className="h-5 w-5" /> : <Expand className="h-5 w-5" />}
-            </Button>
-        </div>
+        {isFullscreenSupported && (
+            <div className="absolute top-4 right-4 z-10">
+                <Button variant="outline" size="icon" onClick={handleToggleFullscreen} title={isFullscreen ? c.fullscreen_button_title_exit : c.fullscreen_button_title_enter}>
+                    {isFullscreen ? <Shrink className="h-5 w-5" /> : <Expand className="h-5 w-5" />}
+                </Button>
+            </div>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <div 
+      ref={containerRef} 
+      className="relative h-full w-full rounded-xl overflow-hidden border-2 border-white/50 p-1"
+      style={{ backgroundColor: '#3d3d3d' }}
+      onDoubleClick={handleDoubleClick}
+    >
+       {showHelp && (
+           <HelpPanel onClose={() => setShowHelp(false)} />
+        )}
+      {renderContent()}
     </div>
   );
 }
