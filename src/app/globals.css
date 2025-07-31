@@ -1,0 +1,204 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 3%; /* Very dark grey */
+    --foreground: 210 40% 98%;
+
+    --card: 220 20% 3%; /* Very dark grey */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 158 62% 65%; /* #6de2b3 */
+    --primary-foreground: 210 40% 9.8%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 75.1%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 210 40% 9.8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 158 62% 65%;
+
+    --sidebar-background: 220 20% 3%; /* Very dark grey */
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-accent: 158 62% 65%;
+    --sidebar-accent-foreground: 210 40% 9.8%;
+    --radius: 0rem;
+  }
+ 
+  .light {
+    --background: 0 0% 98%; /* Off-white */
+    --foreground: 0 0% 3.9%; /* Black */
+
+    --card: 210 40% 94.1%;
+    --card-foreground: 0 0% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    
+    --primary: 158 52% 55%; /* adjusted for light mode */
+    --primary-foreground: 210 40% 9.8%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 210 40% 9.8%;
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 210 40% 9.8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 158 52% 55%;
+
+    /* Sidebar specific colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 9%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-accent: 158 52% 55%;
+    --sidebar-accent-foreground: 210 40% 9.8%;
+    --sidebar-ring: 158 52% 55%;
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  .dark body {
+    background-color: hsl(var(--background));
+  }
+
+  section {
+    @apply scroll-mt-16;
+  }
+}
+
+@layer components {
+  .social-icon {
+    @apply relative overflow-hidden w-12 h-12 p-3 bg-white/10 backdrop-blur-sm border border-white/30;
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0px 5px 20px -4px rgba(0, 0, 0, 0.91);
+    transform-style: flat;
+    transform: translateZ(20px);
+    border-radius: 10px;
+  }
+
+  .social-icon::after {
+    content: '';
+    @apply absolute top-full -left-full w-[180%] h-[30%] bg-gradient-to-r from-transparent via-white/40 to-transparent;
+    transition: all 0.5s ease;
+    transform: rotate(45deg);
+  }
+
+  .social-icon:hover {
+    box-shadow: 0px 20px 50px -4px rgba(0, 0, 0, 0.91);
+    transform: scale(1.2) translateZ(40px) perspective(500px) rotateY(10deg) rotateX(8deg);
+  }
+
+  .social-icon:hover::after {
+    @apply -top-full left-full;
+  }
+  
+  .social-icon svg {
+    @apply w-full h-full transition-all duration-500 ease-in-out;
+    fill: rgba(255, 255, 255, 0.45);
+  }
+
+  .social-icon:hover svg {
+    fill: rgba(255, 255, 255, 0.85);
+  }
+
+  .social-icon-linkedin:hover {
+    background: #007cb5;
+  }
+
+  .social-icon-instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  }
+
+  .social-icon-youtube:hover {
+    background: #ff0000;
+  }
+  .social-icon-github:hover {
+    background: #6e40c9;
+  }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 2500;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw-all path {
+  stroke-dasharray: 2500;
+  stroke-dashoffset: 2500;
+  animation: draw-line 2s ease-out forwards;
+}
+
+.animate-draw-all path:nth-child(2) { animation-delay: 0.2s; }
+.animate-draw-all path:nth-child(3) { animation-delay: 0.4s; }
+.animate-draw-all path:nth-child(4) { animation-delay: 0.6s; }
+.animate-draw-all path:nth-child(5) { animation-delay: 0.8s; }
+
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: hsl(var(--primary));
+  }
+}
+
+.animate-typing-no-cursor {
+  animation: typing 1s steps(40, end) forwards;
+}
+
+.animate-typing {
+  border-right: 0.15em solid hsl(var(--primary));
+  animation:
+    typing 1s steps(40, end) forwards,
+    blink-caret 0.75s step-end infinite;
+}

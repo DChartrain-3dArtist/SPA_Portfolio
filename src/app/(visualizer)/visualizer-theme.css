@@ -1,0 +1,36 @@
+
+.visualizer-theme {
+  --primary: 217 91% 60%; /* Electric Blue */
+  --primary-foreground: 210 40% 98%;
+
+  --ring: 217 91% 60%;
+
+  --sidebar-accent: 217 91% 60%;
+  --sidebar-accent-foreground: 210 40% 98%;
+}
+
+/* Override for the main site CTA elements */
+.visualizer-theme .main-site-cta,
+.visualizer-theme .main-site-cta-text {
+  --primary-visualizer: 217 91% 60%;
+  --primary-main: 158 62% 65%;
+  --primary-foreground-main: 210 40% 9.8%;
+}
+
+.visualizer-theme .main-site-cta {
+  background-color: hsl(var(--primary-main));
+  color: hsl(var(--primary-foreground-main));
+  border-color: hsl(var(--primary-main));
+}
+
+.visualizer-theme .main-site-cta:hover {
+  background-color: hsl(var(--primary-main) / 0.9);
+}
+
+.visualizer-theme .main-site-cta-text {
+    color: hsl(var(--primary-main));
+}
+
+.visualizer-theme .main-site-cta-text:hover {
+    color: hsl(var(--primary-main) / 0.9);
+}

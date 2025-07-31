@@ -1,0 +1,366 @@
+
+'use client';
+
+import { useState, useMemo, useEffect } from 'react';
+import { useLanguage } from '@/contexts/language-context';
+import { content } from '@/lib/content';
+import { getProjects } from '@/data/projects';
+import { sectors, productionTypes, type Sector, type ProductionType, Project } from '@/data/definitions';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles } from 'lucide-react';
+import { Header } from '../layout/header';
+import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { ProjectCard } from '@/components/portfolio/project-card';
+import { Badge } from '../ui/badge';
+import { Skeleton } from '../ui/skeleton';
+
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h2>;
+}
+
+export default function PortfolioPage() {
+  const { language } = useLanguage();
+  const c = content[language].portfolio;
+  const isMobile = useIsMobile();
+  
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
+  const [activeSector, setActiveSector] = useState<Sector | 'all'>('all');
+  const [activeProductionType, setActiveProductionType] = useState<ProductionType | 'all'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('date-desc');
+  const [showVisualizableOnly, setShowVisualizableOnly] = useState(false);
+
+  useEffect(() => {
+    async function loadProjects() {
+      setIsLoading(true);
+      const fetchedProjects = await getProjects();
+      setProjects(fetchedProjects);
+      setIsLoading(false);
+    }
+    loadProjects();
+  }, []);
+
+  useEffect(() => {
+    // Default to grid layout, especially on mobile
+    if (isMobile) {
+        setLayout('grid');
+    }
+  }, [isMobile]);
+
+  const latestProject = useMemo(() => {
+    if (!projects || projects.length === 0) return null;
+    const sortedByDate = [...projects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return sortedByDate.length > 0 ? sortedByDate[0] : null;
+  }, [projects]);
+
+  const filteredAndSortedProjects = useMemo(() => {
+    let filtered = projects;
+    
+    if (showVisualizableOnly) {
+      filtered = filtered.filter(p => p.isVisualizable);
+    }
+
+    if (activeSector !== 'all') {
+      filtered = filtered.filter(p => p.sector === activeSector);
+    }
+    
+    if (activeProductionType !== 'all') {
+        filtered = filtered.filter(p => p.productionType === activeProductionType);
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter(p =>
+        p.title[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.description[language].toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    const sorted = [...filtered].sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      if (sortOrder === 'date-asc') {
+        return dateA - dateB;
+      }
+      return dateB - dateA; // date-desc
+    });
+
+    return sorted;
+  }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly]);
+  
+  const handleSectorClick = (sector: Sector) => {
+    setActiveSector(prev => (prev === sector ? 'all' : sector));
+  };
+
+  const handleResetFilters = () => {
+    setActiveSector('all');
+    setActiveProductionType('all');
+    setSearchTerm('');
+    setSortOrder('date-desc');
+    if (!isMobile) setLayout('grid');
+    setShowVisualizableOnly(false);
+  };
+
+  const renderProjects = () => {
+    if (isLoading) {
+      const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+      return (
+        <div className={cn("grid gap-8 w-full", gridCols)}>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i}>
+              <Skeleton className="w-full aspect-video" />
+              <div className="p-6 space-y-4">
+                <Skeleton className="h-4 w-2/3" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            </Card>
+          ))}
+        </div>
+      );
+    }
+
+    if (filteredAndSortedProjects.length === 0) {
+        return (
+            <div className="text-center py-16 px-4 sm:px-6 lg:px-8">
+                <p className="text-lg text-muted-foreground">{c.no_results}</p>
+            </div>
+        );
+    }
+
+    if (isMobile && layout === 'grid') {
+        return (
+             <div className="grid grid-cols-4 gap-1">
+                {filteredAndSortedProjects.map(project => {
+                    const isLatest = project.id === latestProject?.id;
+                    return (
+                        <Link href={`/portfolio/${project.id}`} key={project.id} className="relative group aspect-square">
+                            <Image
+                                src={project.image}
+                                alt={project.title[language]}
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute top-1 right-1 flex flex-col items-end gap-1">
+                                {isLatest && (
+                                    <Badge variant="default" className="bg-primary text-primary-foreground border-transparent gap-1 text-xs h-5 w-5 p-0 flex items-center justify-center">
+                                        <Sparkles className="h-2.5 w-2.5" />
+                                    </Badge>
+                                )}
+                                {project.isVisualizable && (
+                                    <div className="flex items-center justify-center gap-1 rounded-full bg-background/80 text-xs font-semibold backdrop-blur-sm border border-border/50 h-5 w-5 p-0">
+                                        <Cuboid className="h-2.5 w-2.5 text-primary" />
+                                    </div>
+                                )}
+                            </div>
+                        </Link>
+                    )
+                })}
+            </div>
+        )
+    }
+
+    // For Desktop (Grid & List) and Mobile (List)
+    const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+
+    return (
+      <div className={cn("grid gap-8 w-full", gridCols)}>
+        {filteredAndSortedProjects.map(project => (
+          <ProjectCard key={project.id} project={project} layout={layout} isLatest={project.id === latestProject?.id} />
+        ))}
+      </div>
+    );
+  };
+
+
+  return (
+    <>
+      <Header />
+      <main className="w-full py-16 md:py-24">
+        <section id="portfolio" className="w-full">
+            <div className="px-4 sm:px-6 lg:px-8">
+                <div className="text-center">
+                    <SectionTitle>{c.title}</SectionTitle>
+                    <p className="text-foreground/90 mb-12 max-w-4xl mx-auto">
+                        {c.intro.part1}
+                        <span className="text-primary font-medium">{c.intro.highlight1}</span>
+                        {c.intro.part2}
+                        <span className="text-primary font-medium">{c.intro.highlight2}</span>
+                        {c.intro.part3}
+                        <span className="text-primary font-medium">{c.intro.highlight3}</span>
+                        {c.intro.part4}
+                    </p>
+                </div>
+            </div>
+
+            <div className="px-4 sm:px-6 lg:px-8 mb-12">
+              <Card className="p-4 bg-muted dark:bg-card">
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                      <div className="relative w-full md:flex-1">
+                          <Input 
+                              placeholder={c.search_placeholder}
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className="pl-10 h-10 w-full"
+                          />
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex items-center gap-2 w-full md:w-auto">
+                          <Select value={sortOrder} onValueChange={setSortOrder}>
+                              <SelectTrigger className="w-full md:w-[150px] h-10">
+                                  <SelectValue placeholder={c.sort_label} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="date-desc">{c.sort_newest}</SelectItem>
+                                  <SelectItem value="date-asc">{c.sort_oldest}</SelectItem>
+                              </SelectContent>
+                          </Select>
+                          <Button variant="secondary" size="icon" onClick={handleResetFilters} className="h-10 w-10 shrink-0">
+                              <RotateCcw className="h-5 w-5"/>
+                              <span className="sr-only">Rétablir les filtres</span>
+                          </Button>
+                      </div>
+                  </div>
+                  <Separator className="my-4" />
+                  <div className="flex flex-col gap-4">
+                      <div className="space-y-4 w-full">
+                           <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
+                              <p className="text-sm font-medium text-muted-foreground md:text-right">Secteur</p>
+                              <div className="flex flex-wrap justify-start gap-2">
+                                  <Button
+                                      variant={activeSector === 'all' ? 'default' : 'secondary'}
+                                      onClick={() => setActiveSector('all')}
+                                      className="rounded-full h-8 px-4 text-sm"
+                                  >
+                                      Tous
+                                  </Button>
+                                  {sectors.map(sector => (
+                                      <Button
+                                          key={sector}
+                                          variant={activeSector === sector ? 'default' : 'secondary'}
+                                          onClick={() => handleSectorClick(sector)}
+                                          className={cn(
+                                              "rounded-full h-8 px-4 text-sm border",
+                                              activeSector === sector ?
+                                                  (sector === 'Infographie 3D' ? 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent' :
+                                                  sector === '3D Temps Réel' ? 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent' :
+                                                  'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent')
+                                              :
+                                                  (sector === 'Infographie 3D' ? 'border-orange-500/50 text-orange-500 dark:text-orange-400 dark:border-orange-400/50 hover:bg-orange-500/10' :
+                                                  sector === '3D Temps Réel' ? 'border-emerald-500/50 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400/50 hover:bg-emerald-500/10' :
+                                                  'border-violet-500/50 text-violet-500 dark:text-violet-400 dark:border-violet-400/50 hover:bg-violet-500/10')
+                                          )}
+                                      >
+                                          {sector}
+                                      </Button>
+                                  ))}
+                              </div>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
+                              <p className="text-sm font-medium text-muted-foreground md:text-right">Production</p>
+                              <div className="flex flex-wrap justify-start gap-2">
+                                  <Button
+                                      variant={activeProductionType === 'all' ? 'default' : 'secondary'}
+                                      onClick={() => setActiveProductionType('all')}
+                                      className="rounded-full h-8 px-4 text-sm"
+                                  >
+                                      Toutes
+                                  </Button>
+                                  {productionTypes.map(type => (
+                                      <Button
+                                          key={type}
+                                          variant={activeProductionType === type ? 'default' : 'secondary'}
+                                          onClick={() => setActiveProductionType(prev => prev === type ? 'all' : type)}
+                                          className="rounded-full h-8 px-4 text-sm"
+                                      >
+                                          {type}
+                                      </Button>
+                                  ))}
+                              </div>
+                          </div>
+                      </div>
+
+                      <Separator className="my-4" />
+                      
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full flex-wrap">
+                         <div className="flex flex-wrap items-center justify-center gap-2 w-full sm:w-auto">
+                              <Button
+                                  variant={!showVisualizableOnly ? 'default' : 'secondary'}
+                                  onClick={() => setShowVisualizableOnly(false)}
+                                  className="w-full sm:w-auto"
+                              >
+                                  {c.filter_all_projects}
+                              </Button>
+                              <Button
+                                  variant={showVisualizableOnly ? 'default' : 'secondary'}
+                                  onClick={() => setShowVisualizableOnly(true)}
+                                  className="w-full sm:w-auto"
+                              >
+                                  <Cuboid className="mr-2 h-4 w-4" />
+                                  {c.filter_visualizable_projects}
+                              </Button>
+                          </div>
+
+                          <div className="flex justify-center gap-2 w-full sm:w-auto">
+                              <Button
+                                  variant={layout === 'grid' ? 'default' : 'secondary'}
+                                  onClick={() => setLayout('grid')}
+                                  size="sm"
+                              >
+                                  <Grid className="mr-2 h-4 w-4" />
+                                  {c.layout_grid}
+                              </Button>
+
+                              <Button
+                                  variant={layout === 'list' ? 'default' : 'secondary'}
+                                  onClick={() => setLayout('list')}
+                                  size="sm"
+                              >
+                                  <List className="mr-2 h-4 w-4" />
+                                  {c.layout_list}
+                              </Button>
+                          </div>
+                      </div>
+                  </div>
+              </Card>
+            </div>
+            
+            <div className={cn("mb-16 md:mb-24", (layout === 'list' || !isMobile) && "px-4 sm:px-6 lg:px-8")}>
+                {renderProjects()}
+            </div>
+            
+        </section>
+
+        <section className="w-full pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
+            
+                <div className="bg-card/80 border-border/50 rounded-lg p-8 md:p-12 animate-fade-in border text-center">
+                    <h2 className="font-headline text-3xl font-bold md:text-4xl">
+                        Intéressé par mon profil ?
+                    </h2>
+                    <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                        Travaillons ensemble pour concrétiser votre prochain projet. Je suis toujours ouvert à de nouvelles opportunités.
+                    </p>
+                    <Button size="lg" asChild className="group mt-8">
+                        <Link href="/contact">
+                        Me contacter
+                        <Mail className="ml-2" />
+                        </Link>
+                    </Button>
+                </div>
+            
+        </section>
+      </main>
+    </>
+  );
+}
