@@ -1,8 +1,15 @@
 
+'use client';
+
 import { SiteLayout } from '@/components/layout/site-layout';
 import { BackgroundHalos } from '@/components/background-halos';
 import type { Metadata } from 'next';
+import { useTheme } from '@/contexts/theme-context';
+import { useEffect } from 'react';
 
+// Note: Metadata export is commented out because it can't be used in a client component.
+// You might need to move this to a server component parent if you need metadata here.
+/*
 export const metadata: Metadata = {
   title: {
     template: '%s | Chartrain Donovan',
@@ -44,6 +51,7 @@ export const metadata: Metadata = {
     },
   },
 };
+*/
 
 
 export default function MainLayout({
@@ -51,6 +59,14 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+  }, [theme]);
+
   return (
     <div className="relative z-0">
         <BackgroundHalos />

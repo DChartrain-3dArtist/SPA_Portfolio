@@ -78,6 +78,23 @@ export const content = {
       other_projects_title: 'Autres projets',
       modal_technologies: 'Technologies utilisées',
       modal_close: 'Fermer',
+      filters: {
+        sector: 'Secteur',
+        production: 'Production',
+        all: 'Tous',
+        all_f: 'Toutes',
+        sectors: {
+          'Infographie 3D': 'Infographie 3D',
+          '3D Temps Réel': '3D Temps Réel',
+          'Développement Web': 'Développement Web'
+        },
+        production_types: {
+          'Rendu': 'Rendu',
+          'Animation': 'Animation',
+          'Application': 'Application',
+          'Site Web': 'Site Web'
+        }
+      }
     },
     about: {
       title: 'À propos de moi',
@@ -401,6 +418,23 @@ export const content = {
       other_projects_title: 'Other Projects',
       modal_technologies: 'Technologies used',
       modal_close: 'Close',
+      filters: {
+        sector: 'Sector',
+        production: 'Production',
+        all: 'All',
+        all_f: 'All',
+        sectors: {
+          'Infographie 3D': '3D Graphics',
+          '3D Temps Réel': 'Real-Time 3D',
+          'Développement Web': 'Web Development'
+        },
+        production_types: {
+          'Rendu': 'Rendering',
+          'Animation': 'Animation',
+          'Application': 'Application',
+          'Site Web': 'Website'
+        }
+      }
     },
     about: {
       title: 'About me',

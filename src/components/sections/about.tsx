@@ -95,13 +95,13 @@ const skills = {
     ],
 }
 
-function SkillCard({ icon: Icon, name, color }: { icon: React.ElementType, name: string, color: string }) {
+function SkillCard({ icon: Icon, name, color, className }: { icon: React.ElementType, name: string, color: string, className?: string }) {
     return (
-        <div className="group relative flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 border border-border/50 hover:border-primary/50">
+        <div className={cn("group relative flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 border border-border/50 hover:border-primary/50", className)}>
             <div className={cn("transition-colors group-hover:opacity-80", color)}>
                 <Icon className="w-8 h-8" />
             </div>
-            <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">{name}</span>
+            <span className="text-xs sm:text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">{name}</span>
         </div>
     )
 }
@@ -183,7 +183,7 @@ export default function AboutPage() {
       return;
     }
     const link = document.createElement('a');
-    link.href = selectedCv === 'designer' ? '/cv-designer.pdf' : '/cv-printable.pdf';
+    link.href = selectedCv === 'designer' ? '/document/cv-designer.pdf' : '/document/cv-printable.pdf';
     link.download = `CV_Donovan_Chartrain_${selectedCv}.pdf`;
     document.body.appendChild(link);
     link.click();
@@ -215,7 +215,7 @@ export default function AboutPage() {
                     <CardContent>
                         <div className="flex flex-col md:flex-row items-center gap-8">
                         <Avatar className="w-32 h-32 text-lg shrink-0">
-                            <AvatarImage src="https://placehold.co/200x200.png" alt="Votre photo" />
+                            <AvatarImage src="/assets/data/PhotoProfil.webp" alt="Votre photo" />
                             <AvatarFallback>CD</AvatarFallback>
                         </Avatar>
                         <p className="text-foreground/90">{c.profile_content}</p>
@@ -248,7 +248,7 @@ export default function AboutPage() {
                            <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
                                <CardHeader><CardTitle className="font-headline text-xl text-center">{Object.keys(skills)[0]}</CardTitle></CardHeader>
                                <CardContent>
-                                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                                    <div className="grid grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                                        {logicielsSkills.map(skill => (
                                            <SkillCard key={skill.name} name={skill.name} icon={skill.icon} color={skill.color} />
                                        ))}

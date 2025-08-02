@@ -1,6 +1,6 @@
 
-export type Sector = 'Infographie 3D' | '3D Temps Réel' | 'Développement Web';
-export type ProductionType = 'Rendu' | 'Animation' | 'Application' | 'Site Web';
+export type Sector = 'Infographie 3D' | '3D Temps Réel' | 'Développement Web' | 'Visualisation Architecturale' | 'Animation 3D / Interactif';
+export type ProductionType = 'Rendu' | 'Animation' | 'Application' | 'Site Web' | 'Visualisation' | 'Animation 3D Interactive';
 
 export interface VisualizerItem {
   id: string;
@@ -42,7 +42,9 @@ export interface Project {
   hint: string;
   date: string; // ISO 8601 format: "YYYY-MM-DD"
   isVisualizable: boolean;
+  videoUrl?: string; // URL de la vidéo (locale ou YouTube)
   visualizerItems?: VisualizerItem[];
+  liveUrl?: string; // URL du site en ligne
 }
 
 export const sectors: Sector[] = ['Infographie 3D', '3D Temps Réel', 'Développement Web'];

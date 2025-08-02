@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/language-context';
 import type { Project } from '@/data/definitions';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Cuboid, Sparkles } from 'lucide-react';
+import { ArrowRight, Cuboid, Sparkles, Film } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
 
@@ -20,7 +20,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project, layout = 'grid', isLatest = false }: ProjectCardProps) {
   const { language } = useLanguage();
   const c = content[language];
-  const { id, title, image, sector, productionType, hint, description, isVisualizable, date } = project;
+  const { id, title, image, sector, productionType, hint, description, isVisualizable, date, videoUrl } = project;
 
   const getSectorBadgeClass = () => {
     switch (sector) {
@@ -48,6 +48,12 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
                 <Sparkles className="h-3 w-3" />
                 {c.portfolio.new_badge}
             </Badge>
+        )}
+        {videoUrl && (
+            <div className="flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-semibold backdrop-blur-sm border border-border/50">
+                <Film className="h-4 w-4 text-primary" />
+                <span>Vidéo</span>
+            </div>
         )}
         {isVisualizable && (
             <div className="flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-semibold backdrop-blur-sm border border-border/50">

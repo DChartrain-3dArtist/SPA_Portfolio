@@ -129,11 +129,13 @@
   
   .social-icon svg {
     @apply w-full h-full transition-all duration-500 ease-in-out;
-    fill: rgba(255, 255, 255, 0.45);
+    stroke: hsl(var(--foreground));
+    stroke-width: 1.5;
+    fill: none;
   }
 
   .social-icon:hover svg {
-    fill: rgba(255, 255, 255, 0.85);
+    stroke: hsl(var(--foreground));
   }
 
   .social-icon-linkedin:hover {

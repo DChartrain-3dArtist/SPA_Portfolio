@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { getProjects } from '@/data/projects';
@@ -9,7 +9,7 @@ import { sectors, productionTypes, type Sector, type ProductionType, Project } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles } from 'lucide-react';
+import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -30,6 +30,7 @@ export default function PortfolioPage() {
   const { language } = useLanguage();
   const c = content[language].portfolio;
   const isMobile = useIsMobile();
+  const filterSectionRef = useRef<HTMLDivElement>(null);
   
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,6 +58,12 @@ export default function PortfolioPage() {
         setLayout('grid');
     }
   }, [isMobile]);
+
+  useEffect(() => {
+    if (filterSectionRef.current) {
+        filterSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [layout]);
 
   const latestProject = useMemo(() => {
     if (!projects || projects.length === 0) return null;
@@ -158,6 +165,11 @@ export default function PortfolioPage() {
                                         <Sparkles className="h-2.5 w-2.5" />
                                     </Badge>
                                 )}
+                                {project.videoUrl && (
+                                    <div className="flex items-center justify-center gap-1 rounded-full bg-background/80 text-xs font-semibold backdrop-blur-sm border border-border/50 h-5 w-5 p-0">
+                                        <Film className="h-2.5 w-2.5 text-primary" />
+                                    </div>
+                                )}
                                 {project.isVisualizable && (
                                     <div className="flex items-center justify-center gap-1 rounded-full bg-background/80 text-xs font-semibold backdrop-blur-sm border border-border/50 h-5 w-5 p-0">
                                         <Cuboid className="h-2.5 w-2.5 text-primary" />
@@ -204,7 +216,7 @@ export default function PortfolioPage() {
                 </div>
             </div>
 
-            <div className="px-4 sm:px-6 lg:px-8 mb-12">
+            <div ref={filterSectionRef} className="px-4 sm:px-6 lg:px-8 mb-12">
               <Card className="p-4 bg-muted dark:bg-card">
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
                       <div className="relative w-full md:flex-1">
@@ -236,14 +248,14 @@ export default function PortfolioPage() {
                   <div className="flex flex-col gap-4">
                       <div className="space-y-4 w-full">
                            <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
-                              <p className="text-sm font-medium text-muted-foreground md:text-right">Secteur</p>
+                              <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.sector}</p>
                               <div className="flex flex-wrap justify-start gap-2">
                                   <Button
                                       variant={activeSector === 'all' ? 'default' : 'secondary'}
                                       onClick={() => setActiveSector('all')}
                                       className="rounded-full h-8 px-4 text-sm"
                                   >
-                                      Tous
+                                      {c.filters.all}
                                   </Button>
                                   {sectors.map(sector => (
                                       <Button
@@ -262,20 +274,20 @@ export default function PortfolioPage() {
                                                   'border-violet-500/50 text-violet-500 dark:text-violet-400 dark:border-violet-400/50 hover:bg-violet-500/10')
                                           )}
                                       >
-                                          {sector}
+                                          {c.filters.sectors[sector]}
                                       </Button>
                                   ))}
                               </div>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
-                              <p className="text-sm font-medium text-muted-foreground md:text-right">Production</p>
+                              <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.production}</p>
                               <div className="flex flex-wrap justify-start gap-2">
                                   <Button
                                       variant={activeProductionType === 'all' ? 'default' : 'secondary'}
                                       onClick={() => setActiveProductionType('all')}
                                       className="rounded-full h-8 px-4 text-sm"
                                   >
-                                      Toutes
+                                      {c.filters.all_f}
                                   </Button>
                                   {productionTypes.map(type => (
                                       <Button
@@ -284,7 +296,7 @@ export default function PortfolioPage() {
                                           onClick={() => setActiveProductionType(prev => prev === type ? 'all' : type)}
                                           className="rounded-full h-8 px-4 text-sm"
                                       >
-                                          {type}
+                                          {c.filters.production_types[type]}
                                       </Button>
                                   ))}
                               </div>

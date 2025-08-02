@@ -12,7 +12,7 @@ import { Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/header';
-import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Carousel,
@@ -198,6 +198,30 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                   </div>
                 </header>
               </div>
+
+              {project.videoUrl && (
+                 <section className="mb-12 px-4 sm:px-6 lg:px-8">
+                   <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border-2 border-primary/30 bg-black">
+                     {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
+                       <iframe
+                         src={project.videoUrl.replace('watch?v=', 'embed/')}
+                         title={`Vidéo pour ${project.title[language]}`}
+                         frameBorder="0"
+                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                         referrerPolicy="strict-origin-when-cross-origin"
+                         allowFullScreen
+                         className="w-full h-full"
+                       ></iframe>
+                     ) : (
+                       <video controls className="w-full h-full" poster={project.image}>
+                         <source src={project.videoUrl} type="video/mp4" />
+                         Votre navigateur ne supporte pas la lecture de vidéos.
+                       </video>
+                     )}
+                   </div>
+                 </section>
+              )}
+
               <div className="mb-12">
                 <Carousel setApi={setApi} className="w-full">
                   <CarouselContent>
@@ -237,6 +261,17 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
               <div className="prose prose-invert prose-lg max-w-none mx-auto mb-16 px-4 sm:px-6 lg:px-8">
                 <p className="text-foreground/90">{project.longDescription[language]}</p>
               </div>
+
+              {project.liveUrl && (
+                <div className="text-center mb-16 px-4 sm:px-6 lg:px-8">
+                  <Button asChild size="lg" variant="outline">
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                      Voir le site en direct
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
+              )}
 
               {project.isVisualizable && project.visualizerItems && project.visualizerItems.length > 0 && (
                  <section className="mb-16 px-4 sm:px-6 lg:px-8">

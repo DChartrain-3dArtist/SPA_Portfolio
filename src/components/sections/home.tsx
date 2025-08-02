@@ -168,9 +168,9 @@ export default function HomePage() {
                     </AnimatedSection>
                     <AnimatedSection className="flex items-center justify-center md:[perspective:1000px]">
                       <div className="group relative w-full h-auto">
-                        <div className="relative w-full aspect-square rounded-2xl bg-card/5 p-1 transition-transform duration-500 [filter:drop-shadow(0_10px_15px_hsl(var(--primary)/0.2))]">
+                        <div className="relative w-full aspect-square rounded-2xl transition-transform duration-500 [filter:drop-shadow(0_10px_15px_hsl(var(--primary)/0.2))]">
                             <Image
-                                src="/assets/hero.webp"
+                                src="/assets/data/hero.webp"
                                 alt="Rendu 3D d'un personnage de science-fiction"
                                 width={1200}
                                 height={900}

@@ -62,14 +62,14 @@ export default function ContactPage() {
                                 <Mail className="w-5 h-5 text-muted-foreground" />
                                 <div>
                                     <p className="font-semibold font-headline">{c.info_email_label}</p>
-                                    <a href="mailto:donovan.chartrain@gmail.com" className="text-sm text-muted-foreground hover:text-primary">donovan.chartrain@gmail.com</a>
+                                    <a href="mailto:donovan.chartrain@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">donovan.chartrain@gmail.com</a>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
                                 <Phone className="w-5 h-5 text-muted-foreground" />
                                 <div>
                                     <p className="font-semibold font-headline">{c.info_phone_label}</p>
-                                    <p className="text-sm text-muted-foreground">+33 6 43 88 39 60</p>
+                                    <a href="tel:+33643883960" className="text-sm text-muted-foreground hover:text-primary transition-colors">+33 6 43 88 39 60</a>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
