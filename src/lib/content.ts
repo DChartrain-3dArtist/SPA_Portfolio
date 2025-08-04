@@ -79,20 +79,28 @@ export const content = {
       modal_technologies: 'Technologies utilisées',
       modal_close: 'Fermer',
       filters: {
+        title: 'Filtrer',
         sector: 'Secteur',
         production: 'Production',
         all: 'Tous',
         all_f: 'Toutes',
+        technologies: 'Technologies',
+        technologies_label: 'Filtrer par technologie',
+        technologies_reset: 'Tout désélectionner',
         sectors: {
           'Infographie 3D': 'Infographie 3D',
           '3D Temps Réel': '3D Temps Réel',
-          'Développement Web': 'Développement Web'
+          'Développement Web': 'Développement Web',
+          'Visualisation Architecturale': 'Archi-Viz',
+          'Animation 3D / Interactif': 'Animation / Interactif'
         },
         production_types: {
           'Rendu': 'Rendu',
           'Animation': 'Animation',
           'Application': 'Application',
-          'Site Web': 'Site Web'
+          'Site Web': 'Site Web',
+          'Visualisation': 'Visualisation',
+          'Animation 3D Interactive': 'Animation Interactive'
         }
       }
     },
@@ -256,7 +264,7 @@ export const content = {
         editor_email: "Email",
         editor_phone: "Téléphone",
         hosting_title: "2. Hébergement",
-        hosting_content: "Le site est hébergé par [Nom de l'hébergeur], dont le siège social est situé à [Adresse de l'hébergeur] et joignable au [Numéro de téléphone de l'hébergeur].",
+        hosting_content: "Le site est hébergé par Vercel Inc., dont le siège social est situé à 340 S Lemon Ave #4133 Walnut, CA 91789, et joignable à l'adresse mail privacy@vercel.com.",
         ip_title: "3. Propriété intellectuelle",
         ip_content1: "L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.",
         ip_content2: "La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.",
@@ -283,6 +291,18 @@ export const content = {
       usage_share: "Vos données personnelles directes ne seront jamais vendues, partagées ou louées à des tiers sans votre consentement explicite.",
       retention_title: "Durée de conservation des données",
       retention_content: "Vos données personnelles issues du formulaire de contact sont conservées pour la durée nécessaire au traitement de votre demande et à la gestion de notre relation professionnelle. Si aucune collaboration n'est entamée, vos données seront supprimées dans un délai raisonnable.",
+      cookie_policy_title: "Politique d'utilisation des Cookies",
+      cookie_what_are_cookies_title: "Qu'est-ce qu'un cookie ?",
+      cookie_what_are_cookies_content: "Un cookie est un petit fichier texte stocké sur votre ordinateur ou appareil mobile par votre navigateur web lorsque vous visitez un site. Il permet au site de mémoriser vos actions et préférences (comme la connexion, la langue, la taille de la police et d'autres préférences d'affichage) sur une période donnée, afin que vous n'ayez pas à les ressaisir chaque fois que vous revenez sur le site ou naviguez d'une page à une autre.",
+      cookie_how_we_use_cookies_title: "Comment utilisons-nous les cookies ?",
+      cookie_how_we_use_cookies_content: "Ce site utilise des cookies pour les raisons suivantes :",
+      cookie_usage_list: [
+        "<strong>Cookies de consentement :</strong> Pour mémoriser votre choix concernant l'utilisation des cookies sur ce site.",
+        "<strong>Cookies d'analyse et de performance (si acceptés) :</strong> Nous utilisons Google Tag Manager et Vercel Analytics pour collecter des informations anonymes sur la façon dont les visiteurs utilisent le site. Cela nous aide à comprendre quelles pages sont les plus populaires, comment les utilisateurs naviguent sur le site, et à améliorer l'expérience globale. Ces cookies ne sont déposés que si vous donnez votre consentement explicite via la bannière de cookies."
+      ],
+      cookie_your_choices_title: "Vos choix concernant les cookies",
+      cookie_your_choices_content: "Lorsque vous visitez notre site pour la première fois, une bannière s'affiche pour vous demander votre consentement pour l'utilisation de cookies non essentiels. Vous avez le choix d'accepter ou de refuser.",
+      cookie_manage_preferences: "Vous pouvez modifier vos préférences à tout moment et retirer votre consentement. Vous pouvez également configurer votre navigateur pour refuser tous les cookies ou pour vous alerter lorsque des cookies sont envoyés. Cependant, certaines parties du site pourraient ne pas fonctionner correctement sans eux.",
       rights_title: "Vos droits",
       rights_content: "Conformément à la réglementation en vigueur (notamment le RGPD), vous disposez des droits suivants concernant vos données personnelles :",
       rights_list: ["Droit d'accès", "Droit de rectification", "Droit à l'effacement (droit à l'oubli)", "Droit à la limitation du traitement", "Droit à la portabilité des données"],
@@ -419,20 +439,28 @@ export const content = {
       modal_technologies: 'Technologies used',
       modal_close: 'Close',
       filters: {
+        title: 'Filter',
         sector: 'Sector',
         production: 'Production',
         all: 'All',
         all_f: 'All',
+        technologies: 'Technologies',
+        technologies_label: 'Filter by technology',
+        technologies_reset: 'Deselect all',
         sectors: {
           'Infographie 3D': '3D Graphics',
           '3D Temps Réel': 'Real-Time 3D',
-          'Développement Web': 'Web Development'
+          'Développement Web': 'Web Development',
+          'Visualisation Architecturale': 'Archi-Viz',
+          'Animation 3D / Interactif': 'Animation / Interactive'
         },
         production_types: {
           'Rendu': 'Rendering',
           'Animation': 'Animation',
           'Application': 'Application',
-          'Site Web': 'Website'
+          'Site Web': 'Website',
+          'Visualisation': 'Visualization',
+          'Animation 3D Interactive': 'Interactive Animation'
         }
       }
     },
@@ -596,7 +624,7 @@ export const content = {
         editor_email: "Email",
         editor_phone: "Phone",
         hosting_title: "2. Hosting",
-        hosting_content: "The site is hosted by [Host Name], whose head office is located at [Host Address] and can be reached at [Host Phone Number].",
+        hosting_content: "The site is hosted by Vercel Inc., whose head office is located at 340 S Lemon Ave #4133 Walnut, CA 91789, and can be reached at the email address privacy@vercel.com.",
         ip_title: "3. Intellectual Property",
         ip_content1: "This entire site is subject to French and international legislation on copyright and intellectual property. All reproduction rights are reserved, including for downloadable documents and iconographic and photographic representations.",
         ip_content2: "The reproduction of all or part of this site on any electronic medium whatsoever is formally prohibited without the express authorization of the publication director.",
@@ -623,6 +651,18 @@ export const content = {
       usage_share: "Your direct personal data will never be sold, shared, or rented to third parties without your explicit consent.",
       retention_title: "Data Retention Period",
       retention_content: "Your personal data from the contact form is kept for the time necessary to process your request and manage our professional relationship. If no collaboration is initiated, your data will be deleted within a reasonable time.",
+      cookie_policy_title: "Cookie Policy",
+      cookie_what_are_cookies_title: "What are cookies?",
+      cookie_what_are_cookies_content: "A cookie is a small text file stored on your computer or mobile device by your web browser when you visit a site. It allows the site to remember your actions and preferences (such as login, language, font size, and other display preferences) over a period of time, so you don’t have to keep re-entering them whenever you come back to the site or browse from one page to another.",
+      cookie_how_we_use_cookies_title: "How we use cookies",
+      cookie_how_we_use_cookies_content: "This site uses cookies for the following reasons:",
+      cookie_usage_list: [
+        "<strong>Consent Cookies:</strong> To remember your choice regarding the use of cookies on this site.",
+        "<strong>Analytics and Performance Cookies (if accepted):</strong> We use Google Tag Manager and Vercel Analytics to collect anonymous information about how visitors use the site. This helps us understand which pages are most popular, how users navigate the site, and to improve the overall experience. These cookies are only placed if you give your explicit consent via the cookie banner."
+      ],
+      cookie_your_choices_title: "Your choices regarding cookies",
+      cookie_your_choices_content: "When you first visit our site, a banner will appear asking for your consent to use non-essential cookies. You have the choice to accept or decline.",
+      cookie_manage_preferences: "You can change your preferences at any time and withdraw your consent. You can also configure your browser to refuse all cookies or to alert you when cookies are being sent. However, some parts of the site may not function properly without them.",
       rights_title: "Your Rights",
       rights_content: "In accordance with current regulations (notably the GDPR), you have the following rights regarding your personal data:",
       rights_list: ["Right of access", "Right to rectification", "Right to erasure (right to be forgotten)", "Right to restriction of processing", "Right to data portability"],

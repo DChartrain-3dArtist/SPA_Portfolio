@@ -9,8 +9,8 @@ import { Mail, Phone, MapPin, Linkedin, Instagram, Youtube, Github } from 'lucid
 import { Header } from '../layout/header';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h2>;
+function PageTitle({ children }: { children: React.ReactNode }) {
+  return <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h1>;
 }
 
 export default function ContactPage() {
@@ -39,7 +39,7 @@ export default function ContactPage() {
         <section id="contact" className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8">
           
             <div className="text-center">
-                <SectionTitle>{c.title}</SectionTitle>
+                <PageTitle>{c.title}</PageTitle>
                 <p className="text-foreground/90 mb-12">{c.subtitle}</p>
             </div>
             

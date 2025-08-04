@@ -31,6 +31,7 @@ import {
 import { ProjectCard } from '@/components/portfolio/project-card';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import Script from 'next/script';
 
 
 export default function ProjectDetailPage({ projectId }: { projectId: string }) {
@@ -93,6 +94,27 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
       setCurrent(api.selectedScrollSnap() + 1)
     })
   }, [api]);
+
+  const breadcrumbStructuredData = useMemo(() => {
+    if (!project) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Portfolio",
+          "item": "https://donovan-dev3d.vercel.app/portfolio"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": project.title[language]
+        }
+      ]
+    };
+  }, [project, language]);
 
   if (isLoading) {
     return (
@@ -171,6 +193,13 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
 
   return (
     <>
+      {breadcrumbStructuredData && (
+        <Script
+            id="breadcrumb-structured-data"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+        />
+      )}
       <Header />
       <main className="py-16 md:py-24">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -183,8 +212,16 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
               <div className="px-4 sm:px-6 lg:px-8">
                 <header className="mb-8">
                   <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <Badge className={cn(getSectorBadgeClass())}>{project.sector}</Badge>
-                      <Badge variant="outline">{project.productionType}</Badge>
+                      <Button asChild className={cn('h-auto p-0', getSectorBadgeClass())} variant="default">
+                        <Link href={`/portfolio?sector=${encodeURIComponent(project.sector)}`}>
+                          <Badge className={cn('h-auto', getSectorBadgeClass())}>{project.sector}</Badge>
+                        </Link>
+                      </Button>
+                      <Button asChild className="h-auto p-0" variant="outline">
+                         <Link href={`/portfolio?type=${encodeURIComponent(project.productionType)}`}>
+                            <Badge variant="outline">{project.productionType}</Badge>
+                         </Link>
+                      </Button>
                       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                           <CalendarDays className="h-4 w-4" />
                           <span>{formattedDate}</span>
@@ -193,7 +230,11 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                   <h1 className="font-headline text-4xl md:text-6xl font-bold mb-4">{project.title[language]}</h1>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map(tech => (
-                      <Badge key={tech}>{tech}</Badge>
+                      <Button asChild key={tech} className="h-auto p-0" variant="secondary">
+                        <Link href={`/portfolio?tech=${encodeURIComponent(tech)}`}>
+                           <Badge variant="secondary">{tech}</Badge>
+                        </Link>
+                      </Button>
                     ))}
                   </div>
                 </header>

@@ -12,6 +12,12 @@ import Link from 'next/link';
 import { Mail } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Charte Graphique',
+  description: 'Découvrez les principes, composants et styles qui définissent l\'identité visuelle de ce portfolio, de la typographie à la palette de couleurs.',
+};
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
 

@@ -15,11 +15,20 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Mail, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+/**
+ * Composant du formulaire de contact.
+ * Gère la saisie utilisateur, la validation et la soumission du formulaire.
+ * @returns Un composant React de formulaire de contact.
+ */
 export function ContactForm() {
+  // Hook pour accéder à la langue actuelle et au contenu textuel correspondant.
   const { language } = useLanguage();
   const c = content[language].contact;
+  // Hook pour afficher des notifications (toasts).
   const { toast } = useToast();
 
+  // Schéma de validation Zod pour le formulaire.
+  // Assure que les données sont correctes avant l'envoi.
   const formSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email address." }),
@@ -28,6 +37,7 @@ export function ContactForm() {
     message: z.string().min(10, { message: "Message must be at least 10 characters." }),
   });
 
+  // Initialisation du formulaire avec react-hook-form et le resolver Zod.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,15 +49,23 @@ export function ContactForm() {
     },
   });
 
+  /**
+   * Fonction de soumission du formulaire.
+   * Appelle l'action serveur `submitContactForm` et gère la réponse.
+   * @param values - Les valeurs validées du formulaire.
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const result = await submitContactForm(values);
     if (result.success) {
+      // Affiche un toast de succès.
       toast({
         title: c.form_success_title,
         description: c.form_success,
       });
+      // Réinitialise les champs du formulaire.
       form.reset();
     } else {
+      // Affiche un toast d'erreur.
       toast({
         variant: "destructive",
         title: c.form_error_title,
@@ -65,8 +83,10 @@ export function ContactForm() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col flex-grow">
+        {/* Le composant Form de react-hook-form fournit le contexte du formulaire. */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col flex-grow">
+            {/* Grille pour les champs Nom et Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -95,6 +115,7 @@ export function ContactForm() {
                 )}
               />
             </div>
+            {/* Grille pour les champs Entreprise et Téléphone */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -123,6 +144,7 @@ export function ContactForm() {
                 )}
               />
             </div>
+            {/* Champ pour le message */}
             <FormField
               control={form.control}
               name="message"
@@ -136,6 +158,7 @@ export function ContactForm() {
                 </FormItem>
               )}
             />
+            {/* Bouton de soumission */}
             <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
               <Send className="mr-2 h-4 w-4" />
               {form.formState.isSubmitting ? c.form_sending : c.form_submit}

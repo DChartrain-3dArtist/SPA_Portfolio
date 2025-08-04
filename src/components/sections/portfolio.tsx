@@ -2,14 +2,23 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { getProjects } from '@/data/projects';
 import { sectors, productionTypes, type Sector, type ProductionType, Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
+import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -22,8 +31,8 @@ import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
 
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h2>;
+function PageTitle({ children }: { children: React.ReactNode }) {
+  return <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h1>;
 }
 
 export default function PortfolioPage() {
@@ -31,6 +40,7 @@ export default function PortfolioPage() {
   const c = content[language].portfolio;
   const isMobile = useIsMobile();
   const filterSectionRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
   
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +51,9 @@ export default function PortfolioPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('date-desc');
   const [showVisualizableOnly, setShowVisualizableOnly] = useState(false);
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+
 
   useEffect(() => {
     async function loadProjects() {
@@ -53,6 +66,22 @@ export default function PortfolioPage() {
   }, []);
 
   useEffect(() => {
+    const sectorParam = searchParams.get('sector');
+    const typeParam = searchParams.get('type');
+    const techParam = searchParams.get('tech');
+
+    if (sectorParam && sectors.includes(sectorParam as Sector)) {
+        setActiveSector(sectorParam as Sector);
+    }
+    if (typeParam && productionTypes.includes(typeParam as ProductionType)) {
+        setActiveProductionType(typeParam as ProductionType);
+    }
+    if (techParam) {
+        setSelectedTechnologies([techParam]);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     // Default to grid layout, especially on mobile
     if (isMobile) {
         setLayout('grid');
@@ -60,15 +89,21 @@ export default function PortfolioPage() {
   }, [isMobile]);
 
   useEffect(() => {
-    if (filterSectionRef.current) {
+    if (filterSectionRef.current && !isMobile) {
         filterSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [layout]);
+  }, [layout, isMobile]);
 
   const latestProject = useMemo(() => {
     if (!projects || projects.length === 0) return null;
     const sortedByDate = [...projects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return sortedByDate.length > 0 ? sortedByDate[0] : null;
+  }, [projects]);
+  
+  const allTechnologies = useMemo(() => {
+    const techSet = new Set<string>();
+    projects.forEach(p => p.technologies.forEach(t => techSet.add(t)));
+    return Array.from(techSet).sort();
   }, [projects]);
 
   const filteredAndSortedProjects = useMemo(() => {
@@ -92,6 +127,12 @@ export default function PortfolioPage() {
         p.description[language].toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
+    
+    if (selectedTechnologies.length > 0) {
+      filtered = filtered.filter(p => 
+        selectedTechnologies.every(tech => p.technologies.includes(tech))
+      );
+    }
 
     const sorted = [...filtered].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
@@ -103,7 +144,7 @@ export default function PortfolioPage() {
     });
 
     return sorted;
-  }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly]);
+  }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly, selectedTechnologies]);
   
   const handleSectorClick = (sector: Sector) => {
     setActiveSector(prev => (prev === sector ? 'all' : sector));
@@ -116,6 +157,7 @@ export default function PortfolioPage() {
     setSortOrder('date-desc');
     if (!isMobile) setLayout('grid');
     setShowVisualizableOnly(false);
+    setSelectedTechnologies([]);
   };
 
   const renderProjects = () => {
@@ -177,10 +219,10 @@ export default function PortfolioPage() {
                                 )}
                             </div>
                         </Link>
-                    )
+                    );
                 })}
             </div>
-        )
+        );
     }
 
     // For Desktop (Grid & List) and Mobile (List)
@@ -203,7 +245,7 @@ export default function PortfolioPage() {
         <section id="portfolio" className="w-full">
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <SectionTitle>{c.title}</SectionTitle>
+                    <PageTitle>{c.title}</PageTitle>
                     <p className="text-foreground/90 mb-12 max-w-4xl mx-auto">
                         {c.intro.part1}
                         <span className="text-primary font-medium">{c.intro.highlight1}</span>
@@ -218,8 +260,8 @@ export default function PortfolioPage() {
 
             <div ref={filterSectionRef} className="px-4 sm:px-6 lg:px-8 mb-12">
               <Card className="p-4 bg-muted dark:bg-card">
-                  <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      <div className="relative w-full md:flex-1">
+                  <div className="flex items-center gap-4">
+                      <div className="relative flex-1">
                           <Input 
                               placeholder={c.search_placeholder}
                               value={searchTerm}
@@ -228,122 +270,166 @@ export default function PortfolioPage() {
                           />
                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       </div>
-                      <div className="flex items-center gap-2 w-full md:w-auto">
-                          <Select value={sortOrder} onValueChange={setSortOrder}>
-                              <SelectTrigger className="w-full md:w-[150px] h-10">
-                                  <SelectValue placeholder={c.sort_label} />
-                              </SelectTrigger>
-                              <SelectContent>
-                                  <SelectItem value="date-desc">{c.sort_newest}</SelectItem>
-                                  <SelectItem value="date-asc">{c.sort_oldest}</SelectItem>
-                              </SelectContent>
-                          </Select>
-                          <Button variant="secondary" size="icon" onClick={handleResetFilters} className="h-10 w-10 shrink-0">
-                              <RotateCcw className="h-5 w-5"/>
-                              <span className="sr-only">Rétablir les filtres</span>
+                      <Button variant="secondary" size="icon" onClick={handleResetFilters} className="h-10 w-10 shrink-0">
+                          <RotateCcw className="h-5 w-5"/>
+                          <span className="sr-only">Rétablir les filtres</span>
+                      </Button>
+                  </div>
+                  
+                   <div className="mt-4 flex flex-col md:flex-row md:items-center gap-4">
+                     <Button 
+                       variant={filtersVisible ? 'default' : 'secondary'}
+                       onClick={() => setFiltersVisible(prev => !prev)} 
+                       className="w-full md:w-auto justify-center md:col-span-1 data-[state=open]:bg-primary hover:bg-primary/90 active:bg-primary/90"
+                       data-state={filtersVisible ? 'open' : 'closed'}
+                     >
+                       <SlidersHorizontal className="mr-2 h-4 w-4" />
+                       {c.filters.title}
+                     </Button>
+                     <div className="flex justify-center items-center gap-2 md:col-start-3 md:col-span-1 md:ml-auto">
+                        <Button
+                            variant={layout === 'grid' ? 'default' : 'secondary'}
+                            onClick={() => setLayout('grid')}
+                            size="sm"
+                        >
+                            <Grid className="mr-2 h-4 w-4" />
+                            {c.layout_grid}
+                        </Button>
+
+                        <Button
+                            variant={layout === 'list' ? 'default' : 'secondary'}
+                            onClick={() => setLayout('list')}
+                            size="sm"
+                        >
+                            <List className="mr-2 h-4 w-4" />
+                            {c.layout_list}
+                        </Button>
+                    </div>
+                  </div>
+
+                  <div className={cn("transition-all duration-300 ease-in-out overflow-hidden", filtersVisible ? "max-h-[500px] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0")}>
+                    <Separator className="mb-4" />
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
+                           <p className="text-sm font-medium text-muted-foreground md:text-right">{c.sort_label}</p>
+                           <div className="flex flex-wrap justify-start gap-2">
+                               <Button
+                                   variant={sortOrder === 'date-desc' ? 'default' : 'secondary'}
+                                   onClick={() => setSortOrder('date-desc')}
+                                   className="rounded-full h-8 px-4 text-sm"
+                               >
+                                   {c.sort_newest}
+                               </Button>
+                               <Button
+                                   variant={sortOrder === 'date-asc' ? 'default' : 'secondary'}
+                                   onClick={() => setSortOrder('date-asc')}
+                                   className="rounded-full h-8 px-4 text-sm"
+                               >
+                                   {c.sort_oldest}
+                               </Button>
+                           </div>
+                       </div>
+                       <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
+                          <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.sector}</p>
+                          <div className="flex flex-wrap justify-start gap-2">
+                              <Button
+                                  variant={activeSector === 'all' ? 'default' : 'secondary'}
+                                  onClick={() => setActiveSector('all')}
+                                  className="rounded-full h-8 px-4 text-sm"
+                              >
+                                  {c.filters.all}
+                              </Button>
+                              {sectors.map(sector => (
+                                  <Button
+                                      key={sector}
+                                      variant={activeSector === sector ? 'default' : 'secondary'}
+                                      onClick={() => handleSectorClick(sector)}
+                                      className={cn(
+                                          "rounded-full h-8 px-4 text-sm border",
+                                          activeSector === sector ?
+                                              (sector === 'Infographie 3D' ? 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent' :
+                                              sector === '3D Temps Réel' ? 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent' :
+                                              'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent')
+                                          :
+                                              (sector === 'Infographie 3D' ? 'border-orange-500/50 text-orange-500 dark:text-orange-400 dark:border-orange-400/50 hover:bg-orange-500/10' :
+                                              sector === '3D Temps Réel' ? 'border-emerald-500/50 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400/50 hover:bg-emerald-500/10' :
+                                              'border-violet-500/50 text-violet-500 dark:text-violet-400 dark:border-violet-400/50 hover:bg-violet-500/10')
+                                      )}
+                                  >
+                                      {c.filters.sectors[sector]}
+                                  </Button>
+                              ))}
+                          </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
+                          <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.production}</p>
+                          <div className="flex flex-wrap justify-start gap-2">
+                              <Button
+                                  variant={activeProductionType === 'all' ? 'default' : 'secondary'}
+                                  onClick={() => setActiveProductionType('all')}
+                                  className="rounded-full h-8 px-4 text-sm"
+                              >
+                                  {c.filters.all_f}
+                              </Button>
+                              {productionTypes.map(type => (
+                                  <Button
+                                      key={type}
+                                      variant={activeProductionType === type ? 'default' : 'secondary'}
+                                      onClick={() => setActiveProductionType(prev => prev === type ? 'all' : type)}
+                                      className="rounded-full h-8 px-4 text-sm"
+                                  >
+                                      {c.filters.production_types[type]}
+                                  </Button>
+                              ))}
+                          </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="outline" className="w-full justify-center">
+                                {c.filters.technologies}
+                                {selectedTechnologies.length > 0 && (
+                                  <Badge variant="secondary" className="ml-2">{selectedTechnologies.length}</Badge>
+                                )}
+                                <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-64 max-h-80 overflow-y-auto">
+                              <DropdownMenuLabel>{c.filters.technologies_label}</DropdownMenuLabel>
+                               <DropdownMenuItem onSelect={() => setSelectedTechnologies([])} className="text-destructive focus:text-destructive focus:bg-destructive/10">
+                                {c.filters.technologies_reset}
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              {allTechnologies.map(tech => (
+                                <DropdownMenuCheckboxItem
+                                  key={tech}
+                                  checked={selectedTechnologies.includes(tech)}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setSelectedTechnologies([...selectedTechnologies, tech]);
+                                    } else {
+                                      setSelectedTechnologies(selectedTechnologies.filter(t => t !== tech));
+                                    }
+                                  }}
+                                  onSelect={(e) => e.preventDefault()}
+                                >
+                                  {tech}
+                                </DropdownMenuCheckboxItem>
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+
+                          <Button
+                              variant={showVisualizableOnly ? 'default' : 'outline'}
+                              onClick={() => setShowVisualizableOnly(prev => !prev)}
+                              className="w-full"
+                          >
+                              <Cuboid className="mr-2 h-4 w-4" />
+                              {c.filter_visualizable_projects}
                           </Button>
                       </div>
-                  </div>
-                  <Separator className="my-4" />
-                  <div className="flex flex-col gap-4">
-                      <div className="space-y-4 w-full">
-                           <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
-                              <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.sector}</p>
-                              <div className="flex flex-wrap justify-start gap-2">
-                                  <Button
-                                      variant={activeSector === 'all' ? 'default' : 'secondary'}
-                                      onClick={() => setActiveSector('all')}
-                                      className="rounded-full h-8 px-4 text-sm"
-                                  >
-                                      {c.filters.all}
-                                  </Button>
-                                  {sectors.map(sector => (
-                                      <Button
-                                          key={sector}
-                                          variant={activeSector === sector ? 'default' : 'secondary'}
-                                          onClick={() => handleSectorClick(sector)}
-                                          className={cn(
-                                              "rounded-full h-8 px-4 text-sm border",
-                                              activeSector === sector ?
-                                                  (sector === 'Infographie 3D' ? 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent' :
-                                                  sector === '3D Temps Réel' ? 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent' :
-                                                  'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent')
-                                              :
-                                                  (sector === 'Infographie 3D' ? 'border-orange-500/50 text-orange-500 dark:text-orange-400 dark:border-orange-400/50 hover:bg-orange-500/10' :
-                                                  sector === '3D Temps Réel' ? 'border-emerald-500/50 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400/50 hover:bg-emerald-500/10' :
-                                                  'border-violet-500/50 text-violet-500 dark:text-violet-400 dark:border-violet-400/50 hover:bg-violet-500/10')
-                                          )}
-                                      >
-                                          {c.filters.sectors[sector]}
-                                      </Button>
-                                  ))}
-                              </div>
-                          </div>
-                          <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
-                              <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.production}</p>
-                              <div className="flex flex-wrap justify-start gap-2">
-                                  <Button
-                                      variant={activeProductionType === 'all' ? 'default' : 'secondary'}
-                                      onClick={() => setActiveProductionType('all')}
-                                      className="rounded-full h-8 px-4 text-sm"
-                                  >
-                                      {c.filters.all_f}
-                                  </Button>
-                                  {productionTypes.map(type => (
-                                      <Button
-                                          key={type}
-                                          variant={activeProductionType === type ? 'default' : 'secondary'}
-                                          onClick={() => setActiveProductionType(prev => prev === type ? 'all' : type)}
-                                          className="rounded-full h-8 px-4 text-sm"
-                                      >
-                                          {c.filters.production_types[type]}
-                                      </Button>
-                                  ))}
-                              </div>
-                          </div>
-                      </div>
-
-                      <Separator className="my-4" />
-                      
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full flex-wrap">
-                         <div className="flex flex-wrap items-center justify-center gap-2 w-full sm:w-auto">
-                              <Button
-                                  variant={!showVisualizableOnly ? 'default' : 'secondary'}
-                                  onClick={() => setShowVisualizableOnly(false)}
-                                  className="w-full sm:w-auto"
-                              >
-                                  {c.filter_all_projects}
-                              </Button>
-                              <Button
-                                  variant={showVisualizableOnly ? 'default' : 'secondary'}
-                                  onClick={() => setShowVisualizableOnly(true)}
-                                  className="w-full sm:w-auto"
-                              >
-                                  <Cuboid className="mr-2 h-4 w-4" />
-                                  {c.filter_visualizable_projects}
-                              </Button>
-                          </div>
-
-                          <div className="flex justify-center gap-2 w-full sm:w-auto">
-                              <Button
-                                  variant={layout === 'grid' ? 'default' : 'secondary'}
-                                  onClick={() => setLayout('grid')}
-                                  size="sm"
-                              >
-                                  <Grid className="mr-2 h-4 w-4" />
-                                  {c.layout_grid}
-                              </Button>
-
-                              <Button
-                                  variant={layout === 'list' ? 'default' : 'secondary'}
-                                  onClick={() => setLayout('list')}
-                                  size="sm"
-                              >
-                                  <List className="mr-2 h-4 w-4" />
-                                  {c.layout_list}
-                              </Button>
-                          </div>
-                      </div>
+                    </div>
                   </div>
               </Card>
             </div>
@@ -370,7 +456,6 @@ export default function PortfolioPage() {
                         </Link>
                     </Button>
                 </div>
-            
         </section>
       </main>
     </>

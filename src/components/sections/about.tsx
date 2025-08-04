@@ -44,8 +44,8 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{children}</h2>;
+function PageTitle({ children }: { children: React.ReactNode }) {
+  return <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{children}</h1>;
 }
 
 const skills = {
@@ -206,7 +206,7 @@ export default function AboutPage() {
       <main>
         <section id="about" className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8">
             
-                <SectionTitle>{c.title}</SectionTitle>
+                <PageTitle>{c.title}</PageTitle>
                 <div className="mb-16 space-y-8">
                 <Card>
                     <CardHeader>

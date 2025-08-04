@@ -1,51 +1,66 @@
 
+// Ce fichier contient les définitions de types TypeScript utilisées dans toute l'application.
+// Centraliser ces types permet d'assurer la cohérence et de faciliter la maintenance.
+
+// Type pour les différents secteurs d'activité des projets.
 export type Sector = 'Infographie 3D' | '3D Temps Réel' | 'Développement Web' | 'Visualisation Architecturale' | 'Animation 3D / Interactif';
+
+// Type pour les différents types de production des projets.
 export type ProductionType = 'Rendu' | 'Animation' | 'Application' | 'Site Web' | 'Visualisation' | 'Animation 3D Interactive';
 
+/**
+ * Interface pour un objet 3D visualisable.
+ * Représente un modèle spécifique qui peut être affiché dans le visualiseur 3D.
+ */
 export interface VisualizerItem {
-  id: string;
+  id: string; // Identifiant unique de l'objet.
   name: {
-    fr: string;
-    en: string;
+    fr: string; // Nom en français.
+    en: string; // Nom en anglais.
   };
   description: {
-    fr: string;
-    en: string;
+    fr: string; // Description en français.
+    en: string; // Description en anglais.
   };
-  image: string;
-  modelUrl: string; // Lien vers le modèle .glb
-  hint: string;
-  // Ajout pour le contexte
-  projectId?: string;
-  projectTitle?: { fr: string; en: string };
+  image: string; // URL de l'image de prévisualisation.
+  modelUrl: string; // URL du fichier de modèle 3D (.glb).
+  hint: string; // Indice pour l'IA ou la recherche d'images.
+  // Champs ajoutés pour lier l'objet à un projet plus large.
+  projectId?: string; // ID du projet parent.
+  projectTitle?: { fr: string; en: string }; // Titre du projet parent.
 }
 
+/**
+ * Interface pour un projet du portfolio.
+ * Contient toutes les informations nécessaires pour afficher un projet.
+ */
 export interface Project {
-  id: string;
+  id: string; // Identifiant unique du projet.
   title: {
-    fr: string;
-    en: string;
+    fr: string; // Titre en français.
+    en: string; // Titre en anglais.
   };
   description: {
-    fr: string;
-    en: string;
+    fr: string; // Description courte en français.
+    en: string; // Description courte en anglais.
   };
   longDescription: {
-    fr: string;
-    en: string;
+    fr: string; // Description longue et détaillée en français.
+    en: string; // Description longue et détaillée en anglais.
   };
-  sector: Sector;
-  productionType: ProductionType;
-  image: string;
-  images: string[];
-  technologies: string[];
-  hint: string;
-  date: string; // ISO 8601 format: "YYYY-MM-DD"
-  isVisualizable: boolean;
-  videoUrl?: string; // URL de la vidéo (locale ou YouTube)
-  visualizerItems?: VisualizerItem[];
-  liveUrl?: string; // URL du site en ligne
+  sector: Sector; // Le secteur d'activité du projet.
+  productionType: ProductionType; // Le type de production.
+  image: string; // URL de l'image principale.
+  images: string[]; // URLs des images de la galerie.
+  technologies: string[]; // Liste des technologies utilisées.
+  hint: string; // Indice pour l'IA ou la recherche d'images.
+  date: string; // Date de réalisation au format ISO 8601: "YYYY-MM-DD".
+  isVisualizable: boolean; // Indique si le projet contient des objets 3D visualisables.
+  videoUrl?: string; // URL optionnelle d'une vidéo de présentation (locale ou YouTube).
+  visualizerItems?: VisualizerItem[]; // Liste optionnelle d'objets 3D associés au projet.
+  liveUrl?: string; // URL optionnelle vers le site ou l'application en ligne.
 }
 
+// Constantes listant les secteurs et types de production pour les filtres du portfolio.
 export const sectors: Sector[] = ['Infographie 3D', '3D Temps Réel', 'Développement Web'];
 export const productionTypes: ProductionType[] = ['Rendu', 'Animation', 'Application', 'Site Web'];

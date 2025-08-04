@@ -9,6 +9,11 @@ import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, Cuboid } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Metadata } from 'next';
+
+// Note: This component is a client component, so we can't export metadata directly.
+// We would need a parent server component to do so. For now, we'll add it in the layout or parent page.
+// As a workaround, we can set the document title directly, but this is not the recommended Next.js way.
 
 function ItemCard({ item }: { item: VisualizerItem }) {
     return (

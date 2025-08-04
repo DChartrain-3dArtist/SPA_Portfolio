@@ -1,10 +1,7 @@
 
-'use client';
-
-import { Header } from '@/components/layout/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
+import type { Metadata } from 'next';
 
 function Section({ title, children }: { title: string, children: React.ReactNode }) {
     return (
@@ -19,13 +16,17 @@ function Section({ title, children }: { title: string, children: React.ReactNode
     )
 }
 
+export const metadata: Metadata = {
+  title: 'Politique de Confidentialité',
+  description: 'Découvrez comment vos données personnelles et les cookies sont utilisés et protégés sur le site de Chartrain Donovan.',
+};
+
+
 export default function PrivacyPolicyPage() {
-  const { language } = useLanguage();
-  const c = content[language].privacy_policy;
+  // Pour la simplicité, nous utiliserons le contenu en français car c'est une page légale destinée principalement aux utilisateurs français.
+  const c = content['fr'].privacy_policy;
 
   return (
-    <>
-      <Header />
       <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{c.title}</h1>
@@ -68,6 +69,19 @@ export default function PrivacyPolicyPage() {
             <p>{c.retention_content}</p>
           </Section>
 
+          <Section title={c.cookie_policy_title}>
+            <h3 className="text-xl font-bold font-headline mb-2">{c.cookie_what_are_cookies_title}</h3>
+            <p>{c.cookie_what_are_cookies_content}</p>
+            <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.cookie_how_we_use_cookies_title}</h3>
+            <p>{c.cookie_how_we_use_cookies_content}</p>
+            <ul>
+                {c.cookie_usage_list.map((item, index) => <li key={index} dangerouslySetInnerHTML={{ __html: item }} />)}
+            </ul>
+            <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.cookie_your_choices_title}</h3>
+            <p>{c.cookie_your_choices_content}</p>
+            <p>{c.cookie_manage_preferences}</p>
+          </Section>
+
           <Section title={c.rights_title}>
             <p>{c.rights_content}</p>
             <ul>
@@ -86,6 +100,5 @@ export default function PrivacyPolicyPage() {
 
         </div>
       </main>
-    </>
   );
 }

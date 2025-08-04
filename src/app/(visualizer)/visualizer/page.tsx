@@ -1,9 +1,14 @@
 
-'use client';
 
 import { Button } from '@/components/ui/button';
 import { Library, Mail, Briefcase } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Espace Visualiseur 3D',
+  description: 'Un espace interactif pour manipuler, explorer et examiner des modèles 3D directement dans votre navigateur.',
+};
 
 export default function VisualizerHomePage() {
   return (

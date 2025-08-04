@@ -1,0 +1,22 @@
+
+{
+  "name": "Chartrain Donovan | Portfolio",
+  "short_name": "Portfolio",
+  "description": "Portfolio de Chartrain Donovan, artiste 3D et développeur web.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050608",
+  "theme_color": "#6de2b3",
+  "icons": [
+    {
+      "src": "/assets/data/web-app-manigest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/data/web-app-manigest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

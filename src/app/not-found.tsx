@@ -5,6 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Home, Telescope } from 'lucide-react';
 import Link from 'next/link';
 
+/**
+ * Composant pour la page 404 (non trouvée).
+ * S'affiche lorsque l'utilisateur accède à une URL qui n'existe pas.
+ * @returns Un composant React pour la page 404.
+ */
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center text-center px-4">

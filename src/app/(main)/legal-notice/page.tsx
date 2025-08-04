@@ -1,10 +1,7 @@
 
-'use client';
-
-import { Header } from '@/components/layout/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
+import type { Metadata } from 'next';
 
 function Section({ title, children }: { title: string, children: React.ReactNode }) {
     return (
@@ -19,12 +16,15 @@ function Section({ title, children }: { title: string, children: React.ReactNode
     )
 }
 
+export const metadata: Metadata = {
+  title: 'Mentions Légales',
+  description: 'Consultez les mentions légales du site de Chartrain Donovan : éditeur, hébergement, propriété intellectuelle et données personnelles.',
+};
+
 export default function LegalNoticePage() {
-    const { language } = useLanguage();
-    const c = content[language].legal_notice;
+    // Pour la simplicité, nous utiliserons le contenu en français car c'est une page légale destinée principalement aux utilisateurs français.
+    const c = content['fr'].legal_notice;
   return (
-    <>
-        <Header />
         <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{c.title}</h1>
@@ -52,6 +52,5 @@ export default function LegalNoticePage() {
                 </Section>
             </div>
         </main>
-    </>
   );
 }
