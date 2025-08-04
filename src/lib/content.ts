@@ -107,9 +107,9 @@ export const content = {
     about: {
       title: 'À propos de moi',
       profile_title: 'Profil',
-      profile_content: "Je m'appelle Donovan Chartrain, et je suis un créateur numérique passionné par l'interactivité et la 3D, basé dans le Vaucluse. En recherche active d'un poste dans la région (Vaucluse, Gard), j'aime concevoir des expériences qui allient technologie et sens. Mon but est de donner vie à des sites web, des applications interactives ou des animations 3D qui marquent les esprits.",
+      profile_content: "Je m'appelle Donovan Chartrain, et je suis un créateur numérique passionné par l'interactivité et la 3D, basé dans le Vaucluse. En recherche active d'un poste dans la région (Vaucluse, Gard), j'aime concevoir des expériences qui allient technologie et sens.\n\nMon but est de donner vie à des sites web, des applications interactives ou des animations 3D qui marquent les esprits.",
       journey_title: 'Mon parcours',
-      journey_content: "Mon chemin a commencé par un Bac Pro en maintenance industrielle, où j'ai appris à comprendre les systèmes techniques et à résoudre des problèmes concrets. C'est cette base solide, ancrée dans le réel, qui m'a permis de développer une approche pragmatique de la création numérique. Au fil des années, j'ai travaillé dans des environnements très différents : agence de communication, bureaux d'études, maîtrise d'ouvrage, puis cabinet d'ingénierie. Chacune de ces expériences a forgé une nouvelle facette de mon métier : la rigueur, la créativité, la communication, et surtout, la capacité à vulgariser des sujets techniques. Aujourd'hui, elles me permettent d'avoir une vision transversale, de passer d'un univers à un autre avec souplesse, et de proposer des solutions complètes, à la fois techniques et humaines.",
+      journey_content: "Mon chemin a commencé par un Bac Pro en maintenance industrielle, où j'ai appris à comprendre les systèmes techniques et à résoudre des problèmes concrets. C'est cette base solide, ancrée dans le réel, qui m'a permis de développer une approche pragmatique de la création numérique.\n\nAu fil des années, j'ai travaillé dans des environnements très différents : agence de communication, bureaux d'études, maîtrise d'ouvrage, puis cabinet d'ingénierie. Chacune de ces expériences a forgé une nouvelle facette de mon métier : la rigueur, la créativité, la communication, et surtout, la capacité à vulgariser des sujets techniques.\n\nAujourd'hui, elles me permettent d'avoir une vision transversale, de passer d'un univers à un autre avec souplesse, et de proposer des solutions complètes, à la fois techniques et humaines.",
       skills_title: 'Compétences',
       experience_title: 'Parcours',
       education_title: 'Formations',
@@ -218,6 +218,11 @@ export const content = {
       social_subtitle: 'Suivez-moi pour voir l\'évolution de mes projets et de nouvelles créations.',
       availability_title: 'Ouvert aux opportunités',
       availability_text: 'Réponse garantie sous 24 heures.',
+    },
+    validation: {
+      name_min: "Le nom doit comporter au moins 2 caractères.",
+      email_invalid: "Veuillez saisir une adresse e-mail valide.",
+      message_min: "Le message doit comporter au moins 10 caractères.",
     },
     style_guide: {
       title: 'Charte Graphique',
@@ -467,9 +472,9 @@ export const content = {
     about: {
       title: 'About me',
       profile_title: 'Profile',
-      profile_content: "My name is Donovan Chartrain, and I am a digital creator passionate about interactivity and 3D, based in the Vaucluse area of France. I am actively looking for a position in the region (Vaucluse, Gard) and enjoy designing experiences that blend technology with meaning. My goal is to bring to life websites, interactive applications, or 3D animations that make a lasting impression.",
+      profile_content: "My name is Donovan Chartrain, and I am a digital creator passionate about interactivity and 3D, based in the Vaucluse area of France. I am actively looking for a position in the region (Vaucluse, Gard) and enjoy designing experiences that blend technology with meaning.\n\nMy goal is to bring to life websites, interactive applications, or 3D animations that make a lasting impression.",
       journey_title: 'My Journey',
-      journey_content: "My path began with a vocational degree in industrial maintenance, where I learned to understand technical systems and solve concrete problems. It is this solid, reality-based foundation that has allowed me to develop a pragmatic approach to digital creation. Over the years, I have worked in very different environments: a communication agency, design offices, project management, and then an engineering firm. Each of these experiences has forged a new facet of my profession: rigor, creativity, communication, and above all, the ability to simplify technical subjects. Today, they allow me to have a cross-functional vision, to move from one world to another with flexibility, and to offer complete solutions that are both technical and human.",
+      journey_content: "My path began with a vocational degree in industrial maintenance, where I learned to understand technical systems and solve concrete problems. It is this solid, reality-based foundation that has allowed me to develop a pragmatic approach to digital creation.\n\nOver the years, I have worked in very different environments: a communication agency, design offices, project management, and then an engineering firm. Each of these experiences has forged a new facet of my profession: rigor, creativity, communication, and above all, the ability to simplify technical subjects.\n\nToday, they allow me to have a cross-functional vision, to move from one world to another with flexibility, and to offer complete solutions that are both technical and human.",
       skills_title: 'Skills',
       experience_title: 'Journey',
       education_title: 'Education',
@@ -578,6 +583,11 @@ export const content = {
       social_subtitle: 'Follow me to see my projects evolve and discover new creations.',
       availability_title: 'Open to opportunities',
       availability_text: 'Guaranteed response within 24 hours.',
+    },
+    validation: {
+      name_min: "Name must be at least 2 characters.",
+      email_invalid: "Please enter a valid email address.",
+      message_min: "Message must be at least 10 characters.",
     },
     style_guide: {
       title: 'Style Guide',

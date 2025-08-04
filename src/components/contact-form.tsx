@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -14,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
 /**
  * Composant du formulaire de contact.
@@ -24,18 +26,19 @@ export function ContactForm() {
   // Hook pour accéder à la langue actuelle et au contenu textuel correspondant.
   const { language } = useLanguage();
   const c = content[language].contact;
+  const v = content[language].validation;
   // Hook pour afficher des notifications (toasts).
   const { toast } = useToast();
 
-  // Schéma de validation Zod pour le formulaire.
-  // Assure que les données sont correctes avant l'envoi.
-  const formSchema = z.object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email address." }),
+  // Schéma de validation Zod pour le formulaire, utilisant les traductions.
+  // `useMemo` est utilisé pour ne pas recréer le schéma à chaque rendu.
+  const formSchema = useMemo(() => z.object({
+    name: z.string().min(2, { message: v.name_min }),
+    email: z.string().email({ message: v.email_invalid }),
     company: z.string().optional(),
     phone: z.string().optional(),
-    message: z.string().min(10, { message: "Message must be at least 10 characters." }),
-  });
+    message: z.string().min(10, { message: v.message_min }),
+  }), [v]);
 
   // Initialisation du formulaire avec react-hook-form et le resolver Zod.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -152,7 +155,7 @@ export function ContactForm() {
                 <FormItem className="flex flex-col flex-grow">
                   <FormLabel>{c.form_message}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Vous pouvez rédiger votre message ici." {...field} className="flex-grow min-h-[150px]" />
+                    <Textarea placeholder={c.form_message_placeholder} {...field} className="flex-grow min-h-[150px]" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

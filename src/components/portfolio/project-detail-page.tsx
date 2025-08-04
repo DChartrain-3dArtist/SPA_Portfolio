@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -12,7 +13,7 @@ import { Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/header';
-import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film } from 'lucide-react';
+import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Carousel,
@@ -33,7 +34,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Script from 'next/script';
 
-
+/**
+ * Composant de la page de détail d'un projet.
+ * Affiche toutes les informations d'un projet spécifique, y compris les galeries, les vidéos et les liens.
+ * @param {object} props - Les propriétés du composant.
+ * @param {string} props.projectId - L'ID du projet à afficher.
+ * @returns Un composant React pour la page de détail du projet.
+ */
 export default function ProjectDetailPage({ projectId }: { projectId: string }) {
   const router = useRouter();
   const { language } = useLanguage();
@@ -43,6 +50,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Charge les données du projet et de tous les autres projets au montage.
   useEffect(() => {
     async function loadData() {
       setIsLoading(true);
@@ -53,8 +61,6 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
       if (currentProject) {
         setProject(currentProject);
       } else {
-        // If project not found, don't redirect immediately.
-        // Let the render handle the "not found" state.
         setProject(null);
       }
       setIsLoading(false);
@@ -64,16 +70,19 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     }
   }, [projectId]);
 
+  // Suggère d'autres projets à voir, en excluant le projet actuel.
   const suggestedProjects = useMemo(() => {
     return allProjects.filter(p => p.id !== projectId).slice(0, 3);
   }, [allProjects, projectId]);
 
+  // Identifie le projet le plus récent pour lui attribuer un badge spécial.
   const latestProject = useMemo(() => {
     if (allProjects.length === 0) return null;
     const sortedByDate = [...allProjects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return sortedByDate.length > 0 ? sortedByDate[0] : null;
   }, [allProjects]);
   
+  // États et logique pour le carrousel d'images.
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -95,6 +104,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     })
   }, [api]);
 
+  // Génère les données structurées pour le fil d'Ariane (Breadcrumb).
   const breadcrumbStructuredData = useMemo(() => {
     if (!project) return null;
     return {
@@ -116,6 +126,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     };
   }, [project, language]);
 
+  // Affiche un squelette de chargement pendant que les données sont récupérées.
   if (isLoading) {
     return (
       <>
@@ -150,6 +161,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     )
   }
 
+  // Affiche un message si le projet n'est pas trouvé.
   if (!project) {
      return (
       <>
@@ -169,13 +181,14 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     )
   }
   
+  // Formate la date du projet.
   const formattedDate = new Date(project.date).toLocaleDateString(language, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
 
-
+  // Fonction pour déterminer la classe CSS du badge de secteur.
   const getSectorBadgeClass = () => {
     if (!project) return '';
     switch (project.sector) {
@@ -193,6 +206,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
 
   return (
     <>
+      {/* Script pour les données structurées du fil d'Ariane. */}
       {breadcrumbStructuredData && (
         <Script
             id="breadcrumb-structured-data"
@@ -200,6 +214,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
         />
       )}
+      {/* En-tête de la page, visible sur mobile. */}
       <Header />
       <main className="py-16 md:py-24">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -211,23 +226,25 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
             <article>
               <div className="px-4 sm:px-6 lg:px-8">
                 <header className="mb-8">
+                  {/* Badges, date et titre du projet */}
                   <div className="flex flex-wrap items-center gap-2 mb-4">
+                      {/* Badge pour le secteur, cliquable pour filtrer */}
                       <Button asChild className={cn('h-auto p-0', getSectorBadgeClass())} variant="default">
                         <Link href={`/portfolio?sector=${encodeURIComponent(project.sector)}`}>
                           <Badge className={cn('h-auto', getSectorBadgeClass())}>{project.sector}</Badge>
                         </Link>
                       </Button>
-                      <Button asChild className="h-auto p-0" variant="outline">
-                         <Link href={`/portfolio?type=${encodeURIComponent(project.productionType)}`}>
-                            <Badge variant="outline">{project.productionType}</Badge>
-                         </Link>
-                      </Button>
+                      {/* Correction du bug : Badge simple dans un Link, sans Button pour éviter les conflits de style. */}
+                      <Link href={`/portfolio?type=${encodeURIComponent(project.productionType)}`}>
+                        <Badge variant="outline">{project.productionType}</Badge>
+                      </Link>
                       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                           <CalendarDays className="h-4 w-4" />
                           <span>{formattedDate}</span>
                       </div>
                   </div>
                   <h1 className="font-headline text-4xl md:text-6xl font-bold mb-4">{project.title[language]}</h1>
+                  {/* Badges des technologies, cliquables pour filtrer */}
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map(tech => (
                       <Button asChild key={tech} className="h-auto p-0" variant="secondary">
@@ -240,9 +257,11 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                 </header>
               </div>
 
+              {/* Affiche la vidéo si une URL est fournie. */}
               {project.videoUrl && (
                  <section className="mb-12 px-4 sm:px-6 lg:px-8">
                    <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border-2 border-primary/30 bg-black">
+                     {/* Gère les vidéos YouTube et les vidéos locales. */}
                      {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
                        <iframe
                          src={project.videoUrl.replace('watch?v=', 'embed/')}
@@ -263,6 +282,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                  </section>
               )}
 
+              {/* Carrousel d'images */}
               <div className="mb-12">
                 <Carousel setApi={setApi} className="w-full">
                   <CarouselContent>
@@ -282,6 +302,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                   <CarouselPrevious className="ml-4 md:ml-16" />
                   <CarouselNext className="mr-4 md:mr-16" />
                 </Carousel>
+                {/* Indicateurs de points pour le carrousel. */}
                 {count > 0 && (
                     <div className="flex justify-center items-center gap-2 mt-4">
                         {Array.from({ length: count }).map((_, i) => (
@@ -299,10 +320,12 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                 )}
               </div>
               
+              {/* Description longue du projet */}
               <div className="prose prose-invert prose-lg max-w-none mx-auto mb-16 px-4 sm:px-6 lg:px-8">
                 <p className="text-foreground/90">{project.longDescription[language]}</p>
               </div>
 
+              {/* Lien vers le site en direct si disponible. */}
               {project.liveUrl && (
                 <div className="text-center mb-16 px-4 sm:px-6 lg:px-8">
                   <Button asChild size="lg" variant="outline">
@@ -314,6 +337,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                 </div>
               )}
 
+              {/* Section pour les modèles 3D interactifs si disponibles. */}
               {project.isVisualizable && project.visualizerItems && project.visualizerItems.length > 0 && (
                  <section className="mb-16 px-4 sm:px-6 lg:px-8">
                     <h2 className="font-headline text-3xl font-bold mb-8">{c.interactive_experience_title}</h2>
@@ -348,6 +372,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                  </section>
               )}
 
+              {/* Galerie d'images avec modale pour agrandir. */}
               <section className="mb-16 px-4 sm:px-6 lg:px-8">
                 <h2 className="font-headline text-3xl font-bold mb-8">{c.gallery_title}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -381,6 +406,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                 </div>
               </section>
 
+              {/* Section des autres projets suggérés. */}
               <section className="mb-16 px-4 sm:px-6 lg:px-8">
                  <h2 className="font-headline text-3xl font-bold mb-8">{c.other_projects_title}</h2>
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -390,6 +416,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                  </div>
               </section>
 
+              {/* Appel à l'action pour contacter. */}
               <section id="contact-cta" className="pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
                 <div className="bg-card/80 border-border/50 rounded-lg p-8 md:p-12 animate-fade-in border text-center">
                     <h2 className="font-headline text-3xl font-bold md:text-4xl">

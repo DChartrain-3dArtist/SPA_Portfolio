@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
@@ -18,7 +19,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film, SlidersHorizontal, ChevronDown, Home } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -30,11 +31,21 @@ import { ProjectCard } from '@/components/portfolio/project-card';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
 
-
+/**
+ * Composant de titre de page réutilisable.
+ * @param {object} props - Les propriétés du composant.
+ * @param {React.ReactNode} props.children - Le contenu du titre.
+ * @returns Un composant de titre H1 stylisé.
+ */
 function PageTitle({ children }: { children: React.ReactNode }) {
   return <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-4">{children}</h1>;
 }
 
+/**
+ * Composant principal pour la page du portfolio.
+ * Gère l'affichage, le filtrage et le tri des projets.
+ * @returns Un composant React pour la page portfolio.
+ */
 export default function PortfolioPage() {
   const { language } = useLanguage();
   const c = content[language].portfolio;
@@ -42,9 +53,11 @@ export default function PortfolioPage() {
   const filterSectionRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   
+  // États pour les données et l'UI
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // États pour les filtres et l'affichage
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [activeSector, setActiveSector] = useState<Sector | 'all'>('all');
   const [activeProductionType, setActiveProductionType] = useState<ProductionType | 'all'>('all');
@@ -54,7 +67,7 @@ export default function PortfolioPage() {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
 
-
+  // Charge les projets au montage du composant.
   useEffect(() => {
     async function loadProjects() {
       setIsLoading(true);
@@ -65,6 +78,7 @@ export default function PortfolioPage() {
     loadProjects();
   }, []);
 
+  // Synchronise les filtres avec les paramètres de l'URL au chargement.
   useEffect(() => {
     const sectorParam = searchParams.get('sector');
     const typeParam = searchParams.get('type');
@@ -81,46 +95,54 @@ export default function PortfolioPage() {
     }
   }, [searchParams]);
 
+  // Adapte la mise en page par défaut en fonction de la taille de l'écran.
   useEffect(() => {
-    // Default to grid layout, especially on mobile
     if (isMobile) {
         setLayout('grid');
     }
   }, [isMobile]);
 
+  // Fait défiler jusqu'à la section des filtres lors du changement de layout sur desktop.
   useEffect(() => {
     if (filterSectionRef.current && !isMobile) {
         filterSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [layout, isMobile]);
 
+  // Calcule le projet le plus récent pour lui attribuer un badge spécial.
   const latestProject = useMemo(() => {
     if (!projects || projects.length === 0) return null;
     const sortedByDate = [...projects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return sortedByDate.length > 0 ? sortedByDate[0] : null;
   }, [projects]);
   
+  // Calcule la liste de toutes les technologies uniques disponibles pour le filtre.
   const allTechnologies = useMemo(() => {
     const techSet = new Set<string>();
     projects.forEach(p => p.technologies.forEach(t => techSet.add(t)));
     return Array.from(techSet).sort();
   }, [projects]);
 
+  // Logique principale de filtrage et de tri des projets.
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = projects;
     
+    // Filtre pour n'afficher que les projets avec des modèles 3D visualisables.
     if (showVisualizableOnly) {
       filtered = filtered.filter(p => p.isVisualizable);
     }
 
+    // Filtre par secteur.
     if (activeSector !== 'all') {
       filtered = filtered.filter(p => p.sector === activeSector);
     }
     
+    // Filtre par type de production.
     if (activeProductionType !== 'all') {
         filtered = filtered.filter(p => p.productionType === activeProductionType);
     }
 
+    // Filtre par terme de recherche dans le titre ou la description.
     if (searchTerm) {
       filtered = filtered.filter(p =>
         p.title[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -128,28 +150,32 @@ export default function PortfolioPage() {
       );
     }
     
+    // Filtre par technologies. Affiche les projets qui ont AU MOINS UNE des technologies sélectionnées.
     if (selectedTechnologies.length > 0) {
       filtered = filtered.filter(p => 
-        selectedTechnologies.every(tech => p.technologies.includes(tech))
+        selectedTechnologies.some(tech => p.technologies.includes(tech))
       );
     }
 
+    // Tri les projets filtrés.
     const sorted = [...filtered].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       if (sortOrder === 'date-asc') {
         return dateA - dateB;
       }
-      return dateB - dateA; // date-desc
+      return dateB - dateA; // date-desc (par défaut)
     });
 
     return sorted;
   }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly, selectedTechnologies]);
   
+  // Gère le clic sur un filtre de secteur.
   const handleSectorClick = (sector: Sector) => {
     setActiveSector(prev => (prev === sector ? 'all' : sector));
   };
 
+  // Réinitialise tous les filtres à leur état par défaut.
   const handleResetFilters = () => {
     setActiveSector('all');
     setActiveProductionType('all');
@@ -160,6 +186,7 @@ export default function PortfolioPage() {
     setSelectedTechnologies([]);
   };
 
+  // Rendu de la grille des projets, avec des états de chargement et de "aucun résultat".
   const renderProjects = () => {
     if (isLoading) {
       const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
@@ -188,6 +215,7 @@ export default function PortfolioPage() {
         );
     }
 
+    // Affichage spécifique pour la grille sur mobile (miniatures compactes).
     if (isMobile && layout === 'grid') {
         return (
              <div className="grid grid-cols-4 gap-1">
@@ -225,7 +253,7 @@ export default function PortfolioPage() {
         );
     }
 
-    // For Desktop (Grid & List) and Mobile (List)
+    // Affichage pour le bureau (Grille & Liste) et le mobile (Liste).
     const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
 
     return (
@@ -258,8 +286,10 @@ export default function PortfolioPage() {
                 </div>
             </div>
 
+            {/* Section des filtres */}
             <div ref={filterSectionRef} className="px-4 sm:px-6 lg:px-8 mb-12">
               <Card className="p-4 bg-muted dark:bg-card">
+                  {/* Barre de recherche et bouton de réinitialisation */}
                   <div className="flex items-center gap-4">
                       <div className="relative flex-1">
                           <Input 
@@ -276,6 +306,7 @@ export default function PortfolioPage() {
                       </Button>
                   </div>
                   
+                  {/* Boutons pour afficher les filtres et changer de layout */}
                    <div className="mt-4 flex flex-col md:flex-row md:items-center gap-4">
                      <Button 
                        variant={filtersVisible ? 'default' : 'secondary'}
@@ -307,9 +338,11 @@ export default function PortfolioPage() {
                     </div>
                   </div>
 
+                  {/* Contenu des filtres (affiché conditionnellement) */}
                   <div className={cn("transition-all duration-300 ease-in-out overflow-hidden", filtersVisible ? "max-h-[500px] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0")}>
                     <Separator className="mb-4" />
                     <div className="space-y-4">
+                        {/* Filtre de tri */}
                         <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
                            <p className="text-sm font-medium text-muted-foreground md:text-right">{c.sort_label}</p>
                            <div className="flex flex-wrap justify-start gap-2">
@@ -329,6 +362,7 @@ export default function PortfolioPage() {
                                </Button>
                            </div>
                        </div>
+                       {/* Filtre par secteur */}
                        <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
                           <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.sector}</p>
                           <div className="flex flex-wrap justify-start gap-2">
@@ -361,6 +395,7 @@ export default function PortfolioPage() {
                               ))}
                           </div>
                       </div>
+                      {/* Filtre par type de production */}
                       <div className="grid grid-cols-1 md:grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2">
                           <p className="text-sm font-medium text-muted-foreground md:text-right">{c.filters.production}</p>
                           <div className="flex flex-wrap justify-start gap-2">
@@ -384,6 +419,7 @@ export default function PortfolioPage() {
                           </div>
                       </div>
                       
+                      {/* Filtres avancés (Technologies et Projets 3D) */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -412,7 +448,7 @@ export default function PortfolioPage() {
                                       setSelectedTechnologies(selectedTechnologies.filter(t => t !== tech));
                                     }
                                   }}
-                                  onSelect={(e) => e.preventDefault()}
+                                  onSelect={(e) => e.preventDefault()} // Empêche le menu de se fermer
                                 >
                                   {tech}
                                 </DropdownMenuCheckboxItem>
@@ -434,12 +470,14 @@ export default function PortfolioPage() {
               </Card>
             </div>
             
+            {/* Zone d'affichage des projets */}
             <div className={cn("mb-16 md:mb-24", (layout === 'list' || !isMobile) && "px-4 sm:px-6 lg:px-8")}>
                 {renderProjects()}
             </div>
             
         </section>
 
+        {/* Appel à l'action final */}
         <section className="w-full pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
             
                 <div className="bg-card/80 border-border/50 rounded-lg p-8 md:p-12 animate-fade-in border text-center">

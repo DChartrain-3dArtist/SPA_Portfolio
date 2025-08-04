@@ -1,11 +1,12 @@
 
+
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Download, Mail, Briefcase, GraduationCap, Component, FileCode, Star, Palette, Printer } from 'lucide-react';
+import { Download, Mail, Briefcase, GraduationCap, Component, FileCode, Star, Palette, Printer, Home } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
@@ -43,11 +44,17 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
-
+/**
+ * Composant de titre de page réutilisable.
+ * @param {object} props - Les propriétés du composant.
+ * @param {React.ReactNode} props.children - Le contenu du titre.
+ * @returns Un composant de titre H1 stylisé.
+ */
 function PageTitle({ children }: { children: React.ReactNode }) {
   return <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{children}</h1>;
 }
 
+// Données statiques pour les compétences, organisées par catégorie.
 const skills = {
     "Logiciels 3D & Moteurs": [
         { name: "Blender", icon: SiBlender, color: "text-orange-500" },
@@ -95,6 +102,11 @@ const skills = {
     ],
 }
 
+/**
+ * Composant pour afficher une carte de compétence individuelle.
+ * @param {object} props - Les propriétés du composant.
+ * @returns Un composant React pour une compétence.
+ */
 function SkillCard({ icon: Icon, name, color, className }: { icon: React.ElementType, name: string, color: string, className?: string }) {
     return (
         <div className={cn("group relative flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 border border-border/50 hover:border-primary/50", className)}>
@@ -106,10 +118,17 @@ function SkillCard({ icon: Icon, name, color, className }: { icon: React.Element
     )
 }
 
+/**
+ * Composant de frise chronologique pour afficher les expériences et formations.
+ * Utilise le défilement pour animer un point sur la ligne de temps.
+ * @param {object} props - Les propriétés du composant.
+ * @returns Un composant React de frise chronologique.
+ */
 function Timeline({ items }: { items: { date: string, period: string; type: 'experience' | 'formation'; role: string; company: string; description: string }[]}) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [dotPosition, setDotPosition] = useState(0);
 
+  // Gère la position du point animé en fonction du défilement de la page.
   const handleScroll = () => {
     if (!timelineRef.current) return;
 
@@ -119,6 +138,7 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
     
     let progress = 0;
     
+    // Calcule la progression du défilement par rapport à la frise.
     if (top < windowHeight / 2) {
         progress = (windowHeight / 2) - top;
     }
@@ -128,9 +148,10 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
     setDotPosition(clampedProgress);
   };
 
+  // Ajoute et retire l'écouteur d'événement de défilement.
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // Appel initial
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -141,12 +162,14 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
 
   return (
     <div ref={timelineRef} className="relative border-l-2 border-primary/20 ml-3 py-3 space-y-8">
+      {/* Le point animé */}
       <div 
         className="absolute -left-[11px] h-5 w-5 rounded-full bg-primary border-4 border-background transition-transform duration-200 ease-out z-10" 
         style={{ transform: `translateY(${dotPosition}px)` }}
       />
       {items.map((exp, index) => (
         <div key={index} className="relative pl-8">
+          {/* Les points fixes de la frise */}
           <div className="absolute -left-[13px] top-1 h-6 w-6 rounded-full bg-background border-2 border-primary/50" />
           <p className="font-semibold text-muted-foreground mb-1">{exp.period}</p>
           <div className="flex items-center gap-2 mb-1">
@@ -159,6 +182,7 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
               <span className="text-muted-foreground font-medium"> @ {exp.company}</span>
             </h4>
           </div>
+          {/* Utilise `whitespace-pre-line` pour respecter les sauts de ligne dans la description. */}
           <p className="text-muted-foreground text-sm whitespace-pre-line">{exp.description}</p>
         </div>
       ))}
@@ -166,6 +190,10 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
   )
 }
 
+/**
+ * Composant principal de la page "À propos".
+ * @returns Un composant React pour la page "À propos".
+ */
 export default function AboutPage() {
   const { language } = useLanguage();
   const c = content[language].about;
@@ -173,6 +201,7 @@ export default function AboutPage() {
 
   const [selectedCv, setSelectedCv] = useState<'designer' | 'printable' | null>(null);
 
+  // Gère le téléchargement du CV sélectionné.
   const handleDownload = () => {
     if (!selectedCv) {
       toast({
@@ -190,12 +219,14 @@ export default function AboutPage() {
     document.body.removeChild(link);
   };
   
+  // Sépare les compétences pour l'affichage.
   const [
     logicielsSkills,
     programmationSkills,
     webSkills
   ] = Object.values(skills);
 
+  // Trie la frise chronologique par date la plus récente.
   const sortedTimeline = useMemo(() => {
     return [...c.timeline].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [c.timeline]);
@@ -218,7 +249,8 @@ export default function AboutPage() {
                             <AvatarImage src="/assets/data/PhotoProfil.webp" alt="Votre photo" />
                             <AvatarFallback>CD</AvatarFallback>
                         </Avatar>
-                        <p className="text-foreground/90">{c.profile_content}</p>
+                        {/* Affiche le contenu avec les sauts de ligne respectés. */}
+                        <p className="text-foreground/90 whitespace-pre-line">{c.profile_content}</p>
                         </div>
                     </CardContent>
                     </Card>
@@ -228,7 +260,8 @@ export default function AboutPage() {
                           <CardTitle className="font-headline">{c.journey_title}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                          <p className="text-foreground/90">{c.journey_content}</p>
+                          {/* Affiche le contenu avec les sauts de ligne respectés. */}
+                          <p className="text-foreground/90 whitespace-pre-line">{c.journey_content}</p>
                            <div className="mt-6 flex flex-wrap justify-center gap-4">
                               <Button asChild>
                                   <a href="#download-cv">
@@ -241,9 +274,11 @@ export default function AboutPage() {
                     </Card>
                 </div>
                 
+                {/* Section des compétences */}
                 <div className="mb-16">
                     <h3 className="text-3xl font-bold font-headline text-center mb-12">{c.skills_title}</h3>
                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                        {/* Colonne 1 : Logiciels */}
                         <div className="lg:col-span-1 h-full flex flex-col">
                            <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
                                <CardHeader><CardTitle className="font-headline text-xl text-center">{Object.keys(skills)[0]}</CardTitle></CardHeader>
@@ -257,6 +292,7 @@ export default function AboutPage() {
                            </Card>
                         </div>
 
+                        {/* Colonne 2 : Programmation et Web */}
                         <div className="lg:col-span-2 space-y-8 h-full flex flex-col">
                            <Card className="transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
                                <CardHeader><CardTitle className="font-headline text-xl">{Object.keys(skills)[1]}</CardTitle></CardHeader>
@@ -283,7 +319,7 @@ export default function AboutPage() {
                     </div>
                 </div>
 
-
+                {/* Section du parcours (frise chronologique) */}
                 <div>
                     <Card>
                         <CardHeader>
@@ -298,6 +334,7 @@ export default function AboutPage() {
             
         </section>
 
+        {/* Section de téléchargement de CV */}
         <section id="download-cv" className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
           <div className="text-center">
             <h2 className="text-3xl font-bold font-headline mb-4">{c.resume_section_title}</h2>
@@ -337,6 +374,7 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Appel à l'action */}
         <section id="contact-cta" className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8">
                 <div className="bg-card/80 border-border/50 rounded-lg p-8 md:p-12 animate-fade-in border text-center">
                     <h2 className="font-headline text-3xl font-bold md:text-4xl">

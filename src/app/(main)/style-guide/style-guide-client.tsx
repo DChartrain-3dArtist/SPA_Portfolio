@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Space_Grotesk } from 'next/font/google';
 import Link from 'next/link';
-import { Mail } from 'lucide-react';
+import { Mail, Home } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 
@@ -111,6 +111,13 @@ export default function StyleGuideClientPage() {
         <Header />
         <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
+                {/* Ajout du bouton de retour à l'accueil */}
+                <Button asChild variant="outline" className="mb-8">
+                    <Link href="/">
+                        <Home className="mr-2" />
+                        Retour à l'accueil
+                    </Link>
+                </Button>
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold font-headline">{c.title}</h1>
                     <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">{c.subtitle}</p>
