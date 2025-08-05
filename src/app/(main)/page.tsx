@@ -8,6 +8,9 @@ import type { Metadata, Viewport } from 'next';
 // `metadataBase` définit l'URL de base pour résoudre les URLs relatives dans les métadonnées.
 export const metadata: Metadata = {
   metadataBase: new URL('https://donovan-dev3d.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     template: '%s | Chartrain Donovan',
     default: 'Chartrain Donovan | Artiste 3D & Développeur Web en Vaucluse',
