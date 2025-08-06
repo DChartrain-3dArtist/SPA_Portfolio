@@ -1,6 +1,45 @@
 
-      
 [
+  {
+    "id": "portfolio-spa-nextjs",
+    "title": {
+      "fr": "Portfolio Interactif (Ce Site)",
+      "en": "Interactive Portfolio (This Site)"
+    },
+    "description": {
+      "fr": "Conception et développement de ce portfolio avec Next.js, ShadCN et Three.js pour démontrer une expertise full-stack et 3D.",
+      "en": "Design and development of this portfolio with Next.js, ShadCN, and Three.js to demonstrate full-stack and 3D expertise."
+    },
+    "longDescription": {
+      "fr": "Ce projet est la plateforme sur laquelle vous naviguez actuellement. Il a été conçu pour être bien plus qu'une simple vitrine : c'est une démonstration de mes compétences techniques modernes. J'ai choisi Next.js pour son écosystème puissant et ses performances (rendu serveur, App Router). L'interface a été construite avec ShadCN UI et Tailwind CSS pour une personnalisation et une réactivité maximales. Le visualiseur 3D intégré utilise Three.js et React Three Fiber pour offrir une expérience interactive unique. Une attention particulière a été portée à la qualité du code, avec la mise en place de tests unitaires avec Jest, et aux bonnes pratiques SEO et d'accessibilité.",
+      "en": "This project is the platform you are currently browsing. It was designed to be more than just a showcase: it's a demonstration of modern technical skills. I chose Next.js for its powerful ecosystem and performance (server-side rendering, App Router). The interface was built with ShadCN UI and Tailwind CSS for maximum customization and responsiveness. The integrated 3D viewer uses Three.js and React Three Fiber to provide a unique interactive experience. Special attention was paid to code quality, with the implementation of unit tests with Jest, and to SEO and accessibility best practices."
+    },
+    "sector": "Développement Web",
+    "productionType": "Application",
+    "image": "/assets/project-assets/Portfolio_Responsive.webp",
+    "images": [
+      "/assets/project-assets/Portfolio_Visualiseur3D.webp",
+      "/assets/project-assets/Portfolio_Filtre.webp",
+      "/assets/project-assets/Portfolio_DarkLightTheme.webp",
+      "/assets/project-assets/Portfolio_CodeExemple.webp"
+    ],
+    "technologies": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "ShadCN UI",
+      "Tailwind CSS",
+      "Three.js",
+      "React Three Fiber",
+      "Jest",
+      "Vercel"
+    ],
+    "hint": "website mockup code",
+    "date": "2025-04-09",
+    "isVisualizable": false,
+    "videoUrl": "",
+    "liveUrl": "/"
+  },
   {
     "id": "showreel-2025",
     "title": {
@@ -597,6 +636,3 @@
     "isVisualizable": false
   }
 ]
-
-      
-    

@@ -9,9 +9,9 @@ export const content = {
       visualizer: 'Visualiseur',
     },
     home: {
-      title: 'Artiste 3D &<br />Développeur',
-      subtitle: 'Créateur d\'expériences numériques immersives en Vaucluse',
-      intro_paragraph: 'Basé dans le Vaucluse, j\'allie ma passion pour la création 3D et mon expertise en développement pour concevoir des solutions innovantes : applications web, visites virtuelles, configurateurs 3D interactifs, etc.',
+      title: 'Développeur Web &<br />Artiste 3D',
+      subtitle: 'Créateur d\'expériences numériques en Vaucluse et Gard',
+      intro_paragraph: 'Basé dans le Vaucluse et mobile dans le Gard, j\'allie mon expertise en développement web et ma passion pour la 3D pour concevoir des solutions innovantes : applications, configurateurs 3D et expériences interactives.',
       hero_cta: 'Découvrir mes projets',
       three_placeholder: 'Placeholder pour un élément 3D interactif',
       stats: {
@@ -22,15 +22,15 @@ export const content = {
       },
       presentation: {
           part1: 'Profil hybride, je fusionne',
-          highlight1: 'design 3D',
+          highlight1: 'développement web',
           highlight2: 'développement interactif',
           part2: 'et',
-          highlight3: 'développement web',
+          highlight3: 'design 3D',
           part3: 'pour créer des expériences numériques uniques et engageantes.',
       },
       services: {
           title: 'Mes domaines d\'activité',
-          item1: { title: 'Infographie 3D', description: 'Modélisation, texturing et animation pour l\'architecture, l\'ingénierie et la communication visuelle.' },
+          item1: { title: 'Infographie 3D', description: 'En tant qu\'infographiste 3D, je gère la modélisation, le texturing et l\'animation pour l\'architecture, l\'ingénierie et la communication visuelle.' },
           item2: { title: 'Développement 3D Interactif', description: 'Création d\'expériences immersives (VR, AR, mixte), de configurateurs produits et de visites virtuelles sur Unity et Unreal Engine.' },
           item3: { title: 'Développement Web', description: 'Conception d\'applications (React, Angular), de backends (PHP), de sites WordPress et optimisation SEO.' },
       },
@@ -52,12 +52,12 @@ export const content = {
     portfolio: {
       title: 'Mes projets',
       intro: {
-        part1: 'Voici une sélection de mes travaux, illustrant l\'étendue de mes compétences : de la ',
-        highlight1: 'création visuelle en 3D',
-        part2: ' jusqu\'au développement d\'',
+        part1: 'Voici une sélection de mes travaux, illustrant l\'étendue de mes compétences : du ',
+        highlight1: 'développement web performant',
+        part2: ' à la création d\'',
         highlight2: 'applications interactives',
         part3: ' et de ',
-        highlight3: 'sites web performants',
+        highlight3: 'visuels 3D',
         part4: '.',
       },
       filter_all_projects: 'Tous les projets',
@@ -88,7 +88,7 @@ export const content = {
         technologies_label: 'Filtrer par technologie',
         technologies_reset: 'Tout désélectionner',
         sectors: {
-          'Infographie 3D': 'Infographie 3D',
+          'Infographie 3D': 'Infographiste 3D',
           '3D Temps Réel': '3D Temps Réel',
           'Développement Web': 'Développement Web',
           'Visualisation Architecturale': 'Archi-Viz',
@@ -107,7 +107,7 @@ export const content = {
     about: {
       title: 'À propos de moi',
       profile_title: 'Profil',
-      profile_content: "Je m'appelle Donovan Chartrain, et je suis un créateur numérique passionné par l'interactivité et la 3D, basé dans le Vaucluse. En recherche active d'un poste dans la région (Vaucluse, Gard), j'aime concevoir des expériences qui allient technologie et sens.\n\nMon but est de donner vie à des sites web, des applications interactives ou des animations 3D qui marquent les esprits.",
+      profile_content: "Je m'appelle Donovan Chartrain, développeur web et infographiste / artiste 3D passionné par l'interactivité. En recherche active d'un poste dans le Vaucluse et le Gard, j'aime concevoir des expériences qui allient technologie et sens.\n\nMon but est de donner vie à des sites web, des applications interactives ou des animations 3D qui marquent les esprits.",
       journey_title: 'Mon parcours',
       journey_content: "Mon chemin a commencé par un Bac Pro en maintenance industrielle, où j'ai appris à comprendre les systèmes techniques et à résoudre des problèmes concrets. C'est cette base solide, ancrée dans le réel, qui m'a permis de développer une approche pragmatique de la création numérique.\n\nAu fil des années, j'ai travaillé dans des environnements très différents : agence de communication, bureaux d'études, maîtrise d'ouvrage, puis cabinet d'ingénierie. Chacune de ces expériences a forgé une nouvelle facette de mon métier : la rigueur, la créativité, la communication, et surtout, la capacité à vulgariser des sujets techniques.\n\nAujourd'hui, elles me permettent d'avoir une vision transversale, de passer d'un univers à un autre avec souplesse, et de proposer des solutions complètes, à la fois techniques et humaines.",
       skills_title: 'Compétences',
@@ -192,7 +192,7 @@ export const content = {
     },
     contact: {
       title: 'Contact',
-      subtitle: 'Je suis actuellement à la recherche de nouvelles opportunités professionnelles dans le Vaucluse, le Gard et leurs alentours. N\'hésitez pas à me contacter pour discuter d\'un futur poste.',
+      subtitle: 'Je suis actuellement à la recherche d\'un poste de développeur web ou d\'artiste 3D dans le Vaucluse, le Gard et leurs alentours. N\'hésitez pas à me contacter pour discuter d\'une future collaboration.',
       form_title: 'Envoyez-moi un message',
       form_name: 'Nom',
       form_name_placeholder: 'Votre nom complet',
@@ -374,9 +374,9 @@ export const content = {
       visualizer: '3D viewer',
     },
     home: {
-      title: '3D Artist &<br />Developer',
-      subtitle: 'Creator of immersive digital experiences in Vaucluse, France',
-      intro_paragraph: 'Based in the Vaucluse area (France), I combine my passion for 3D creation with my development expertise to design innovative solutions: web applications, virtual tours, interactive 3D configurators, and more.',
+      title: 'Web Developer &<br />3D Artist',
+      subtitle: 'Creator of immersive digital experiences in Vaucluse & Gard, France',
+      intro_paragraph: 'Based in the Vaucluse and mobile in the Gard area, I combine my web development expertise and my passion for 3D to design innovative solutions: applications, 3D configurators, and interactive experiences.',
       hero_cta: 'Discover my projects',
       three_placeholder: 'Placeholder for an interactive 3D element',
        stats: {
@@ -386,16 +386,16 @@ export const content = {
           technologies: 'Technologies mastered',
       },
       presentation: {
-          part1: 'Hybrid profile, I merge',
-          highlight1: '3D design',
+          part1: 'With a hybrid profile, I merge',
+          highlight1: 'web development',
           highlight2: 'interactive development',
           part2: 'and',
-          highlight3: 'web development',
+          highlight3: '3D design',
           part3: 'to create unique and engaging digital experiences.',
       },
       services: {
           title: 'My fields of activity',
-          item1: { title: '3D Graphics', description: 'Modeling, texturing, and animation for architecture, engineering, and visual communication.' },
+          item1: { title: '3D Graphics', description: 'As a 3D graphic designer, I handle modeling, texturing, and animation for architecture, engineering, and visual communication.' },
           item2: { title: 'Interactive 3D Development', description: 'Creation of immersive experiences (VR, AR, mixed reality), product configurators, and virtual tours on Unity and Unreal Engine.' },
           item3: { title: 'Web Development', description: 'Design of applications (React, Angular), backends (PHP), WordPress sites, and SEO optimization.' },
       },
@@ -418,11 +418,11 @@ export const content = {
       title: 'My projects',
       intro: {
         part1: 'Here is a selection of my work, illustrating the breadth of my skills: from ',
-        highlight1: '3D visual creation',
-        part2: ' to the development of ',
+        highlight1: 'high-performance web development',
+        part2: ' to the creation of ',
         highlight2: 'interactive applications',
         part3: ' and ',
-        highlight3: 'high-performance websites',
+        highlight3: '3D visuals',
         part4: '.',
       },
       filter_all_projects: 'All Projects',
@@ -453,7 +453,7 @@ export const content = {
         technologies_label: 'Filter by technology',
         technologies_reset: 'Deselect all',
         sectors: {
-          'Infographie 3D': '3D Graphics',
+          'Infographie 3D': '3D Graphic Designer',
           '3D Temps Réel': 'Real-Time 3D',
           'Développement Web': 'Web Development',
           'Visualisation Architecturale': 'Archi-Viz',
@@ -472,7 +472,7 @@ export const content = {
     about: {
       title: 'About me',
       profile_title: 'Profile',
-      profile_content: "My name is Donovan Chartrain, and I am a digital creator passionate about interactivity and 3D, based in the Vaucluse area of France. I am actively looking for a position in the region (Vaucluse, Gard) and enjoy designing experiences that blend technology with meaning.\n\nMy goal is to bring to life websites, interactive applications, or 3D animations that make a lasting impression.",
+      profile_content: "My name is Donovan Chartrain, a web developer and 3D graphic designer / artist passionate about interactivity. Actively seeking a position in the Vaucluse and Gard regions, I enjoy designing experiences that blend technology and meaning.\n\nMy goal is to bring to life websites, interactive applications, or 3D animations that make a lasting impression.",
       journey_title: 'My Journey',
       journey_content: "My path began with a vocational degree in industrial maintenance, where I learned to understand technical systems and solve concrete problems. It is this solid, reality-based foundation that has allowed me to develop a pragmatic approach to digital creation.\n\nOver the years, I have worked in very different environments: a communication agency, design offices, project management, and then an engineering firm. Each of these experiences has forged a new facet of my profession: rigor, creativity, communication, and above all, the ability to simplify technical subjects.\n\nToday, they allow me to have a cross-functional vision, to move from one world to another with flexibility, and to offer complete solutions that are both technical and human.",
       skills_title: 'Skills',
@@ -557,7 +557,7 @@ export const content = {
     },
     contact: {
       title: 'Contact',
-      subtitle: 'I am currently seeking new professional opportunities in the Vaucluse, Gard, and surrounding areas. Please feel free to contact me to discuss a future position.',
+      subtitle: 'I am currently seeking new professional opportunities as a web developer or 3D artist in the Vaucluse, Gard, and surrounding areas. Please feel free to contact me to discuss a future collaboration.',
       form_title: 'Send me a message',
       form_name: 'Name',
       form_name_placeholder: 'Your full name',
@@ -731,3 +731,5 @@ export const content = {
     },
   },
 };
+
+    

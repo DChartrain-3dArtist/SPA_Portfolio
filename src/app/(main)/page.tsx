@@ -13,12 +13,12 @@ export const metadata: Metadata = {
   },
   title: {
     template: '%s | Chartrain Donovan',
-    default: 'Chartrain Donovan | Artiste 3D & Développeur Web en Vaucluse',
+    default: 'Chartrain Donovan | Développeur Web & Artiste 3D en Vaucluse et Gard',
   },
-  description: 'Portfolio de Chartrain Donovan, artiste 3D et développeur web basé en Vaucluse, spécialisé dans la création d\'expériences numériques, de configurateurs 3D et d\'applications interactives.',
+  description: 'Portfolio de Chartrain Donovan, développeur web et artiste 3D basé en Vaucluse et mobile dans le Gard. Spécialisé dans la création d\'applications web, de configurateurs 3D et d\'expériences interactives.',
   openGraph: {
-    title: 'Chartrain Donovan | Artiste 3D & Développeur',
-    description: 'Découvrez le portfolio d\'un créateur d\'expériences numériques, alliant expertise 3D et développement web.',
+    title: 'Chartrain Donovan | Développeur Web & Artiste 3D',
+    description: 'Découvrez le portfolio d\'un créateur d\'expériences numériques, alliant développement web et expertise 3D.',
     url: 'https://donovan-dev3d.vercel.app',
     siteName: 'Chartrain Donovan Portfolio',
     images: [
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chartrain Donovan | Artiste 3D & Développeur',
-    description: 'Portfolio de Chartrain Donovan, artiste 3D et développeur web.',
+    title: 'Chartrain Donovan | Développeur Web & Artiste 3D',
+    description: 'Portfolio de Chartrain Donovan, développeur web et artiste 3D.',
     images: ['https://donovan-dev3d.vercel.app/assets/data/Opengraph.jpg'],
   },
   robots: {

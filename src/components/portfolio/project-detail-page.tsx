@@ -273,7 +273,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                          className="w-full h-full"
                        ></iframe>
                      ) : (
-                       <video controls className="w-full h-full" poster={project.image}>
+                       <video controls autoPlay={false} className="w-full h-full" poster={project.image}>
                          <source src={project.videoUrl} type="video/mp4" />
                          Votre navigateur ne supporte pas la lecture de vidéos.
                        </video>

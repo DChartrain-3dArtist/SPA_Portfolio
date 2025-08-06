@@ -50,7 +50,7 @@ export default function RootLayout({
         "@type": "Person",
         "name": "Chartrain Donovan",
         "url": "https://donovan-dev3d.vercel.app/about",
-        "jobTitle": "Artiste 3D & Développeur Web",
+        "jobTitle": "Développeur Web & Artiste 3D",
         "sameAs": [
           "https://www.linkedin.com/in/donovan-chartrain-63686a138",
           "https://github.com/DChartrain-3dArtist",
