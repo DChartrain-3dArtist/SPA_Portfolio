@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
-import { submitContactForm } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,19 +18,16 @@ import { useMemo } from 'react';
 
 /**
  * Composant du formulaire de contact.
- * Gère la saisie utilisateur, la validation et la soumission du formulaire.
+ * Gère la saisie utilisateur, la validation et la soumission du formulaire via une API route.
  * @returns Un composant React de formulaire de contact.
  */
 export function ContactForm() {
-  // Hook pour accéder à la langue actuelle et au contenu textuel correspondant.
   const { language } = useLanguage();
   const c = content[language].contact;
   const v = content[language].validation;
-  // Hook pour afficher des notifications (toasts).
   const { toast } = useToast();
 
-  // Schéma de validation Zod pour le formulaire, utilisant les traductions.
-  // `useMemo` est utilisé pour ne pas recréer le schéma à chaque rendu.
+  // Schéma de validation Zod, mémorisé pour les performances.
   const formSchema = useMemo(() => z.object({
     name: z.string().min(2, { message: v.name_min }),
     email: z.string().email({ message: v.email_invalid }),
@@ -40,7 +36,7 @@ export function ContactForm() {
     message: z.string().min(10, { message: v.message_min }),
   }), [v]);
 
-  // Initialisation du formulaire avec react-hook-form et le resolver Zod.
+  // Initialisation de react-hook-form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,25 +50,41 @@ export function ContactForm() {
 
   /**
    * Fonction de soumission du formulaire.
-   * Appelle l'action serveur `submitContactForm` et gère la réponse.
+   * Envoie les données à l'API route /api/contact.
    * @param values - Les valeurs validées du formulaire.
    */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const result = await submitContactForm(values);
-    if (result.success) {
-      // Affiche un toast de succès.
-      toast({
-        title: c.form_success_title,
-        description: c.form_success,
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
       });
-      // Réinitialise les champs du formulaire.
-      form.reset();
-    } else {
-      // Affiche un toast d'erreur.
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: c.form_success_title,
+          description: c.form_success,
+        });
+        form.reset();
+      } else {
+        // Gère les erreurs de validation ou autres erreurs serveur.
+        toast({
+          variant: "destructive",
+          title: c.form_error_title,
+          description: result.message || c.form_error,
+        });
+      }
+    } catch (error) {
+      // Gère les erreurs réseau.
       toast({
         variant: "destructive",
         title: c.form_error_title,
-        description: result.message || c.form_error,
+        description: 'Impossible de contacter le serveur. Veuillez réessayer.',
       });
     }
   };
@@ -86,7 +98,6 @@ export function ContactForm() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col flex-grow">
-        {/* Le composant Form de react-hook-form fournit le contexte du formulaire. */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col flex-grow">
             {/* Grille pour les champs Nom et Email */}
