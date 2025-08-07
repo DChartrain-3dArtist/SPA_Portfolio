@@ -1,15 +1,17 @@
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getProjects, getVisualizerItems } from '@/data/projects';
-import type { Metadata } from 'next';
+import type { Project, VisualizerItem } from '@/data/definitions';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Home, ChevronRight, Briefcase, Cuboid, FileText } from 'lucide-react';
+import { useLanguage } from '@/contexts/language-context';
+import { content } from '@/lib/content';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export const metadata: Metadata = {
-  title: 'Plan du Site',
-  description: 'Explorez facilement toutes les pages, projets et modèles 3D du site de Chartrain Donovan grâce à notre plan de site complet.',
-};
 
 /**
  * Composant de section réutilisable pour structurer la page.
@@ -38,7 +40,7 @@ function Section({ title, icon, children }: { title: string, icon: React.ReactNo
 function ListItemLink({ href, title }: { href: string, title: string }) {
     return (
         <li className="border-b border-border/50 pb-2 last:border-b-0 last:pb-0">
-            <Link href={href} className="flex items-center justify-between group text-muted-foreground hover:text-primary transition-colors">
+            <Link href={href} className="flex items-center justify-between group text-foreground/80 hover:text-primary transition-colors">
                 <span>{title}</span>
                 <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
@@ -49,27 +51,61 @@ function ListItemLink({ href, title }: { href: string, title: string }) {
 /**
  * Composant pour la page du plan du site.
  */
-export default async function SitemapPage() {
-    const projects = await getProjects();
-    const visualizerItems = await getVisualizerItems();
-  
+export default function SitemapPage() {
+    const { language } = useLanguage();
+    const c = content[language];
+
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [visualizerItems, setVisualizerItems] = useState<VisualizerItem[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadData() {
+            setIsLoading(true);
+            const [fetchedProjects, fetchedVisualizerItems] = await Promise.all([
+                getProjects(),
+                getVisualizerItems()
+            ]);
+            setProjects(fetchedProjects);
+            setVisualizerItems(fetchedVisualizerItems);
+            setIsLoading(false);
+        }
+        loadData();
+    }, []);
+
     const mainPages = [
-        { href: '/', title: 'Accueil' },
-        { href: '/portfolio', title: 'Portfolio' },
-        { href: '/about', title: 'À Propos' },
-        { href: '/contact', title: 'Contact' },
+        { href: '/', title: c.nav.home },
+        { href: '/portfolio', title: c.nav.portfolio },
+        { href: '/about', title: c.nav.about },
+        { href: '/contact', title: c.nav.contact },
     ];
     
     const visualizerPages = [
-        { href: '/visualizer', title: 'Accueil du Visualiseur 3D' },
-        { href: '/visualizer/library', title: 'Bibliothèque des modèles' },
+        { href: '/visualizer', title: c.visualizer.home_title },
+        { href: '/visualizer/library', title: c.visualizer.library_title },
     ];
 
     const legalPages = [
-        { href: '/style-guide', title: 'Charte Graphique' },
-        { href: '/legal-notice', title: 'Mentions Légales' },
-        { href: '/privacy-policy', title: 'Politique de confidentialité' },
+        { href: '/legal-notice', title: c.legal_notice.title },
+        { href: '/privacy-policy', title: c.privacy_policy.title },
+        { href: '/style-guide', title: c.style_guide.title },
     ];
+
+    if (isLoading) {
+        return (
+            <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto">
+                    <Skeleton className="h-10 w-48 mb-8" />
+                    <Skeleton className="h-12 w-1/2 mx-auto mb-12" />
+                    <div className="space-y-8">
+                        <Skeleton className="h-48 w-full" />
+                        <Skeleton className="h-64 w-full" />
+                        <Skeleton className="h-48 w-full" />
+                    </div>
+                </div>
+            </main>
+        )
+    }
 
     return (
         <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
@@ -77,36 +113,36 @@ export default async function SitemapPage() {
                 <Button asChild variant="outline" className="mb-8">
                     <Link href="/">
                         <Home className="mr-2" />
-                        Retour à l'accueil
+                        {c.sitemap.back_to_home}
                     </Link>
                 </Button>
 
-                <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">Plan du Site</h1>
+                <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{c.sitemap.title}</h1>
 
-                <Section title="Pages Principales" icon={<Home className="h-6 w-6" />}>
+                <Section title={c.sitemap.main_pages} icon={<Home className="h-6 w-6" />}>
                     {mainPages.map(page => <ListItemLink key={page.href} {...page} />)}
                 </Section>
                 
-                <Section title="Projets du Portfolio" icon={<Briefcase className="h-6 w-6" />}>
+                <Section title={c.sitemap.portfolio_projects} icon={<Briefcase className="h-6 w-6" />}>
                     {projects.map(project => (
-                        <ListItemLink key={project.id} href={`/portfolio/${project.id}`} title={project.title.fr} />
+                        <ListItemLink key={project.id} href={`/portfolio/${project.id}`} title={project.title[language]} />
                     ))}
                 </Section>
 
-                <Section title="Espace Visualiseur 3D" icon={<Cuboid className="h-6 w-6" />}>
+                <Section title={c.sitemap.visualizer_space} icon={<Cuboid className="h-6 w-6" />}>
                      {visualizerPages.map(page => <ListItemLink key={page.href} {...page} />)}
-                     <h3 className="font-bold text-sm text-foreground pt-4 pb-2">Modèles 3D :</h3>
+                     <h3 className="font-bold text-sm text-foreground pt-4 pb-2">{c.sitemap.visualizer_models_subtitle}</h3>
                      {visualizerItems.map(item => (
-                        <li key={item.id} className="border-b border-border/30 pb-2 last:border-b-0 last:pb-0 pl-4">
-                           <Link href={`/visualizer/item/${item.id}`} className="flex items-center justify-between group text-muted-foreground hover:text-primary transition-colors text-sm">
-                               <span>{item.name.fr}</span>
+                        <li key={item.id} className="border-b border-border/50 pb-2 last:border-b-0 last:pb-0 pl-4">
+                           <Link href={`/visualizer/item/${item.id}`} className="flex items-center justify-between group text-foreground/80 hover:text-primary transition-colors text-sm">
+                               <span>{item.name[language]}</span>
                                <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                            </Link>
                         </li>
                     ))}
                 </Section>
                 
-                <Section title="Informations Légales & Autres" icon={<FileText className="h-6 w-6" />}>
+                <Section title={c.sitemap.legal_info} icon={<FileText className="h-6 w-6" />}>
                     {legalPages.map(page => <ListItemLink key={page.href} {...page} />)}
                 </Section>
             </div>

@@ -364,6 +364,15 @@ export const content = {
       fullscreen_button_title_exit: 'Quitter le mode plein écran',
       fullscreen_button_title_enter: 'Passer en mode plein écran',
     },
+    sitemap: {
+        title: 'Plan du Site',
+        back_to_home: 'Retour à l\'accueil',
+        main_pages: 'Pages Principales',
+        portfolio_projects: 'Projets du Portfolio',
+        visualizer_space: 'Espace Visualiseur 3D',
+        visualizer_models_subtitle: 'Modèles 3D :',
+        legal_info: 'Informations Légales & Autres'
+    }
   },
   en: {
     nav: {
@@ -729,6 +738,15 @@ export const content = {
       fullscreen_button_title_exit: 'Exit full screen',
       fullscreen_button_title_enter: 'Enter full screen',
     },
+    sitemap: {
+        title: 'Sitemap',
+        back_to_home: 'Back to home',
+        main_pages: 'Main Pages',
+        portfolio_projects: 'Portfolio Projects',
+        visualizer_space: '3D Visualizer Space',
+        visualizer_models_subtitle: '3D Models:',
+        legal_info: 'Legal Info & More'
+    }
   },
 };
 
