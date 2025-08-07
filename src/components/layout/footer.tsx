@@ -24,16 +24,16 @@ export function Footer() {
               </Link>
             </div>
             <div className="flex items-center gap-2">
-              <a href="https://www.linkedin.com/in/donovan-chartrain-63686a138" target="_blank" aria-label="LinkedIn" className="social-icon social-icon-linkedin">
+              <a href="https://www.linkedin.com/in/donovan-chartrain-63686a138" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="social-icon social-icon-linkedin">
                   <Linkedin />
               </a>
-              <a href="https://www.instagram.com/3dc_effect?igsh=MXd1NTBob2Zmdmx5cA==" target="_blank" aria-label="Instagram" className="social-icon social-icon-instagram">
+              <a href="https://www.instagram.com/3dc_effect?igsh=MXd1NTBob2Zmdmx5cA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon social-icon-instagram">
                   <Instagram />
               </a>
-              <a href="https://www.youtube.com/@d.chartrain3dtechnicalarti873" target="_blank" aria-label="Youtube" className="social-icon social-icon-youtube">
+              <a href="https://www.youtube.com/@d.chartrain3dtechnicalarti873" target="_blank" rel="noopener noreferrer" aria-label="Youtube" className="social-icon social-icon-youtube">
                   <Youtube />
               </a>
-              <a href="https://github.com/DChartrain-3dArtist" target="_blank" aria-label="Github" className="social-icon social-icon-github">
+              <a href="https://github.com/DChartrain-3dArtist" target="_blank" rel="noopener noreferrer" aria-label="Github" className="social-icon social-icon-github">
                   <Github />
               </a>
             </div>
@@ -42,6 +42,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <p>&copy; {new Date().getFullYear()} Chartrain Donovan. Tous droits réservés.</p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-center">
+                <Link href="/sitemap" className="hover:text-primary transition-colors">Plan du site</Link>
                 <Link href="/style-guide" className="hover:text-primary transition-colors">Charte Graphique</Link>
                 <Link href="/legal-notice" className="hover:text-primary transition-colors">Mentions Légales</Link>
                 <Link href="/privacy-policy" className="hover:text-primary transition-colors">Politique de confidentialité</Link>
