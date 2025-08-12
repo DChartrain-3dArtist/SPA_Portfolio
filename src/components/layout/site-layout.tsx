@@ -39,6 +39,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Header } from './header';
 import { LogoSVG } from '../logo-svg';
+import { Chatbot } from '../chatbot/chatbot';
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const { isMobile } = useSidebar();
@@ -52,16 +53,20 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
     { href: '/portfolio', label: c.nav.portfolio, icon: Briefcase },
     { href: '/about', label: c.nav.about, icon: User },
     { href: '/contact', label: c.nav.contact, icon: Mail },
+    { href: '/visualizer', label: c.nav.visualizer, icon: Cuboid, variant: 'outline' as const, isCta: true },
   ];
 
-  const visualizerItem = { href: '/visualizer', label: c.nav.visualizer, icon: Cuboid, variant: 'outline' as const };
-  
   const isNavItemActive = (itemHref: string) => {
     if (itemHref === '/') {
       return pathname === '/';
     }
     return pathname.startsWith(itemHref);
   }
+
+  // Define which pages should show the chatbot
+  const chatbotVisiblePages = ['/', '/portfolio', '/about', '/contact'];
+  const showChatbot = chatbotVisiblePages.includes(pathname);
+
 
   const sidebarContent = (
     <>
@@ -152,7 +157,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
 
       <SidebarContent className="flex-grow">
         <SidebarMenu className="w-full p-4 flex flex-col justify-center h-full">
-          {navItems.slice(0, 4).map((item) => (
+          {navItems.filter(item => !item.isCta).map((item) => (
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton
                 asChild
@@ -172,12 +177,12 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuButton
                 asChild
                 size="lg"
-                variant={visualizerItem.variant}
-                tooltip={visualizerItem.label}
+                variant={'outline'}
+                tooltip={c.nav.visualizer}
               >
-                <Link href={visualizerItem.href}>
-                  <visualizerItem.icon />
-                  <span>{visualizerItem.label}</span>
+                <Link href={'/visualizer'}>
+                  <Cuboid />
+                  <span>{c.nav.visualizer}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -187,16 +192,16 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <SidebarFooter>
             <div className="flex flex-col gap-4 p-2 group-data-[collapsible=icon]:items-center">
               <div className="flex items-center justify-center gap-2 group-data-[collapsible=icon]:hidden">
-                <a href="https://www.linkedin.com/in/donovan-chartrain-63686a138" target="_blank" aria-label="LinkedIn" className="social-icon social-icon-linkedin">
+                <a href="https://www.linkedin.com/in/donovan-chartrain-63686a138" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="social-icon social-icon-linkedin">
                     <Linkedin />
                 </a>
-                <a href="https://www.instagram.com/3dc_effect?igsh=MXd1NTBob2Zmdmx5cA==" target="_blank" aria-label="Instagram" className="social-icon social-icon-instagram">
+                <a href="https://www.instagram.com/3dc_effect?igsh=MXd1NTBob2Zmdmx5cA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon social-icon-instagram">
                     <Instagram />
                 </a>
-                <a href="https://www.youtube.com/@d.chartrain3dtechnicalarti873" target="_blank" aria-label="Youtube" className="social-icon social-icon-youtube">
+                <a href="https://www.youtube.com/@d.chartrain3dtechnicalarti873" target="_blank" rel="noopener noreferrer" aria-label="Youtube" className="social-icon social-icon-youtube">
                     <Youtube />
                 </a>
-                <a href="https://github.com/DChartrain-3dArtist" target="_blank" aria-label="Github" className="social-icon social-icon-github">
+                <a href="https://github.com/DChartrain-3dArtist" target="_blank" rel="noopener noreferrer" aria-label="Github" className="social-icon social-icon-github">
                     <Github />
                 </a>
               </div>
@@ -204,8 +209,6 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           </SidebarFooter>
     </>
   );
-
-  const allNavItems = [...navItems, visualizerItem];
 
   return (
     <div className="relative flex min-h-screen">
@@ -217,39 +220,40 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       </Sidebar>
       <div className={cn("flex flex-1 justify-center", isMobile && "pb-24")}>
         <SidebarInset>
-            <main className="relative flex min-h-svh flex-1 flex-col">
+            <main className="relative flex min-h-svh flex-1 flex-col animate-fade-in">
                 {children}
             </main>
             <Footer />
         </SidebarInset>
       </div>
 
+      <Chatbot show={showChatbot} />
+
       {isMobile && (
         <>
           <div className="fixed bottom-0 left-0 z-50 h-20 w-full border-t border-border bg-background/95 pb-4 backdrop-blur">
             <nav className="grid h-full grid-cols-5 items-stretch">
-              {allNavItems.map((item) => {
+              {navItems.map((item) => {
                 const isActive = isNavItemActive(item.href);
-                const isCta = 'variant' in item && item.variant === 'outline';
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
                       'group relative flex flex-col items-center justify-center gap-1 font-medium transition-colors',
-                      isCta ? "m-1 p-1 rounded-md bg-primary text-primary-foreground" : "text-sm p-2",
-                      !isCta && (isActive ? 'text-primary' : 'text-muted-foreground'),
+                      item.isCta ? "m-1 p-1 rounded-md bg-primary text-primary-foreground" : "text-sm p-2",
+                      !item.isCta && (isActive ? 'text-primary' : 'text-muted-foreground'),
                     )}
                   >
                     <item.icon
                       className={cn(
                         'transition-transform duration-200',
-                        isCta ? "h-5 w-5" : "h-6 w-6",
-                        isActive && !isCta ? 'scale-110' : 'scale-100'
+                        item.isCta ? "h-5 w-5" : "h-6 w-6",
+                        isActive && !item.isCta ? 'scale-110' : 'scale-100'
                       )}
                     />
                     <span className="text-xs">{item.label}</span>
-                    {isActive && !isCta && (
+                    {isActive && !item.isCta && (
                       <div className="absolute top-1 h-1 w-1 rounded-full bg-primary transition-all duration-300"></div>
                     )}
                   </Link>

@@ -13,7 +13,8 @@ import { Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/header';
-import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film, Home } from 'lucide-react';
+import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film, Home, Linkedin, Share2 } from 'lucide-react';
+import { SiX } from '@icons-pack/react-simple-icons';
 import { cn } from '@/lib/utils';
 import {
   Carousel,
@@ -33,6 +34,21 @@ import { ProjectCard } from '@/components/portfolio/project-card';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Script from 'next/script';
+
+// Fonction pour déterminer la classe CSS du badge de secteur.
+const getSectorBadgeClass = (sector?: Project['sector']) => {
+    if (!sector) return '';
+    switch (sector) {
+      case 'Infographie 3D':
+        return 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent';
+      case '3D Temps Réel':
+        return 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent';
+      case 'Développement Web':
+        return 'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent';
+      default:
+        return '';
+    }
+};
 
 /**
  * Composant de la page de détail d'un projet.
@@ -188,22 +204,6 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     day: 'numeric',
   });
 
-  // Fonction pour déterminer la classe CSS du badge de secteur.
-  const getSectorBadgeClass = () => {
-    if (!project) return '';
-    switch (project.sector) {
-      case 'Infographie 3D':
-        return 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent';
-      case '3D Temps Réel':
-        return 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent';
-      case 'Développement Web':
-        return 'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent';
-      default:
-        return '';
-    }
-  };
-
-
   return (
     <>
       {/* Script pour les données structurées du fil d'Ariane. */}
@@ -229,12 +229,10 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                   {/* Badges, date et titre du projet */}
                   <div className="flex flex-wrap items-center gap-2 mb-4">
                       {/* Badge pour le secteur, cliquable pour filtrer */}
-                      <Button asChild className={cn('h-auto p-0', getSectorBadgeClass())} variant="default">
-                        <Link href={`/portfolio?sector=${encodeURIComponent(project.sector)}`}>
-                          <Badge className={cn('h-auto', getSectorBadgeClass())}>{project.sector}</Badge>
-                        </Link>
-                      </Button>
-                      {/* Correction du bug : Badge simple dans un Link, sans Button pour éviter les conflits de style. */}
+                      <Link href={`/portfolio?sector=${encodeURIComponent(project.sector)}`}>
+                        <Badge className={getSectorBadgeClass(project.sector)}>{project.sector}</Badge>
+                      </Link>
+                      {/* Badge pour le type, cliquable pour filtrer */}
                       <Link href={`/portfolio?type=${encodeURIComponent(project.productionType)}`}>
                         <Badge variant="outline">{project.productionType}</Badge>
                       </Link>
@@ -247,11 +245,9 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                   {/* Badges des technologies, cliquables pour filtrer */}
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map(tech => (
-                      <Button asChild key={tech} className="h-auto p-0" variant="secondary">
-                        <Link href={`/portfolio?tech=${encodeURIComponent(tech)}`}>
+                        <Link href={`/portfolio?tech=${encodeURIComponent(tech)}`} key={tech}>
                            <Badge variant="secondary">{tech}</Badge>
                         </Link>
-                      </Button>
                     ))}
                   </div>
                 </header>
@@ -294,6 +290,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                               alt={`${project.title[language]} - screenshot ${index + 1}`}
                               fill
                               className="object-cover"
+                              loading={index === 0 ? 'eager' : 'lazy'}
                           />
                         </div>
                       </CarouselItem>
@@ -325,17 +322,33 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                 <p className="text-foreground/90">{project.longDescription[language]}</p>
               </div>
 
-              {/* Lien vers le site en direct si disponible. */}
-              {project.liveUrl && (
-                <div className="text-center mb-16 px-4 sm:px-6 lg:px-8">
-                  <Button asChild size="lg" variant="outline">
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      Voir le site en direct
-                      <ExternalLink className="ml-2 h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
-              )}
+              {/* Liens vers le site et partage */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 px-4 sm:px-6 lg:px-8">
+                  {project.liveUrl && (
+                      <Button asChild size="lg" variant="outline">
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          Voir le site en direct
+                          <ExternalLink className="ml-2 h-4 w-4" />
+                          </a>
+                      </Button>
+                  )}
+                  <Card className="bg-muted/30">
+                      <CardContent className="p-2 sm:p-3">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                              <span className="text-sm font-medium mr-2">{c.share_project}</span>
+                              <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://donovan-dev3d.vercel.app/portfolio/${project.id}&title=${encodeURIComponent(project.title[language])}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                                  <Linkedin className="h-5 w-5" />
+                              </a>
+                               <a href={`https://twitter.com/intent/tweet?url=https://donovan-dev3d.vercel.app/portfolio/${project.id}&text=${encodeURIComponent('Découvrez ce projet : ' + project.title[language])}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                                  <SiX className="h-5 w-5" />
+                              </a>
+                              <a href={`mailto:?subject=${encodeURIComponent('Découvrez ce projet : ' + project.title[language])}&body=${encodeURIComponent('J\'ai pensé que ce projet pourrait vous intéresser : https://donovan-dev3d.vercel.app/portfolio/' + project.id)}`} className="text-muted-foreground hover:text-primary transition-colors">
+                                  <Mail className="h-5 w-5" />
+                              </a>
+                          </div>
+                      </CardContent>
+                  </Card>
+              </div>
 
               {/* Section pour les modèles 3D interactifs si disponibles. */}
               {project.isVisualizable && project.visualizerItems && project.visualizerItems.length > 0 && (
@@ -350,6 +363,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                                   alt={item.name[language]}
                                   fill
                                   className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                  loading="lazy"
                                 />
                                 <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-semibold backdrop-blur-sm border border-border/50">
                                     <Cuboid className="h-4 w-4 text-primary" />
@@ -385,6 +399,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                                     alt={`${project.title[language]} - gallery image ${index + 1}`}
                                     fill
                                     className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                    loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <Maximize className="text-white h-8 w-8" />
@@ -399,6 +414,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                                 width={1600}
                                 height={900}
                                 className="w-full h-auto object-contain rounded-lg"
+                                loading="eager"
                             />
                         </DialogContent>
                     </Dialog>
@@ -411,7 +427,7 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
                  <h2 className="font-headline text-3xl font-bold mb-8">{c.other_projects_title}</h2>
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {suggestedProjects.map(p => (
-                      <ProjectCard key={p.id} project={p} layout="list" isLatest={p.id === latestProject?.id} />
+                      <ProjectCard key={p.id} project={p} layout="grid" isLatest={p.id === latestProject?.id} />
                     ))}
                  </div>
               </section>

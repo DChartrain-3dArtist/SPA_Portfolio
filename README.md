@@ -1,21 +1,22 @@
-# Portfolio Interactif - Chartrain Donovan | Artiste 3D & Développeur Web
+# Portfolio Interactif - Chartrain Donovan | Développeur Web & Artiste 3D
 
 Bienvenue sur le dépôt de mon portfolio personnel. Ce projet n'est pas seulement une vitrine de mes réalisations, mais aussi une démonstration de mes compétences techniques en développement web moderne et en interactivité 3D.
 
 **[Voir la version live ➔](https://donovan-dev3d.vercel.app/)**
 
-![Aperçu du Portfolio](https://donovan-dev3d.vercel.app/assets/data/Opengraph.jpg)
+![Aperçu du Portfolio](/public/assets/data/Opengraph.jpg)
 
 ## ✨ Fonctionnalités Clés
 
 - **Visualiseur 3D Interactif** : Une section dédiée pour manipuler et inspecter des modèles 3D directement dans le navigateur, basée sur Three.js et React Three Fiber.
+- **Chatbot IA "AURIA"** : Un assistant intelligent basé sur Google Gemini (via Genkit) qui connaît le contenu du site et peut guider les visiteurs.
 - **Multilingue** : Contenu disponible en Français et en Anglais.
 - **Thème Sombre & Clair** : Interface adaptable aux préférences de l'utilisateur.
 - **Filtrage de Projets Avancé** : Système de recherche, tri et filtrage dynamique par secteur, type de production et technologies.
 - **Conception Responsive** : Expérience utilisateur optimale sur tous les appareils, du mobile au bureau.
 - **Progressive Web App (PWA)** : Le portfolio est installable comme une application native pour un accès rapide.
 - **Optimisation SEO** : Métadonnées dynamiques, sitemap, `robots.txt`, et données structurées (Schema.org) pour une visibilité maximale.
-- **Conformité RGPD** : Bannière de consentement pour les cookies, conditionnant le chargement des scripts de suivi (Google Tag Manager, Vercel Analytics).
+- **Conformité RGPD** : Bannière de consentement pour les cookies, conditionnant le chargement des scripts de suivi.
 
 ## 🛠️ Stack Technique
 
@@ -24,6 +25,7 @@ Bienvenue sur le dépôt de mon portfolio personnel. Ce projet n'est pas seuleme
 - **Composants UI** : [ShadCN UI](https://ui.shadcn.com/)
 - **Style** : [Tailwind CSS](https://tailwindcss.com/)
 - **Interactivité 3D** : [Three.js](https://threejs.org/) & [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction)
+- **IA Générative** : [Genkit](https://firebase.google.com/docs/genkit) (Google Gemini)
 - **Déploiement** : [Vercel](https://vercel.com/)
 
 ## 🚀 Démarrage en Local
@@ -50,7 +52,11 @@ npm install
 # yarn install
 ```
 
-### 3. Lancer le Serveur de Développement
+### 3. Configurer les Variables d'Environnement
+
+Créez un fichier `.env.local` à la racine et ajoutez les clés nécessaires (voir la documentation du projet). Au minimum, vous aurez besoin de `GEMINI_API_KEY`.
+
+### 4. Lancer le Serveur de Développement
 
 ```bash
 npm run dev

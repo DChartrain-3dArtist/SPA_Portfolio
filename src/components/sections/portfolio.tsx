@@ -214,9 +214,8 @@ export default function PortfolioPage() {
             </div>
         );
     }
-
-    // Affichage spécifique pour la grille sur mobile (miniatures compactes).
-    if (isMobile && layout === 'grid') {
+    
+    if (isMobile) {
         return (
              <div className="grid grid-cols-4 gap-1">
                 {filteredAndSortedProjects.map(project => {
@@ -252,8 +251,7 @@ export default function PortfolioPage() {
             </div>
         );
     }
-
-    // Affichage pour le bureau (Grille & Liste) et le mobile (Liste).
+    
     const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
 
     return (

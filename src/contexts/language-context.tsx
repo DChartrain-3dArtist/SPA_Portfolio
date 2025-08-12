@@ -16,6 +16,19 @@ interface LanguageContextType {
 // Création du contexte React pour la gestion de la langue.
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Fonction pour obtenir la langue initiale depuis le navigateur ou les cookies.
+const getInitialLanguage = (): Language => {
+    if (typeof window === 'undefined') {
+        return 'fr'; // Langue par défaut côté serveur
+    }
+    const storedLang = localStorage.getItem('language') as Language;
+    if (storedLang && ['fr', 'en'].includes(storedLang)) {
+        return storedLang;
+    }
+    const browserLang = navigator.language.split('-')[0];
+    return browserLang === 'fr' ? 'fr' : 'en';
+}
+
 /**
  * Fournisseur de contexte pour la langue.
  * Ce composant enveloppe l'application pour fournir l'état de la langue
@@ -25,8 +38,23 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
  * @returns Le fournisseur de contexte.
  */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // État pour stocker la langue actuelle, initialisée à 'fr'.
-  const [language, setLanguage] = useState<Language>('fr');
+  // Initialise avec une valeur par défaut, on la mettra à jour côté client
+  const [language, setLanguageState] = useState<Language>('fr');
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('language', lang);
+        document.documentElement.lang = lang;
+    }
+  }
+
+  // Effet pour mettre à jour la langue après le premier rendu côté client
+  useEffect(() => {
+    const initialLanguage = getInitialLanguage();
+    setLanguageState(initialLanguage);
+    document.documentElement.lang = initialLanguage;
+  }, []);
 
   // Effet pour mettre à jour l'attribut `lang` de la balise <html>
   // à chaque changement de langue, ce qui est bon pour l'accessibilité et le SEO.

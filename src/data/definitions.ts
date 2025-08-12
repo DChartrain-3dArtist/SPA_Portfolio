@@ -3,10 +3,10 @@
 // Centraliser ces types permet d'assurer la cohérence et de faciliter la maintenance.
 
 // Type pour les différents secteurs d'activité des projets.
-export type Sector = 'Infographie 3D' | '3D Temps Réel' | 'Développement Web' | 'Visualisation Architecturale' | 'Animation 3D / Interactif';
+export type Sector = 'Infographie 3D' | '3D Temps Réel' | 'Développement Web';
 
 // Type pour les différents types de production des projets.
-export type ProductionType = 'Rendu' | 'Animation' | 'Application' | 'Site Web' | 'Visualisation' | 'Animation 3D Interactive';
+export type ProductionType = 'Rendu' | 'Animation' | 'Application' | 'Site Web';
 
 /**
  * Interface pour un objet 3D visualisable.

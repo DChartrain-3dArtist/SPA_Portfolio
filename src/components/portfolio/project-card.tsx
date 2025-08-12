@@ -100,8 +100,8 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
   // List layout
   return (
     <Card className="group overflow-hidden relative cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 w-full">
-        <Link href={`/portfolio/${id}`} className="flex flex-col h-full">
-            <div className="relative overflow-hidden w-full aspect-video">
+        <Link href={`/portfolio/${id}`} className="flex flex-col md:flex-row h-full">
+            <div className="relative overflow-hidden w-full md:w-1/3 aspect-video md:aspect-auto">
                 <Image
                     src={image}
                     alt={title[language]}
@@ -110,7 +110,7 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
                 />
                  {cardBadges}
             </div>
-            <CardContent className="p-6 flex flex-col flex-grow">
+            <CardContent className="p-6 flex flex-col flex-grow md:w-2/3">
                 <div className="flex items-center gap-2 mb-2">
                     <Badge className={cn("w-fit", getSectorBadgeClass())}>{sector}</Badge>
                     <Badge variant="outline" className="w-fit">{productionType}</Badge>

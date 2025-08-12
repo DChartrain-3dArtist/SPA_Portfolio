@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Briefcase, Library, AlertTriangle } from 'lucide-react';
 import { useBreadcrumb } from '@/contexts/breadcrumb-context';
+import { useLanguage } from '@/contexts/language-context';
+import { content } from '@/lib/content';
 
 const ModelCanvas = dynamic(() => import('@/components/visualizer/model-canvas'), {
   ssr: false,
@@ -27,6 +29,8 @@ export default function ItemDetailPage() {
   const [item, setItem] = useState<VisualizerItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { setBreadcrumbs } = useBreadcrumb();
+  const { language } = useLanguage();
+  const c = content[language];
 
   useEffect(() => {
     if (!id) return;
@@ -36,9 +40,9 @@ export default function ItemDetailPage() {
       setItem(fetchedItem);
       if (fetchedItem) {
         setBreadcrumbs([
-          { label: 'Espace Visualiseur', href: '/visualizer' },
-          { label: 'Bibliothèque', href: '/visualizer/library' },
-          { label: fetchedItem.name.fr },
+          { label: c.visualizer.header_home_breadcrumb, href: '/visualizer' },
+          { label: c.visualizer.header_library_breadcrumb, href: '/visualizer/library' },
+          { label: fetchedItem.name[language] },
         ]);
       }
       setIsLoading(false);
@@ -48,7 +52,7 @@ export default function ItemDetailPage() {
     return () => {
        setBreadcrumbs([]); // Reset on unmount
     }
-  }, [id, setBreadcrumbs]);
+  }, [id, setBreadcrumbs, language, c]);
 
   if (isLoading) {
     return (
@@ -67,11 +71,11 @@ export default function ItemDetailPage() {
   if (!item) {
     return (
       <div>
-        <h1 className="text-4xl font-bold font-headline mt-4">Modèle non trouvé</h1>
+        <h1 className="text-4xl font-bold font-headline mt-4">{c.visualizer.item_detail_not_found}</h1>
         <div className="mt-8 flex items-center justify-center h-96 border rounded-lg bg-card/50">
           <div className="text-center text-destructive">
             <AlertTriangle className="mx-auto h-12 w-12 mb-4" />
-            <p className="font-bold">Impossible de trouver les informations pour ce modèle.</p>
+            <p className="font-bold">{c.visualizer.item_detail_not_found_message}</p>
           </div>
         </div>
       </div>
@@ -81,12 +85,12 @@ export default function ItemDetailPage() {
   return (
      <div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 mb-8 gap-4">
-            <h1 className="text-4xl font-bold font-headline">{item.name.fr}</h1>
+            <h1 className="text-4xl font-bold font-headline">{item.name[language]}</h1>
             {item.projectId && (
                  <Button asChild>
                     <Link href={`/portfolio/${item.projectId}`}>
                         <Briefcase className="mr-2" />
-                        Voir le projet
+                        {c.visualizer.item_detail_cta_project}
                     </Link>
                 </Button>
             )}
@@ -96,14 +100,14 @@ export default function ItemDetailPage() {
       </div>
 
        <div className="my-8 max-w-3xl mx-auto text-center">
-        <p className="text-muted-foreground">{item.description.fr}</p>
+        <p className="text-muted-foreground">{item.description[language]}</p>
        </div>
 
        <div className="flex justify-center">
             <Button asChild>
                 <Link href="/visualizer/library">
                     <Library className="mr-2" />
-                    Retour à la bibliothèque
+                    {c.visualizer.item_detail_cta_library}
                 </Link>
             </Button>
        </div>

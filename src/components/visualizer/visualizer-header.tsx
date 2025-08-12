@@ -37,7 +37,7 @@ export function VisualizerHeader() {
                 setBreadcrumbs([]);
             }
         };
-    }, [pathname, setBreadcrumbs, c]);
+    }, [pathname, setBreadcrumbs, c, language]);
 
     const isHomePage = pathname === '/visualizer';
     const showBreadcrumbs = isClient && !isHomePage && breadcrumbs.length > 0;

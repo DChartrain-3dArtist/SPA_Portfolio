@@ -84,21 +84,21 @@ export default function ContactPage() {
                                 <Mail className="w-5 h-5 text-muted-foreground shrink-0" />
                                 <div>
                                     <p className="font-semibold font-headline">{c.info_email_label}</p>
-                                    <a href="mailto:donovan.chartrain@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">donovan.chartrain@gmail.com</a>
+                                    <a href={`mailto:${c.email}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">{c.email}</a>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
                                 <Phone className="w-5 h-5 text-muted-foreground shrink-0" />
                                 <div>
                                     <p className="font-semibold font-headline">{c.info_phone_label}</p>
-                                    <a href="tel:+33643883960" className="text-sm text-muted-foreground hover:text-primary transition-colors">+33 6 43 88 39 60</a>
+                                    <a href={`tel:${c.phone_link}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">{c.phone}</a>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
                                 <MapPin className="w-5 h-5 text-muted-foreground shrink-0" />
                                 <div>
                                     <p className="font-semibold font-headline">{c.info_location_label}</p>
-                                    <p className="text-sm text-muted-foreground">Bédoin (84), France - Mobile sur Vaucluse/Gard</p>
+                                    <p className="text-sm text-muted-foreground">{c.location_text}</p>
                                 </div>
                             </div>
                         </CardContent>
