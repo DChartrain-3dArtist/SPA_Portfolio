@@ -94,21 +94,7 @@ export default function PortfolioPage() {
         setSelectedTechnologies([techParam]);
     }
   }, [searchParams]);
-
-  // Adapte la mise en page par défaut en fonction de la taille de l'écran.
-  useEffect(() => {
-    if (isMobile) {
-        setLayout('grid');
-    }
-  }, [isMobile]);
-
-  // Fait défiler jusqu'à la section des filtres lors du changement de layout sur desktop.
-  useEffect(() => {
-    if (filterSectionRef.current && !isMobile) {
-        filterSectionRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [layout, isMobile]);
-
+  
   // Calcule le projet le plus récent pour lui attribuer un badge spécial.
   const latestProject = useMemo(() => {
     if (!projects || projects.length === 0) return null;
@@ -127,22 +113,18 @@ export default function PortfolioPage() {
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = projects;
     
-    // Filtre pour n'afficher que les projets avec des modèles 3D visualisables.
     if (showVisualizableOnly) {
       filtered = filtered.filter(p => p.isVisualizable);
     }
 
-    // Filtre par secteur.
     if (activeSector !== 'all') {
       filtered = filtered.filter(p => p.sector === activeSector);
     }
     
-    // Filtre par type de production.
     if (activeProductionType !== 'all') {
         filtered = filtered.filter(p => p.productionType === activeProductionType);
     }
 
-    // Filtre par terme de recherche dans le titre ou la description.
     if (searchTerm) {
       filtered = filtered.filter(p =>
         p.title[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -150,46 +132,41 @@ export default function PortfolioPage() {
       );
     }
     
-    // Filtre par technologies. Affiche les projets qui ont AU MOINS UNE des technologies sélectionnées.
     if (selectedTechnologies.length > 0) {
       filtered = filtered.filter(p => 
         selectedTechnologies.some(tech => p.technologies.includes(tech))
       );
     }
 
-    // Tri les projets filtrés.
     const sorted = [...filtered].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       if (sortOrder === 'date-asc') {
         return dateA - dateB;
       }
-      return dateB - dateA; // date-desc (par défaut)
+      return dateB - dateA;
     });
 
     return sorted;
   }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly, selectedTechnologies]);
   
-  // Gère le clic sur un filtre de secteur.
   const handleSectorClick = (sector: Sector) => {
     setActiveSector(prev => (prev === sector ? 'all' : sector));
   };
 
-  // Réinitialise tous les filtres à leur état par défaut.
   const handleResetFilters = () => {
     setActiveSector('all');
     setActiveProductionType('all');
     setSearchTerm('');
     setSortOrder('date-desc');
-    if (!isMobile) setLayout('grid');
+    setLayout('grid');
     setShowVisualizableOnly(false);
     setSelectedTechnologies([]);
   };
 
-  // Rendu de la grille des projets, avec des états de chargement et de "aucun résultat".
   const renderProjects = () => {
     if (isLoading) {
-      const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+      const gridCols = layout === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1';
       return (
         <div className={cn("grid gap-8 w-full", gridCols)}>
           {Array.from({ length: 6 }).map((_, i) => (
@@ -215,47 +192,17 @@ export default function PortfolioPage() {
         );
     }
     
+    let gridCols = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'; // Default for desktop grid
     if (isMobile) {
-        return (
-             <div className="grid grid-cols-4 gap-1">
-                {filteredAndSortedProjects.map(project => {
-                    const isLatest = project.id === latestProject?.id;
-                    return (
-                        <Link href={`/portfolio/${project.id}`} key={project.id} className="relative group aspect-square">
-                            <Image
-                                src={project.image}
-                                alt={project.title[language]}
-                                fill
-                                className="object-cover"
-                            />
-                            <div className="absolute top-1 right-1 flex flex-col items-end gap-1">
-                                {isLatest && (
-                                    <Badge variant="default" className="bg-primary text-primary-foreground border-transparent gap-1 text-xs h-5 w-5 p-0 flex items-center justify-center">
-                                        <Sparkles className="h-2.5 w-2.5" />
-                                    </Badge>
-                                )}
-                                {project.videoUrl && (
-                                    <div className="flex items-center justify-center gap-1 rounded-full bg-background/80 text-xs font-semibold backdrop-blur-sm border border-border/50 h-5 w-5 p-0">
-                                        <Film className="h-2.5 w-2.5 text-primary" />
-                                    </div>
-                                )}
-                                {project.isVisualizable && (
-                                    <div className="flex items-center justify-center gap-1 rounded-full bg-background/80 text-xs font-semibold backdrop-blur-sm border border-border/50 h-5 w-5 p-0">
-                                        <Cuboid className="h-2.5 w-2.5 text-primary" />
-                                    </div>
-                                )}
-                            </div>
-                        </Link>
-                    );
-                })}
-            </div>
-        );
+      gridCols = layout === 'grid' ? 'grid-cols-3' : 'grid-cols-1';
+    } else {
+      gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
     }
-    
-    const gridCols = layout === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+    const gap = isMobile && layout === 'grid' ? 'gap-0.5' : 'gap-8';
+
 
     return (
-      <div className={cn("grid gap-8 w-full", gridCols)}>
+      <div className={cn("grid w-full", gridCols, gap)}>
         {filteredAndSortedProjects.map(project => (
           <ProjectCard key={project.id} project={project} layout={layout} isLatest={project.id === latestProject?.id} />
         ))}
@@ -315,25 +262,25 @@ export default function PortfolioPage() {
                        <SlidersHorizontal className="mr-2 h-4 w-4" />
                        {c.filters.title}
                      </Button>
-                     <div className="flex justify-center items-center gap-2 md:col-start-3 md:col-span-1 md:ml-auto">
-                        <Button
-                            variant={layout === 'grid' ? 'default' : 'secondary'}
-                            onClick={() => setLayout('grid')}
-                            size="sm"
-                        >
-                            <Grid className="mr-2 h-4 w-4" />
-                            {c.layout_grid}
-                        </Button>
+                      <div className="flex justify-center items-center gap-2 md:col-start-3 md:col-span-1 md:ml-auto">
+                          <Button
+                              variant={layout === 'grid' ? 'default' : 'secondary'}
+                              onClick={() => setLayout('grid')}
+                              size="sm"
+                          >
+                              <Grid className="mr-2 h-4 w-4" />
+                              {c.layout_grid}
+                          </Button>
 
-                        <Button
-                            variant={layout === 'list' ? 'default' : 'secondary'}
-                            onClick={() => setLayout('list')}
-                            size="sm"
-                        >
-                            <List className="mr-2 h-4 w-4" />
-                            {c.layout_list}
-                        </Button>
-                    </div>
+                          <Button
+                              variant={layout === 'list' ? 'default' : 'secondary'}
+                              onClick={() => setLayout('list')}
+                              size="sm"
+                          >
+                              <List className="mr-2 h-4 w-4" />
+                              {c.layout_list}
+                          </Button>
+                      </div>
                   </div>
 
                   {/* Contenu des filtres (affiché conditionnellement) */}
@@ -469,7 +416,7 @@ export default function PortfolioPage() {
             </div>
             
             {/* Zone d'affichage des projets */}
-            <div className={cn("mb-16 md:mb-24", (layout === 'list' || !isMobile) && "px-4 sm:px-6 lg:px-8")}>
+            <div className={cn("mb-16 md:mb-24", (isMobile && layout === 'grid') ? "" : "px-4 sm:px-6 lg:px-8")}>
                 {renderProjects()}
             </div>
             

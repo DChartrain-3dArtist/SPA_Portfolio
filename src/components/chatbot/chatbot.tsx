@@ -32,12 +32,11 @@ export function Chatbot({ show }: { show: boolean }) {
   const router = useRouter();
   const { language } = useLanguage();
 
-  // Gère l'apparition de la bulle CTA
   useEffect(() => {
     if (show && !ctaBubbleDismissed && !isOpen) {
       const timer = setTimeout(() => {
         setShowCtaBubble(true);
-      }, 4000); // Délai de 4 secondes
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowCtaBubble(false);
@@ -68,42 +67,46 @@ export function Chatbot({ show }: { show: boolean }) {
   
   const handleDismissCtaBubble = () => {
     setShowCtaBubble(false);
-    setCtaBubbleDismissed(true); // Marque comme fermée pour la session
+    setCtaBubbleDismissed(true);
   };
 
   const handleOpenChat = () => {
     setIsOpen(true);
-    setShowCtaBubble(false); // Ferme la bulle quand le chat s'ouvre
-    setCtaBubbleDismissed(true); // Marque comme fermée pour la session
+    setShowCtaBubble(false);
+    setCtaBubbleDismissed(true);
   };
 
   const handleSendMessage = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isLoading) return;
 
+    console.log(`[CHATBOT_FRONTEND] Step 1: Envoi du message : ${inputValue}`);
+    
     const userMessage: Message = { id: Date.now(), role: 'user', text: inputValue };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
+      // Appel au backend
       const response = await chat({ message: inputValue, language });
-      const assistantMessage: Message = { id: Date.now() + 1, role: 'assistant', text: response.text, action: response.action };
-      setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Chatbot error:', error);
-      let errorMessageText = '';
+      console.log('[CHATBOT_FRONTEND] Step 2: Réponse reçue du backend :', JSON.stringify(response, null, 2));
+      
+      // Création du message de l'assistant avec le texte ET l'action
+      const assistantMessage: Message = { 
+        id: Date.now() + 1, 
+        role: 'assistant', 
+        text: response.text, 
+        action: response.action // L'action est maintenant directement dans la réponse
+      };
+      console.log('[CHATBOT_FRONTEND] Step 3: Création de l\'objet message de l\'assistant :', JSON.stringify(assistantMessage, null, 2));
 
-      // Gestion spécifique de l'erreur de quota
-      if (error instanceof Error && error.message.includes('429')) {
-          errorMessageText = language === 'fr'
-              ? "AURIA a atteint sa limite d’utilisation pour aujourd’hui.\nCe portfolio étant un projet personnel, et actuellement en recherche d’emploi, je ne peux pas dépasser le quota gratuit fourni par Google.\nMerci de réessayer un peu plus tard !"
-              : "AURIA has reached its usage limit for today.\nAs this portfolio is a personal project and I am currently looking for a job, I cannot exceed the free quota provided by Google.\nPlease try again later!";
-      } else {
-          errorMessageText = language === 'fr'
-              ? 'Désolé, une erreur est survenue. Veuillez réessayer plus tard.'
-              : 'Sorry, an error occurred. Please try again later.';
-      }
+      setMessages(prev => [...prev, assistantMessage]);
+
+    } catch (error: any) {
+      let errorMessageText = language === 'fr'
+          ? 'Désolé, une erreur inattendue est survenue. Veuillez réessayer plus tard.'
+          : 'Sorry, an unexpected error occurred. Please try again later.';
       
       const errorMessage: Message = { id: Date.now() + 1, role: 'assistant', text: errorMessageText };
       setMessages(prev => [...prev, errorMessage]);
@@ -112,14 +115,11 @@ export function Chatbot({ show }: { show: boolean }) {
     }
   }, [inputValue, isLoading, language]);
 
+
   const handleActionClick = (action: ChatbotOutput['action']) => {
-    if (action?.type === 'navigate' && action.path) {
+    if (action?.path) {
       router.push(action.path);
       setIsOpen(false);
-    }
-    if (action?.type === 'contact') {
-        router.push('/contact');
-        setIsOpen(false);
     }
   };
 
@@ -131,7 +131,6 @@ export function Chatbot({ show }: { show: boolean }) {
 
   return (
     <div className={cn(!show && "hidden")}>
-      {/* CTA Bubble */}
       <AnimatePresence>
         {showCtaBubble && (
           <motion.div
@@ -153,15 +152,12 @@ export function Chatbot({ show }: { show: boolean }) {
                   <X className="h-4 w-4" />
                 </Button>
               </Card>
-               {/* Queue for the bubble */}
               <div className="absolute bottom-[-10px] right-6 w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-card border-r-[10px] border-r-transparent"></div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-
-      {/* Floating Action Button */}
       <div className="fixed bottom-24 right-6 z-50 lg:bottom-6">
         <motion.div
           initial={{ scale: 0 }}
@@ -179,7 +175,6 @@ export function Chatbot({ show }: { show: boolean }) {
         </motion.div>
       </div>
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -201,7 +196,10 @@ export function Chatbot({ show }: { show: boolean }) {
               <CardContent className="p-0 flex-grow overflow-hidden">
                  <ScrollArea className="h-full" ref={scrollAreaRef}>
                    <div className="p-4 space-y-4">
-                    {messages.map((message) => (
+                    {messages.map((message) => {
+                      const hasAction = !!(message.action && message.action.path);
+                      console.log(`[CHATBOT_FRONTEND] Step 4: Rendu d'un message. Contient une action ? ${hasAction}`);
+                      return (
                       <div key={message.id} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
                         {message.role === 'assistant' && (
                           <Avatar className="w-8 h-8">
@@ -210,7 +208,7 @@ export function Chatbot({ show }: { show: boolean }) {
                         )}
                         <div className={`max-w-[80%] rounded-lg px-3 py-2 ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                           <p className="text-sm whitespace-pre-line">{message.text}</p>
-                           {message.action && (
+                           {hasAction && (
                             <Button
                               variant="secondary"
                               size="sm"
@@ -222,7 +220,7 @@ export function Chatbot({ show }: { show: boolean }) {
                           )}
                         </div>
                       </div>
-                    ))}
+                    )})}
                     {isLoading && (
                        <div className="flex items-start gap-3">
                           <Avatar className="w-8 h-8">

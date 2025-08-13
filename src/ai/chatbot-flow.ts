@@ -4,7 +4,7 @@
 /**
  * @fileOverview Ce fichier définit le flux Genkit pour le chatbot IA du portfolio.
  * Il gère la logique de conversation, l'accès aux informations du site et
- * l'utilisation d'outils pour la navigation.
+ * la génération de réponses structurées incluant des actions de navigation.
  *
  * - chat - La fonction principale pour interagir avec le chatbot.
  * - ChatbotInput - Le type d'entrée pour la fonction de chat.
@@ -24,66 +24,20 @@ const ChatbotInputSchema = z.object({
 });
 export type ChatbotInput = z.infer<typeof ChatbotInputSchema>;
 
-// Schéma de sortie pour la fonction publique `chat`
+// Schéma de sortie pour la fonction publique `chat`.
+// L'IA doit maintenant remplir cet objet structuré.
 const ChatbotOutputSchema = z.object({
   text: z.string().describe("La réponse textuelle de l'IA."),
   action: z
     .object({
-      type: z.enum(['navigate', 'contact']).optional(),
-      path: z.string().optional(),
+      type: z.enum(['navigate']).describe("Le type d'action à effectuer."),
+      path: z.string().describe("Le chemin de destination. Ex: '/contact', '/portfolio/project-id'."),
     })
     .optional()
-    .describe(
-      "Une action de navigation ou de contact suggérée par l'IA."
-    ),
+    .describe("Une action de navigation suggérée si elle est pertinente. Reste vide si aucune navigation n'est évidente."),
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
-// Outils que l'IA peut utiliser
-const navigateToPageTool = ai.defineTool(
-  {
-    name: 'navigateToPage',
-    description:
-      "Suggère à l'utilisateur de naviguer vers une page spécifique du portfolio (ex: /about, /portfolio). N'utilise pas cet outil pour la page contact.",
-    inputSchema: z.object({
-      path: z.string().describe('Le chemin de la page, ex: "/about"'),
-    }),
-    outputSchema: z.any(),
-  },
-  async ({path}) => ({success: true, path})
-);
-
-const navigateToProjectTool = ai.defineTool(
-  {
-    name: 'navigateToProject',
-    description:
-      "Suggère de naviguer vers la page de détail d'un projet spécifique en utilisant son ID.",
-    inputSchema: z.object({id: z.string().describe("L'ID du projet")}),
-    outputSchema: z.any(),
-  },
-  async ({id}) => ({success: true, path: `/portfolio/${id}`})
-);
-
-const navigateToVisualizerItemTool = ai.defineTool(
-  {
-    name: 'navigateToVisualizerItem',
-    description:
-      "Suggère de naviguer vers un modèle 3D spécifique dans le visualiseur en utilisant son ID.",
-    inputSchema: z.object({id: z.string().describe("L'ID du modèle 3D")}),
-    outputSchema: z.any(),
-  },
-  async ({id}) => ({success: true, path: `/visualizer/item/${id}`})
-);
-
-const contactTool = ai.defineTool(
-    {
-        name: 'contactTool',
-        description: "Suggère à l'utilisateur d'aller sur la page contact pour envoyer un message.",
-        inputSchema: z.object({}),
-        outputSchema: z.any(),
-    },
-    async () => ({success: true})
-)
 
 // Schéma d'entrée complet pour le prompt interne.
 const ChatbotPromptInputSchema = z.object({
@@ -95,22 +49,25 @@ const ChatbotPromptInputSchema = z.object({
 const chatbotPrompt = ai.definePrompt({
   name: 'chatbotPrompt',
   model: 'googleai/gemini-1.5-flash',
-  tools: [
-    navigateToPageTool,
-    navigateToProjectTool,
-    navigateToVisualizerItemTool,
-    contactTool,
-  ],
   input: {schema: ChatbotPromptInputSchema},
-  output: {schema: z.object({ text: z.string() }) }, // On attend que le texte du modèle. L'action est gérée par les outils.
-  prompt: `Tu es AURIA, une assistante IA pour le portfolio de Chartrain Donovan. Ton rôle est d'aider les visiteurs (recruteurs, clients) à découvrir son profil, ses compétences et projets.
-Réponds dans la langue spécifiée (language: {{{language}}}), de manière concise et professionnelle.
-Utilise le contexte ci-dessous pour répondre et les outils pour guider l'utilisateur si c'est pertinent. Si une question concerne la prise de contact, fournis les informations de contact du contexte ET utilise l'outil 'contactTool'. Si tu ne sais pas, dis-le clairement.
+  // La sortie attendue est maintenant un objet JSON structuré.
+  output: {schema: ChatbotOutputSchema},
+  prompt: `Tu es AURIA, une assistante IA experte pour le portfolio de Chartrain Donovan. Ton rôle est d'aider les visiteurs (recruteurs, clients) à découvrir son profil, ses compétences et ses projets.
+Réponds TOUJOURS dans la langue spécifiée (language: {{{language}}}), de manière concise et professionnelle.
 
-CONTEXTE:
+Tu DOIS répondre en format JSON en respectant le schéma de sortie.
+
+RÈGLES IMPÉRATIVES POUR LE JSON DE SORTIE :
+1.  Remplis TOUJOURS le champ "text" avec une réponse utile.
+2.  Si la question de l'utilisateur concerne une page spécifique (contact, portfolio, un projet, un modèle 3D), tu DOIS remplir l'objet "action".
+    - Pour le type d'action, utilise "navigate".
+    - Pour le chemin (path), utilise l'URL correspondante. Exemples : '/contact', '/portfolio', '/portfolio/id-du-projet', '/visualizer/item/id-du-modele'.
+3.  Si la question est générale et ne correspond à aucune page, ne remplis PAS le champ "action".
+
+CONTEXTE COMPLET DU PORTFOLIO :
 {{{contextualInfo}}}
 
-MESSAGE UTILISATEUR:
+MESSAGE UTILISATEUR :
 {{{message}}}`,
 });
 
@@ -124,118 +81,87 @@ const chatbotFlow = ai.defineFlow(
   async (input) => {
     const {language} = input;
 
-    // Vérifie la présence de la clé API.
+    // Ajout de la vérification de la clé API
     if (!process.env.GEMINI_API_KEY && !process.env.GOOGLE_API_KEY) {
-      console.error('Clé API manquante. Le chatbot ne peut pas fonctionner.');
+      console.error('[CHATBOT_BACKEND] Erreur: Clé API Gemini non configurée.');
       const errorMessage =
         language === 'fr'
-          ? "Désolé, la fonctionnalité de l'assistant IA est actuellement désactivée car la clé API n'est pas configurée côté serveur."
-          : "Sorry, the AI assistant feature is currently disabled because the API key is not configured on the server.";
-      return {text: errorMessage};
+          ? "Oups, il semble que le service IA de Google rencontre quelques difficultés. Je ne suis pas en mesure de traiter votre demande pour le moment. Pendant que le service se rétablit, je vous suggère d'explorer les projets directement."
+          : "Oops, it seems the Google AI service is experiencing some difficulties. I am unable to process your request at the moment. While the service recovers, I suggest you explore the projects directly.";
+      return {
+        text: errorMessage,
+        action: {type: 'navigate', path: '/portfolio'},
+      };
     }
-
+    
+    // Construction du contexte
     const projects = await getProjects();
     const visualizerItems = await getVisualizerItems();
     const siteContent = content[language];
-
-    // Données des compétences tirées de la page "À Propos".
     const skills = {
-        "fr": {
-            "Logiciels 3D & Moteurs": ["Blender", "Maya", "3DS Max", "Cinema 4D", "ZBrush", "Substance P.", "NomadSculpt", "Unreal Engine", "Unity", "Unigine", "CryEngine", "Photoshop", "Illustrator", "InDesign", "After Effects", "Premiere Pro", "DaVinci", "Natron"],
-            "Langages de Programmation": ["C#", "C++", "Blueprint", "HLSL", "Python", "HTML", "CSS", "SCSS", "JavaScript", "TypeScript", "PHP", "SQL"],
-            "Web & Design": ["WordPress", "Elementor", "Divi", "Google Ads", "Analytics", "Screaming Frog", "Figma", "Adobe XD"]
-        },
-        "en": {
-            "3D Software & Engines": ["Blender", "Maya", "3DS Max", "Cinema 4D", "ZBrush", "Substance P.", "NomadSculpt", "Unreal Engine", "Unity", "Unigine", "CryEngine", "Photoshop", "Illustrator", "InDesign", "After Effects", "Premiere Pro", "DaVinci", "Natron"],
-            "Programming Languages": ["C#", "C++", "Blueprint", "HLSL", "Python", "HTML", "CSS", "SCSS", "JavaScript", "TypeScript", "PHP", "SQL"],
-            "Web & Design": ["WordPress", "Elementor", "Divi", "Google Ads", "Analytics", "Screaming Frog", "Figma", "Adobe XD"]
-        }
+        "fr": { "Logiciels 3D & Moteurs": ["Blender", "Maya", "3DS Max", "Cinema 4D", "ZBrush", "Substance P.", "NomadSculpt", "Unreal Engine", "Unity", "Unigine", "CryEngine", "Photoshop", "Illustrator", "InDesign", "After Effects", "Premiere Pro", "DaVinci", "Natron"], "Langages de Programmation": ["C#", "C++", "Blueprint", "HLSL", "Python", "HTML", "CSS", "SCSS", "JavaScript", "TypeScript", "PHP", "SQL"], "Web & Design": ["WordPress", "Elementor", "Divi", "Google Ads", "Analytics", "Screaming Frog", "Figma", "Adobe XD"] },
+        "en": { "3D Software & Engines": ["Blender", "Maya", "3DS Max", "Cinema 4D", "ZBrush", "Substance P.", "NomadSculpt", "Unreal Engine", "Unity", "Unigine", "CryEngine", "Photoshop", "Illustrator", "InDesign", "After Effects", "Premiere Pro", "DaVinci", "Natron"], "Programming Languages": ["C#", "C++", "Blueprint", "HLSL", "Python", "HTML", "CSS", "SCSS", "JavaScript", "TypeScript", "PHP", "SQL"], "Web & Design": ["WordPress", "Elementor", "Divi", "Google Ads", "Analytics", "Screaming Frog", "Figma", "Adobe XD"] }
     };
-    
-    // Construit une seule chaîne de caractères avec toutes les informations contextuelles.
     const contextualInfo = `
       Profil de Donovan Chartrain: ${siteContent.about.profile_content}
       Parcours de Donovan Chartrain: ${siteContent.about.journey_content}
-      
-      Informations de contact:
-      - Email: ${siteContent.contact.email}
-      - Téléphone: ${siteContent.contact.phone}
-      
-      Compétences:
-      - Logiciels 3D & Moteurs: ${skills[language]["Logiciels 3D & Moteurs"].join(', ')}
-      - Langages de Programmation: ${skills[language]["Langages de Programmation"].join(', ')}
-      - Web & Design: ${skills[language]["Web & Design"].join(', ')}
-
-      Expériences et Formations:
-      ${siteContent.about.timeline
-        .map(
-          (item) => `- ${item.role} chez ${item.company} (${item.period})`
-        )
-        .join('\n')}
-
-      Liste des Projets:
-      ${projects
-        .map(
-          (p) =>
-            `- ID: ${p.id}, Titre: ${p.title[language]}, Description courte: ${p.description[language]}, Description longue: ${p.longDescription[language]}, Technologies: ${p.technologies.join(', ')}`
-        )
-        .join('\n')}
-
-      Liste des Modèles 3D:
-      ${visualizerItems
-        .map(
-          (item) =>
-            `- ID: ${item.id}, Nom: ${item.name[language]}, Description: ${item.description[language]}`
-        )
-        .join('\n')}
-      
+      Informations de contact: Email: ${siteContent.contact.email}, Téléphone: ${siteContent.contact.phone}. La page de contact se trouve à l'URL /contact.
+      Compétences: ${JSON.stringify(skills[language])}. La page des compétences est /about.
+      Liste des Projets: ${projects.map(p => `- ID: ${p.id}, Titre: ${p.title[language]}, Description: ${p.description[language]}, Technologies: ${p.technologies.join(', ')}`).join('\n')}
+      Liste des Modèles 3D: ${visualizerItems.map(item => `- ID: ${item.id}, Nom: ${item.name[language]}, Description: ${item.description[language]}`).join('\n')}
       --- INFORMATIONS EXCLUSIVES POUR L'ASSISTANT ---
-      Ces informations ne sont pas visibles sur le site mais peuvent être utilisées pour répondre aux questions des recruteurs.
-      - Disponibilité: Donovan est disponible immédiatement pour un poste en CDI dans le Vaucluse et le Gard. Il ne recherche pas de missions en freelance, préférant se concentrer sur son cœur de métier au sein d'une entreprise plutôt que sur la gestion administrative.
-      - Méthode de travail: Il privilégie une approche agile avec des sprints et des points de suivi réguliers pour garantir la transparence. Il est à l'aise avec des outils comme Jira, Trello ou Notion.
-      - Veille technologique et centres d'intérêt: Il se tient constamment à jour sur les évolutions de la 3D temps réel, notamment sur les nouvelles versions d'Unreal Engine. Il affectionne particulièrement tout ce qui est lié à l'innovation technologique et à la R&D.
+      - Disponibilité: Donovan est disponible immédiatement pour un poste en CDI dans le Vaucluse et le Gard. Il ne recherche pas de missions en freelance.
+      - Méthode de travail: Il privilégie une approche agile avec des sprints et des points de suivi réguliers.
       --- FIN DES INFORMATIONS EXCLUSIVES ---
     `;
 
-    // Construit l'objet d'entrée complet pour le prompt.
     const promptInput = {
-      message: input.message,
-      contextualInfo: contextualInfo.trim(),
-      language: language,
+        message: input.message,
+        contextualInfo: contextualInfo.trim(),
+        language: language,
     };
 
-    const llmResponse = await chatbotPrompt(promptInput);
-    const output = llmResponse.output;
+    try {
+        console.log('[CHATBOT_BACKEND] Step 1: Envoi du prompt à l\'IA avec le message:', input.message);
+        const { output } = await chatbotPrompt(promptInput);
+        console.log('[CHATBOT_BACKEND] Step 2: Réponse brute et structurée reçue de l\'IA:', JSON.stringify(output, null, 2));
 
-    if (!output) {
-      const errorMessage =
-        language === 'fr'
-          ? 'Je ne suis pas sûr de savoir comment répondre. Pouvez-vous reformuler ?'
-          : "I'm not sure how to respond. Can you rephrase?";
-      return {text: errorMessage};
-    }
-    
-    const response: ChatbotOutput = { text: output.text };
+        if (!output) {
+            throw new Error('IA response is empty or invalid.');
+        }
+        
+        // La réponse est déjà dans le bon format, on la retourne directement.
+        return output;
 
-    // Gère la réponse des outils.
-    if(llmResponse.toolRequest) {
-        const calledTool = llmResponse.toolRequest.tool.name;
-        if(calledTool === 'contactTool') {
-             response.action = {type: 'contact', path: '/contact'};
+    } catch(e: any) {
+        console.error('[CHATBOT_BACKEND] Erreur dans le flow:', e);
+        let errorMessage;
+        
+        // Gestion spécifique de l'erreur de quota
+        if (e.message && (e.message.includes('503') || e.message.includes('overloaded') || e.message.includes('RESOURCE_EXHAUSTED'))) {
+            errorMessage = language === 'fr'
+                ? "Le service IA de Google est très sollicité en ce moment et mes circuits sont un peu surchargés. Je ne peux donc pas vous répondre. En attendant que la situation se normalise, n'hésitez pas à explorer le portfolio manuellement."
+                : "The Google AI service is currently in high demand, and my circuits are a bit overloaded, so I can't respond right now. While things get back to normal, please feel free to explore the portfolio directly.";
+        } else {
+             errorMessage = language === 'fr'
+                ? "Oups, il semble que le service IA de Google rencontre quelques difficultés. Je ne suis pas en mesure de traiter votre demande pour le moment. Pendant que le service se rétablit, je vous suggère d'explorer les projets directement."
+                : "Oops, it seems the Google AI service is experiencing some difficulties. I am unable to process your request at the moment. While the service recovers, I suggest you explore the projects directly.";
         }
-        if(calledTool === 'navigateToPage' || calledTool === 'navigateToProject' || calledTool === 'navigateToVisualizerItem') {
-            const toolResponse = llmResponse.toolRequest.tool.output;
-            if (toolResponse?.path) {
-                response.action = {type: 'navigate', path: toolResponse.path};
-            }
-        }
+        
+        return { 
+          text: errorMessage,
+          action: { type: 'navigate', path: '/portfolio' }
+        };
     }
-    
-    return response;
   }
 );
 
-// Fonction wrapper exportée pour être utilisée par le composant React
+/**
+ * Fonction publique exportée que le client appellera.
+ * Elle sert de wrapper simple pour le flow Genkit.
+ * @param input L'objet d'entrée contenant le message et la langue.
+ * @returns Une promesse qui se résout avec la sortie du chatbot.
+ */
 export async function chat(input: ChatbotInput): Promise<ChatbotOutput> {
   return chatbotFlow(input);
 }
