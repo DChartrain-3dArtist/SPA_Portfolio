@@ -1,18 +1,22 @@
 
+
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { getVisualizerItem } from '@/data/projects';
 import { VisualizerItem } from '@/data/definitions';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Briefcase, Library, AlertTriangle } from 'lucide-react';
+import { Briefcase, Library, AlertTriangle, Layers, Palette, Cpu } from 'lucide-react';
 import { useBreadcrumb } from '@/contexts/breadcrumb-context';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
 const ModelCanvas = dynamic(() => import('@/components/visualizer/model-canvas'), {
   ssr: false,
@@ -23,11 +27,27 @@ const ModelCanvas = dynamic(() => import('@/components/visualizer/model-canvas')
   ),
 });
 
+function StatCounter({ end, suffix }: { end: number; suffix?: string }) {
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    });
+
+    return (
+        <span ref={ref}>
+            {inView ? <CountUp end={end} duration={2} separator=" " /> : '0'}
+            {suffix}
+        </span>
+    );
+}
+
 export default function ItemDetailPage() {
   const params = useParams();
   const id = typeof params.id === 'string' ? params.id : '';
   const [item, setItem] = useState<VisualizerItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [polycount, setPolycount] = useState(0);
+  const [materialCount, setMaterialCount] = useState(0);
   const { setBreadcrumbs } = useBreadcrumb();
   const { language } = useLanguage();
   const c = content[language];
@@ -50,9 +70,17 @@ export default function ItemDetailPage() {
     loadItem();
 
     return () => {
-       setBreadcrumbs([]); // Reset on unmount
+       setBreadcrumbs([]);
     }
   }, [id, setBreadcrumbs, language, c]);
+
+  const handlePolycountChange = useCallback((count: number) => {
+    setPolycount(count);
+  }, []);
+
+  const handleMaterialCountChange = useCallback((count: number) => {
+    setMaterialCount(count);
+  }, []);
 
   if (isLoading) {
     return (
@@ -95,13 +123,47 @@ export default function ItemDetailPage() {
                 </Button>
             )}
         </div>
-      <div className="mt-8 h-[50vh] md:h-[65vh] w-full max-w-6xl mx-auto">
-        <ModelCanvas modelUrl={item.modelUrl} />
-      </div>
+        <div className="mt-8 h-[50vh] md:h-[65vh] w-full max-w-6xl mx-auto">
+            <ModelCanvas 
+              modelUrl={item.modelUrl} 
+              onPolycountChange={handlePolycountChange}
+              onMaterialCountChange={handleMaterialCountChange}
+            />
+        </div>
 
-       <div className="my-8 max-w-3xl mx-auto text-center">
-        <p className="text-muted-foreground">{item.description[language]}</p>
-       </div>
+        <div className="my-12 max-w-4xl mx-auto">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl">{c.visualizer.tech_details_title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground mb-6">{item.description[language]}</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
+                        <div className="flex items-center gap-3">
+                            <Layers className="h-6 w-6 text-primary"/>
+                            <div>
+                                <p className="font-semibold">{c.visualizer.tech_details_polycount}</p>
+                                <p className="text-muted-foreground font-mono"><StatCounter end={polycount} /></p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Palette className="h-6 w-6 text-primary"/>
+                            <div>
+                                <p className="font-semibold">{c.visualizer.tech_details_materials}</p>
+                                <p className="text-muted-foreground font-mono"><StatCounter end={materialCount} /></p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 col-span-2 md:col-span-1">
+                            <Cpu className="h-6 w-6 text-primary"/>
+                            <div>
+                                <p className="font-semibold">{c.visualizer.tech_details_software}</p>
+                                <p className="text-muted-foreground">{item.software || 'N/A'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
 
        <div className="flex justify-center">
             <Button asChild>

@@ -318,9 +318,11 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
               </div>
               
               {/* Description longue du projet */}
-              <div className="prose prose-invert prose-lg max-w-none mx-auto mb-16 px-4 sm:px-6 lg:px-8">
-                <p className="text-foreground/90">{project.longDescription[language]}</p>
-              </div>
+              <div 
+                className="prose prose-invert prose-lg max-w-none mx-auto mb-16 px-4 sm:px-6 lg:px-8"
+                dangerouslySetInnerHTML={{ __html: project.longDescription[language] }}
+              />
+
 
               {/* Liens vers le site et partage */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 px-4 sm:px-6 lg:px-8">

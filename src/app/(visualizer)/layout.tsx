@@ -7,9 +7,19 @@ import './visualizer-theme.css';
 import { VisualizerHeader } from '@/components/visualizer/visualizer-header';
 import { BackgroundHalos } from '@/components/background-halos';
 import { useTheme } from '@/contexts/theme-context';
+import { SidebarProvider, Sidebar, SidebarInset, useSidebar } from '@/components/ui/sidebar';
+import { VisualizerSidebar } from '@/components/visualizer/visualizer-sidebar';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
+
+// Le bouton de bascule est maintenant dans VisualizerSidebar.tsx
+// pour un meilleur contrôle du positionnement par rapport au logo.
 
 export default function VisualizerLayout({ children }: { children: ReactNode }) {
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -25,12 +35,23 @@ export default function VisualizerLayout({ children }: { children: ReactNode }) 
 
 
   return (
-    <div className="visualizer-theme dark">
-      <div className="relative flex min-h-screen flex-col">
-          <BackgroundHalos />
-          <VisualizerHeader />
-          <main className="flex-1 w-full px-4 py-8">{children}</main>
-      </div>
-    </div>
+     <SidebarProvider>
+        <div className="visualizer-theme dark">
+          <div className="relative flex min-h-screen">
+              <Sidebar collapsible="icon" className="border-r border-border/50 bg-background/80 backdrop-blur-sm">
+                  <VisualizerSidebar />
+              </Sidebar>
+               <div className={cn("flex flex-1 justify-center", isMobile && "pb-24")}>
+                  <SidebarInset>
+                    <div className="relative flex min-h-svh flex-1 flex-col">
+                        <BackgroundHalos />
+                        <VisualizerHeader />
+                        <main className="flex-1 w-full px-4 py-8">{children}</main>
+                    </div>
+                  </SidebarInset>
+               </div>
+          </div>
+        </div>
+    </SidebarProvider>
   );
 }

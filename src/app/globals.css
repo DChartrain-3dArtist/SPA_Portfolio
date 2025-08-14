@@ -99,6 +99,11 @@
   section {
     @apply scroll-mt-16;
   }
+
+  /* Améliore la lisibilité des descriptions de projet */
+  .prose p {
+    @apply my-4;
+  }
 }
 
 @layer components {

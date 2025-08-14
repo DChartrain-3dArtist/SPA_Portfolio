@@ -11,8 +11,8 @@
       "en": "Design and development of this portfolio with Next.js, ShadCN, and Three.js to demonstrate full-stack and 3D expertise."
     },
     "longDescription": {
-      "fr": "Ce projet est la plateforme sur laquelle vous naviguez. Conçu pour être plus qu'une simple vitrine, c'est une démonstration de mes compétences techniques. Le défi principal était de créer une plateforme qui soit non seulement une vitrine de mes projets, mais aussi une démonstration technique de mes compétences.\n\n**Ma démarche :**\n1.  **Choix de la stack :** J'ai opté pour Next.js et son App Router pour les performances et le SEO. Pour l'interface, j'ai choisi ShadCN UI et Tailwind CSS pour leur flexibilité et leur rapidité de développement, ce qui m'a permis de me concentrer sur une expérience utilisateur soignée.\n2.  **L'expérience 3D :** L'intégration du visualiseur 3D avec Three.js a nécessité une optimisation attentive pour garantir des temps de chargement rapides sans sacrifier la qualité visuelle.\n3.  **L'assistant IA :** L'ajout du chatbot avec Genkit n'était pas seulement un gadget. C'était un exercice concret d'intégration d'une IA moderne dans une application React, en gérant le state management, les appels asynchrones et la validation de données.",
-      "en": "This project is the platform you are currently browsing. It was designed to be more than just a showcase: it's a demonstration of modern technical skills. The main challenge was to create a platform that was not only a showcase of my projects, but also a technical demonstration of my skills.\n\n**My approach:**\n1.  **Stack choice:** I opted for Next.js and its App Router for performance and SEO. For the interface, I chose ShadCN UI and Tailwind CSS for their flexibility and development speed, which allowed me to focus on a neat user experience.\n2.  **The 3D experience:** Integrating the 3D viewer with Three.js required careful optimization to ensure fast loading times without sacrificing visual quality.\n3.  **The AI assistant:** The addition of the chatbot with Genkit was not just a gimmick. It was a concrete exercise in integrating a modern AI into a React application, managing state, asynchronous calls, and data validation."
+      "fr": "<p>Ce projet est la plateforme sur laquelle vous naviguez actuellement. Conçu pour être bien plus qu'une simple vitrine, c'est une <strong>démonstration technique et pratique</strong> de mes compétences en développement web moderne et en intégration 3D.</p><br/><h3>Ma démarche et les défis relevés :</h3><ol><li><p><strong>Choix de la stack technique :</strong><br/>J'ai opté pour <strong>Next.js 14</strong> et son <strong>App Router</strong> pour bénéficier des dernières avancées en matière de performance (RSC) et d'optimisation SEO. Côté UI, l'association de <strong>ShadCN UI</strong> et <strong>Tailwind CSS</strong> a permis un développement rapide et la création d'un design system modulaire et cohérent.</p></li><li><p><strong>L'expérience 3D :</strong><br/>L'un des défis majeurs était d'intégrer un <strong>visualiseur 3D</strong> performant sans alourdir le site. L'utilisation de <strong>Three.js</strong> via <strong>@react-three/fiber</strong> et <strong>@react-three/drei</strong> a permis de créer une scène WebGL optimisée, avec un chargement asynchrone des modèles et des contrôles intuitifs.</p></li><li><p><strong>L'assistant IA \"AURIA\" :</strong><br/>L'intégration d'un chatbot intelligent avec <strong>Genkit</strong> et l'API <strong>Gemini</strong> représentait un défi passionnant. Il a fallu concevoir un prompt système robuste, gérer un format de sortie JSON structuré pour les actions, et assurer une gestion élégante des erreurs (comme les limites de quota), transformant les problèmes en guidage pour l'utilisateur.</p></li></ol>",
+      "en": "<p>This project is the platform you are currently browsing. Designed to be much more than a simple showcase, it is a <strong>technical and practical demonstration</strong> of my skills in modern web development and 3D integration.</p><br/><h3>My approach and the challenges I faced:</h3><ol><li><p><strong>Choice of technical stack:</strong><br/>I opted for <strong>Next.js 14</strong> and its <strong>App Router</strong> to benefit from the latest advances in performance (RSC) and SEO optimization. On the UI side, the combination of <strong>ShadCN UI</strong> and <strong>Tailwind CSS</strong> allowed for rapid development and the creation of a modular and coherent design system.</p></li><li><p><strong>The 3D experience:</strong><br/>One of the major challenges was to integrate a high-performance <strong>3D viewer</strong> without slowing down the site. The use of <strong>Three.js</strong> via <strong>@react-three/fiber</strong> and <strong>@react-three/drei</strong> made it possible to create an optimized WebGL scene, with asynchronous loading of models and intuitive controls.</p></li><li><p><strong>The AI assistant \"AURIA\" :</strong><br/>Integrating an intelligent chatbot with <strong>Genkit</strong> and the <strong>Gemini</strong> API was an exciting challenge. It required designing a robust system prompt, managing a structured JSON output format for actions, and ensuring elegant error handling (such as quota limits), turning problems into user guidance.</p></li></ol>"
     },
     "sector": "Développement Web",
     "productionType": "Application",
@@ -51,8 +51,8 @@
       "en": "A dynamic demonstration of my skills in 3D creation, animation, and real-time rendering."
     },
     "longDescription": {
-      "fr": "Ce showreel met en avant mes compétences en création 3D, animation et rendu en temps réel. Conçu pour offrir une démonstration dynamique de mon travail et de mon expertise, il présente un panel varié de mes capacités en 90 secondes. Le projet met en lumière mes compétences en production 3D et rendu temps réel avec une esthétique moderne et immersive, en utilisant des outils comme Unreal Engine, Cinema 4D et DaVinci Resolve.",
-      "en": "This showreel highlights my skills in 3D creation, animation, and real-time rendering. Designed to provide a dynamic demonstration of my work and expertise, it showcases a diverse range of my abilities in 90 seconds. The project emphasizes my skills in 3D production and real-time rendering with a modern and immersive aesthetic, using tools like Unreal Engine, Cinema 4D, and DaVinci Resolve."
+      "fr": "<p>Ce showreel est une compilation dynamique de mes meilleurs travaux, conçue pour présenter un aperçu rapide et percutant de mes compétences en <strong>création 3D</strong>, <strong>animation</strong>, et <strong>rendu temps réel</strong>.</p><br/><p>L'objectif était de créer une vidéo de 90 secondes qui soit à la fois esthétique et représentative de ma maîtrise technique des outils de production modernes. Le projet met en avant l'utilisation d'<strong>Unreal Engine</strong> pour des rendus photoréalistes, <strong>Cinema 4D</strong> pour la modélisation et l'animation, et <strong>DaVinci Resolve</strong> pour le montage et l'étalonnage final.</p>",
+      "en": "<p>This showreel is a dynamic compilation of my best work, designed to provide a quick and impactful overview of my skills in <strong>3D creation</strong>, <strong>animation</strong>, and <strong>real-time rendering</strong>.</p><br/><p>The objective was to create a 90-second video that is both aesthetically pleasing and representative of my technical mastery of modern production tools. The project highlights the use of <strong>Unreal Engine</strong> for photorealistic rendering, <strong>Cinema 4D</strong> for modeling and animation, and <strong>DaVinci Resolve</strong> for editing and final color grading.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
@@ -85,8 +85,8 @@
       "en": "3D animation of an energy sphere, showcasing special effects and dynamic particle flows."
     },
     "longDescription": {
-      "fr": "Ce projet est une exploration créative du motion design et des effets visuels (VFX). L'animation met en scène une sphère complexe avec un noyau énergétique, entourée de flux de particules et d'effets spéciaux. L'objectif était de maîtriser le rigging, l'animation de particules, et l'intégration de VFX pour un rendu dynamique et captivant. Le projet a été modélisé et animé dans Cinema 4D, puis rendu dans Unreal Engine pour tirer parti de ses capacités en temps réel. La post-production a été réalisée avec DaVinci Resolve pour le color grading final et l'ajout d'effets supplémentaires.",
-      "en": "This project is a creative exploration of motion design and visual effects (VFX). The animation features a complex sphere with an energy core, surrounded by particle flows and special effects. The goal was to master rigging, particle animation, and VFX integration for a dynamic and captivating render. The project was modeled and animated in Cinema 4D, then rendered in Unreal Engine to leverage its real-time capabilities. Post-production was done with DaVinci Resolve for final color grading and additional effects."
+      "fr": "<p>Ce projet est une exploration créative du <strong>motion design</strong> et des <strong>effets visuels (VFX)</strong>. L'animation met en scène une sphère complexe avec un noyau énergétique, entourée de flux de particules et d'effets spéciaux.</p><br/><p>L'objectif était de maîtriser le <strong>rigging</strong> complexe, l'<strong>animation procédurale de particules</strong>, et l'intégration de VFX pour un rendu dynamique et captivant. Le projet a été modélisé et animé dans <strong>Cinema 4D</strong>, puis rendu dans <strong>Unreal Engine</strong> pour tirer parti de ses capacités en temps réel. La post-production a été réalisée avec <strong>DaVinci Resolve</strong> pour le color grading final et l'ajout d'effets supplémentaires.</p>",
+      "en": "<p>This project is a creative exploration of <strong>motion design</strong> and <strong>visual effects (VFX)</strong>. The animation features a complex sphere with an energy core, surrounded by particle flows and special effects.</p><br/><p>The goal was to master complex <strong>rigging</strong>, <strong>procedural particle animation</strong>, and VFX integration for a dynamic and captivating render. The project was modeled and animated in <strong>Cinema 4D</strong>, then rendered in <strong>Unreal Engine</strong> to leverage its real-time capabilities. Post-production was done with <strong>DaVinci Resolve</strong> for final color grading and additional effects.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
@@ -116,8 +116,8 @@
       "en": "Realistic 3D animation of a sports car, highlighting the vehicle's design, lighting, and materials."
     },
     "longDescription": {
-      "fr": "Ce projet est une animation 3D réaliste d’une voiture sportive. L’objectif était de mettre en valeur le design du véhicule à travers des mouvements fluides, un éclairage HDRI et une modélisation précise. Le rendu a été réalisé avec Unreal Engine 5.4 pour un photoréalisme de haute qualité, et la post-production dans After Effects a permis d'affiner les couleurs et les contrastes pour un résultat final percutant.",
-      "en": "This project is a realistic 3D animation of a sports car. The goal was to highlight the vehicle's design through smooth animation, HDRI lighting, and precise modeling. Rendering was done in Unreal Engine 5.4 for high-quality photorealism, with post-processing in After Effects to refine colors and contrasts for a stunning final result."
+      "fr": "<p>Ce projet est une <strong>animation 3D réaliste</strong> d’une voiture de sport fictive. L’objectif principal était de mettre en valeur le design du véhicule à travers des mouvements de caméra fluides, un <strong>éclairage HDRI</strong> de studio, et une modélisation précise des détails.</p><br/><p>Le rendu a été réalisé avec <strong>Unreal Engine 5.4</strong> pour atteindre un niveau de <strong>photoréalisme</strong> élevé, tandis que la post-production sous <strong>After Effects</strong> a permis de peaufiner les couleurs, les contrastes et d'ajouter des effets de lens-flare pour un résultat final percutant et professionnel.</p>",
+      "en": "<p>This project is a <strong>realistic 3D animation</strong> of a fictional sports car. The main goal was to highlight the vehicle's design through smooth camera movements, studio <strong>HDRI lighting</strong>, and precise detail modeling.</p><br/><p>Rendering was done in <strong>Unreal Engine 5.4</strong> to achieve a high level of <strong>photorealism</strong>, while post-production in <strong>After Effects</strong> was used to refine colors, contrasts, and add lens-flare effects for a striking and professional final result.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
@@ -151,8 +151,8 @@
       "en": "Realistic 3D scene of product mockups and packaging."
     },
     "longDescription": {
-      "fr": "Ce projet est une mise en situation réaliste de produits en 3D avec un focus sur le packaging. Grâce à la modélisation, l’éclairage HDRI, les textures PBR et un rendu dans Unreal Engine, les visuels offrent un résultat photoréaliste. La post-production dans Affinity Photo 2 a permis d’ajuster les ambiances et la colorimétrie.",
-      "en": "This project showcases realistic 3D mockups of products and packaging. With detailed modeling, HDRI lighting, PBR materials, and rendering in Unreal Engine, the visuals are photorealistic. Final touches were added in Affinity Photo 2 to enhance lighting and ambiance."
+      "fr": "<p>Ce projet est une <strong>mise en situation réaliste de produits en 3D</strong>, avec un accent particulier sur le <strong>packaging</strong>. L'objectif est de démontrer la capacité à créer des visuels publicitaires ou de e-commerce de haute qualité qui peuvent remplacer une séance photo traditionnelle.</p><br/><p>Grâce à une modélisation soignée, un éclairage HDRI, des textures <strong>PBR (Physically Based Rendering)</strong> et un rendu dans <strong>Unreal Engine</strong>, les visuels atteignent un haut niveau de photoréalisme. La post-production dans Affinity Photo 2 a permis d’ajuster les ambiances et la colorimétrie pour un impact maximal.</p>",
+      "en": "<p>This project showcases <strong>realistic 3D product mockups</strong>, with a special focus on <strong>packaging</strong>. The goal is to demonstrate the ability to create high-quality advertising or e-commerce visuals that can replace a traditional photoshoot.</p><br/><p>Through careful modeling, HDRI lighting, <strong>PBR (Physically Based Rendering)</strong> textures, and rendering in <strong>Unreal Engine</strong>, the visuals achieve a high level of photorealism. Post-production in Affinity Photo 2 allowed for adjusting the mood and colorimetry for maximum impact.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Rendu",
@@ -188,16 +188,16 @@
       "en": "Promotional 3D animation of the Leica Pegasus, a mobile mapping solution for capturing geospatial data."
     },
     "longDescription": {
-      "fr": "Cette animation 3D présente le Leica Pegasus: BackPack, une solution de cartographie mobile avancée conçue pour capturer des données géospatiales précises. L'objectif était de créer une vidéo promotionnelle réaliste et dynamique de l'appareil. Le projet a nécessité une modélisation 3D détaillée, l'application de textures PBR, un éclairage de studio pour valoriser le design, et une animation fluide des caméras. Le rendu a été effectué dans Unreal Engine, avec des ajustements en post-production sur After Effects pour un résultat professionnel et percutant.",
-      "en": "This 3D animation showcases the Leica Pegasus: BackPack, an advanced mobile mapping solution designed for capturing precise geospatial data. The objective was to create a realistic and dynamic promotional video of the device. The project involved detailed 3D modeling, PBR texturing, studio lighting to highlight the design, and smooth camera animation. Rendering was done in Unreal Engine, with post-production adjustments in After Effects for a professional and impactful result."
+      "fr": "<p>Cette <strong>animation 3D promotionnelle</strong> présente le <strong>Leica Pegasus: BackPack</strong>, une solution de <strong>cartographie mobile</strong> avancée conçue pour capturer des données géospatiales précises. L'objectif était de créer une vidéo promotionnelle réaliste et dynamique de l'appareil, mettant en avant son design et sa technologie.</p><br/><p>Le projet a nécessité une modélisation 3D détaillée, l'application de textures PBR, un éclairage de studio pour valoriser le design, et une animation fluide des caméras. Le rendu a été effectué dans <strong>Unreal Engine</strong>, avec des ajustements en post-production sur After Effects pour un résultat professionnel et percutant.</p>",
+      "en": "<p>This <strong>promotional 3D animation</strong> showcases the <strong>Leica Pegasus: BackPack</strong>, an advanced <strong>mobile mapping</strong> solution designed for capturing precise geospatial data. The objective was to create a realistic and dynamic promotional video of the device, highlighting its design and technology.</p><br/><p>The project involved detailed 3D modeling, PBR texturing, studio lighting to highlight the design, and smooth camera animation. Rendering was done in <strong>Unreal Engine</strong>, with post-production adjustments in After Effects for a professional and impactful result.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
     "image": "/assets/project-assets/LS_Backpack_Plan-1-2-3-4.0173.webp",
     "images": [
       "/assets/project-assets/LS_Backpack_Plan-1-2-3-4.0173.webp",
-      "/assets/project-assets/LS_Backpack_Plan-8.0038.webp",
-      "/assets/project-assets/LS_BackPack_PLan6-7.0057.webp"
+      "/assets/project-assets/LS_BackPack_PLan6-7.0057.webp",
+      "/assets/project-assets/LS_Backpack_Plan-8.0038.webp"
     ],
     "technologies": [
       "Blender",
@@ -220,16 +220,16 @@
       "en": "Promotional 3D animation of the VIVAX, a network detection device, for the Grapheau company."
     },
     "longDescription": {
-      "fr": "Ce projet est une animation 3D promotionnelle de l'appareil de détection de réseaux VIVAX, réalisée pour la société Grapheau. L'objectif était de créer une vidéo dynamique et réaliste pour présenter le produit. La mission a couvert la modélisation 3D détaillée de l'appareil, la création de textures PBR, un éclairage de studio pour valoriser le produit, et une animation de caméra fluide et immersive. Le rendu a été effectué dans Unreal Engine, et la post-production sur After Effects a permis de peaufiner le résultat final pour une communication efficace.",
-      "en": "This project is a promotional 3D animation of the VIVAX network detection device, created for the Grapheau company. The objective was to create a dynamic and realistic video to present the product. The mission covered detailed 3D modeling of the device, creating PBR textures, studio lighting to highlight the product, and smooth and immersive camera animation. Rendering was done in Unreal Engine, and post-production in After Effects helped refine the final result for effective communication."
+      "fr": "<p>Ce projet est une <strong>animation 3D promotionnelle</strong> de l'appareil de <strong>détection de réseaux VIVAX</strong>, réalisée pour la société Grapheau. L'objectif était de créer une vidéo dynamique et réaliste pour présenter le produit et ses fonctionnalités de manière claire et engageante.</p><br/><p>La mission a couvert la modélisation 3D détaillée de l'appareil, la création de textures PBR, un éclairage de studio pour valoriser le produit, et une animation de caméra fluide et immersive. Le rendu a été effectué dans <strong>Unreal Engine</strong>, et la post-production sur After Effects a permis de peaufiner le résultat final pour une communication efficace.</p>",
+      "en": "<p>This project is a <strong>promotional 3D animation</strong> of the <strong>VIVAX network detection device</strong>, created for the Grapheau company. The objective was to create a dynamic and realistic video to present the product and its features in a clear and engaging way.</p><br/><p>The mission covered detailed 3D modeling of the device, creating PBR textures, studio lighting to highlight the product, and smooth and immersive camera animation. Rendering was done in <strong>Unreal Engine</strong>, and post-production in After Effects helped refine the final result for effective communication.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
     "image": "/assets/project-assets/LS_Vivax_Render.0050.webp",
     "images": [
       "/assets/project-assets/LS_Vivax_Render.0050.webp",
-      "/assets/project-assets/Ls_Vivax_plan_8.0118.webp",
-      "/assets/project-assets/Ls_Vivax_plan_6.0027.webp"
+      "/assets/project-assets/Ls_Vivax_plan_6.0027.webp",
+      "/assets/project-assets/Ls_Vivax_plan_8.0118.webp"
     ],
     "technologies": [
       "Blender",
@@ -252,18 +252,18 @@
       "en": "Promotional 3D animation of the DJI Phantom drone, highlighting its design and features."
     },
     "longDescription": {
-      "fr": "Ce projet est une animation 3D promotionnelle du drone DJI Phantom. L'objectif était de créer une vidéo réaliste et dynamique pour présenter l'appareil sous tous ses angles. Le projet a impliqué une modélisation 3D précise, l'application de textures PBR pour un réalisme accru, un éclairage de studio pour valoriser le design, et une animation de caméra fluide. Le rendu a été effectué dans Unreal Engine, et la post-production sur After Effects pour un résultat professionnel.",
-      "en": "This project is a promotional 3D animation of the DJI Phantom drone. The objective was to create a realistic and dynamic video to showcase the device from all angles. The project involved precise 3D modeling, PBR texturing for enhanced realism, studio lighting to highlight the design, and smooth camera animation. Rendering was done in Unreal Engine, with post-production in After Effects for a professional result."
+      "fr": "<p>Ce projet est une <strong>animation 3D promotionnelle</strong> du drone DJI Phantom. L'objectif était de créer une vidéo réaliste et dynamique pour présenter l'appareil sous tous ses angles, en mettant en avant son design iconique et ses capacités de vol.</p><br/><p>Le projet a impliqué une modélisation 3D précise, l'application de textures PBR pour un réalisme accru, un éclairage de studio pour valoriser le design, et une animation de caméra fluide. Le rendu a été effectué dans <strong>Unreal Engine</strong>, et la post-production sur After Effects pour un résultat professionnel.</p>",
+      "en": "<p>This project is a <strong>promotional 3D animation</strong> of the DJI Phantom drone. The objective was to create a realistic and dynamic video to showcase the device from all angles, highlighting its iconic design and flight capabilities.</p><br/><p>The project involved precise 3D modeling, PBR texturing for enhanced realism, studio lighting to highlight the design, and smooth camera animation. Rendering was done in <strong>Unreal Engine</strong>, with post-production in After Effects for a professional result.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
     "image": "/assets/project-assets/LS_Drone_Plan-8-9-10-11-12-13.0341.webp",
     "images": [
       "/assets/project-assets/LS_Drone_Plan-8-9-10-11-12-13.0341.webp",
-      "/assets/project-assets/LS_Drone_Plan-8-9-10-11-12-13.0071.webp",
-      "/assets/project-assets/LS_Drone_Plan-5.0098.webp",
       "/assets/project-assets/LS_Drone_Plan-4.0140.webp",
-      "/assets/project-assets/LS_Drone_Plan-6.0130.webp"
+      "/assets/project-assets/LS_Drone_Plan-5.0098.webp",
+      "/assets/project-assets/LS_Drone_Plan-6.0130.webp",
+      "/assets/project-assets/LS_Drone_Plan-8-9-10-11-12-13.0071.webp"
     ],
     "technologies": [
       "Blender",
@@ -286,8 +286,8 @@
       "en": "Series of realistic computer-generated images of the US RADAR, an ultrasonic network detection device."
     },
     "longDescription": {
-      "fr": "Ce projet consiste en un ensemble d'images de synthèse présentant l'US RADAR, un appareil avancé de détection de réseaux par ultrasons. Réalisé pour la société Grapheau, l'objectif était de produire des visuels réalistes et détaillés de l'appareil pour leur communication et leur marketing. Le processus a inclus une modélisation précise, l'application de textures PBR, et un éclairage de studio pour mettre en valeur le design et les fonctionnalités du produit. Le rendu a été effectué dans Unreal Engine pour un résultat photoréaliste, avec des retouches finales sur Photoshop.",
-      "en": "This project consists of a set of computer-generated images showcasing the US RADAR, an advanced ultrasonic network detection device. Created for the company Grapheau, the objective was to produce realistic and detailed visuals of the device for their communication and marketing needs. The process included precise modeling, PBR texturing, and studio lighting to highlight the product's design and features. Rendering was done in Unreal Engine for a photorealistic result, with final touch-ups in Photoshop."
+      "fr": "<p>Ce projet consiste en un ensemble d'images de synthèse présentant l'<strong>US RADAR</strong>, un appareil avancé de détection de réseaux par ultrasons. Réalisé pour la société Grapheau, l'objectif était de produire des <strong>visuels réalistes et détaillés</strong> de l'appareil pour leur communication et leur marketing.</p><br/><p>Le processus a inclus une modélisation précise, l'application de textures PBR, et un éclairage de studio pour mettre en valeur le design et les fonctionnalités du produit. Le rendu a été effectué dans <strong>Unreal Engine</strong> pour un résultat photoréaliste, avec des retouches finales sur Photoshop.</p>",
+      "en": "<p>This project consists of a set of computer-generated images showcasing the <strong>US RADAR</strong>, an advanced ultrasonic network detection device. Created for the company Grapheau, the objective was to produce <strong>realistic and detailed visuals</strong> of the device for their communication and marketing needs.</p><br/><p>The process included precise modeling, PBR texturing, and studio lighting to highlight the product's design and features. Rendering was done in <strong>Unreal Engine</strong> for a photorealistic result, with final touch-ups in Photoshop.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Rendu",
@@ -320,8 +320,8 @@
       "en": "Android mobile app to configure 3D objects in real time."
     },
     "longDescription": {
-      "fr": "Développée sous Unreal Engine 5, cette application Android permet de configurer des objets 3D directement sur smartphone. L’utilisateur peut personnaliser les matériaux et couleurs via une interface tactile optimisée. Grâce à un rendu en temps réel et une interface fluide, le projet illustre parfaitement mes compétences en développement interactif, optimisation mobile et UX/UI sur Android. La modélisation a été réalisée dans Cinema 4D, avec des scripts Blueprints et C++.",
-      "en": "Built with Unreal Engine 5, this Android application lets users configure 3D objects directly on smartphones. It enables real-time visualization and advanced material customization through an intuitive touchscreen UI. The project highlights my skills in interactive development, mobile performance optimization, and UX/UI on Android. 3D models were created with Cinema 4D and programmed using Blueprints and C++."
+      "fr": "<p>Développée sous <strong>Unreal Engine 5</strong>, cette <strong>application Android</strong> permet de configurer des objets 3D directement sur smartphone. L’utilisateur peut personnaliser les matériaux et couleurs via une interface tactile optimisée.</p><br/><p>Grâce à un <strong>rendu en temps réel</strong> et une interface fluide, le projet illustre parfaitement mes compétences en <strong>développement interactif</strong>, optimisation mobile et UX/UI sur Android. La modélisation a été réalisée dans Cinema 4D, avec des scripts <strong>Blueprints</strong> et <strong>C++</strong>.</p>",
+      "en": "<p>Built with <strong>Unreal Engine 5</strong>, this <strong>Android application</strong> lets users configure 3D objects directly on smartphones. It enables <strong>real-time visualization</strong> and advanced material customization through an intuitive touchscreen UI.</p><br/><p>The project highlights my skills in <strong>interactive development</strong>, mobile performance optimization, and UX/UI on Android. 3D models were created with Cinema 4D and programmed using <strong>Blueprints</strong> and <strong>C++</strong>.</p>"
     },
     "sector": "3D Temps Réel",
     "productionType": "Application",
@@ -352,8 +352,8 @@
       "en": "Interactive Windows application for real-time 3D desk configuration."
     },
     "longDescription": {
-      "fr": "Développé sous Unreal Engine 5, ce configurateur 3D pour PC permet à l’utilisateur de personnaliser un bureau en temps réel via une interface intuitive. L’application exploite la puissance graphique des machines Windows pour offrir une expérience fluide avec rendu optimisé. Modélisation réalisée dans Cinema 4D, logique interactive via Blueprints et C++, et interface UI adaptée au PC. Le projet illustre des compétences avancées en UX desktop, développement interactif et optimisation graphique sur plateformes Windows.",
-      "en": "Developed with Unreal Engine 5, this 3D configurator for PC allows users to personalize a desk in real time through a streamlined interface. The app leverages the graphical power of Windows machines for a high-quality, fluid experience. Modeling was done in Cinema 4D, with interactivity handled through Blueprints and C++. UI was specifically designed for desktop usage. The project showcases advanced skills in desktop UX, interactive development, and real-time performance optimization on Windows."
+      "fr": "<p>Développé sous <strong>Unreal Engine 5</strong>, ce <strong>configurateur 3D pour PC</strong> permet à l’utilisateur de personnaliser un bureau en temps réel via une interface intuitive. L’application exploite la puissance graphique des machines Windows pour offrir une expérience fluide avec rendu optimisé.</p><br/><p>La modélisation a été réalisée dans Cinema 4D, la logique interactive via <strong>Blueprints</strong> et <strong>C++</strong>, et l'interface utilisateur a été spécifiquement adaptée au PC. Le projet illustre des compétences avancées en <strong>UX desktop</strong>, <strong>développement interactif</strong> et optimisation graphique sur les plateformes Windows.</p>",
+      "en": "<p>Developed with <strong>Unreal Engine 5</strong>, this <strong>3D configurator for PC</strong> allows users to personalize a desk in real time through a streamlined interface. The app leverages the graphical power of Windows machines for a high-quality, fluid experience.</p><br/><p>Modeling was done in Cinema 4D, with interactivity handled through <strong>Blueprints</strong> and <strong>C++</strong>. The UI was specifically designed for desktop usage. The project showcases advanced skills in <strong>desktop UX</strong>, <strong>interactive development</strong>, and real-time performance optimization on Windows.</p>"
     },
     "sector": "3D Temps Réel",
     "productionType": "Application",
@@ -384,8 +384,8 @@
       "en": "Immersive WebGL app to showcase an interactive 3D portfolio."
     },
     "longDescription": {
-      "fr": "Orbital Portfolio est une application WebGL interactive développée sous Unity 6. Elle propose une expérience immersive dans un système solaire virtuel, où chaque planète représente une section du portfolio (présentation, compétences, projets). Conçue pour navigateur et mobile, elle met en avant mes compétences en développement Web 3D, optimisation Unity/WebGL, UI/UX interactif, et modélisation sous Cinema 4D. Une interface fluide, des animations dynamiques et un design responsive rendent l’exploration intuitive et captivante.",
-      "en": "Orbital Portfolio is an interactive WebGL application developed with Unity 6. It offers an immersive experience through a 3D solar system, where each planet represents a portfolio section (presentation, skills, projects). Designed for web and mobile platforms, the app highlights my expertise in Web 3D development, Unity/WebGL optimization, interactive UI/UX, and 3D modeling with Cinema 4D. Smooth interface, dynamic animations, and responsive design make the experience intuitive and engaging."
+      "fr": "<p>Orbital Portfolio est une <strong>application WebGL interactive</strong> développée sous <strong>Unity 6</strong>. Elle propose une expérience immersive dans un système solaire virtuel, où chaque planète représente une section du portfolio (présentation, compétences, projets).</p><br/><p>Conçue pour navigateur et mobile, elle met en avant mes compétences en <strong>développement Web 3D</strong>, optimisation <strong>Unity/WebGL</strong>, <strong>UI/UX interactif</strong>, et modélisation sous Cinema 4D. Une interface fluide, des animations dynamiques et un design responsive rendent l’exploration intuitive et captivante.</p>",
+      "en": "<p>Orbital Portfolio is an <strong>interactive WebGL application</strong> developed with <strong>Unity 6</strong>. It offers an immersive experience through a 3D solar system, where each planet represents a portfolio section (presentation, skills, projects).</p><br/><p>Designed for web and mobile platforms, the app highlights my expertise in <strong>Web 3D development</strong>, <strong>Unity/WebGL</strong> optimization, <strong>interactive UI/UX</strong>, and 3D modeling with Cinema 4D. A smooth interface, dynamic animations, and responsive design make the experience intuitive and engaging.</p>"
     },
     "sector": "3D Temps Réel",
     "productionType": "Application",
@@ -415,8 +415,8 @@
       "en": "Realistic 3D architectural visualization of a house."
     },
     "longDescription": {
-      "fr": "Ce projet présente une visualisation 3D réaliste d’une maison fictive. L’objectif principal était de créer une mise en perspective crédible à l’aide de textures PBR, d’un éclairage HDRI et d’un moteur de rendu temps réel performant (Unreal Engine 5.2). La conception des plans a été faite avec Live Home 3D, la modélisation avec Cinema 4D, et la post-production avec Adobe Photoshop et After Effects. Ce projet met en avant mes compétences en modélisation architecturale, optimisation pour le rendu temps réel, lighting naturel et maîtrise du pipeline de production 3D.",
-      "en": "This project showcases a realistic 3D visualization of a fictional house. The main objective was to deliver a believable architectural rendering using PBR textures, HDRI lighting and a powerful real-time engine (Unreal Engine 5.2). Floor plans were designed with Live Home 3D, modeling was done in Cinema 4D, and post-production in Adobe Photoshop and After Effects. The project highlights my skills in architectural modeling, real-time rendering optimization, natural lighting and mastery of the 3D production pipeline."
+      "fr": "<p>Ce projet présente une <strong>visualisation 3D réaliste</strong> d’une maison fictive. L’objectif principal était de créer une mise en perspective crédible à l’aide de <strong>textures PBR</strong>, d’un <strong>éclairage HDRI</strong> et d’un moteur de rendu temps réel performant (<strong>Unreal Engine 5.2</strong>).</p><br/><p>La conception des plans a été faite avec Live Home 3D, la modélisation avec Cinema 4D, et la post-production avec Adobe Photoshop et After Effects. Ce projet met en avant mes compétences en <strong>modélisation architecturale</strong>, optimisation pour le rendu temps réel, éclairage naturel et maîtrise du pipeline de production 3D.</p>",
+      "en": "<p>This project showcases a <strong>realistic 3D visualization</strong> of a fictional house. The main objective was to deliver a believable architectural rendering using <strong>PBR textures</strong>, <strong>HDRI lighting</strong> and a powerful real-time engine (<strong>Unreal Engine 5.2</strong>).</p><br/><p>Floor plans were designed with Live Home 3D, modeling was done in Cinema 4D, and post-production in Adobe Photoshop and After Effects. The project highlights my skills in <strong>architectural modeling</strong>, real-time rendering optimization, natural lighting and mastery of the 3D production pipeline.</p>"
     },
     "sector": "Visualisation Architecturale",
     "productionType": "Rendu",
@@ -449,12 +449,17 @@
           "en": "Lounge Chair"
         },
         "description": {
-          "fr": "Visualisation d'une chaise de salon moderne.",
-          "en": "Visualization of a modern lounge chair."
+          "fr": "Cette chaise a été modélisée pour tester les pipelines de création d'assets photoréalistes pour le temps réel. L'accent a été mis sur une topologie optimisée et des matériaux PBR de haute qualité.",
+          "en": "This chair was modeled to test photorealistic asset creation pipelines for real-time rendering. The focus was on an optimized topology and high-quality PBR materials."
         },
         "image": "/assets/project-assets/Archi_1.webp",
         "modelUrl": "/models/chair.glb",
-        "hint": "chair furniture"
+        "hint": "chair furniture",
+        "polycount": 15328,
+        "materials": 4,
+        "software": "Cinema 4D, Substance Painter, Unreal Engine",
+        "category": "Mobilier",
+        "isFeatured": true
       }
     ]
   },
@@ -469,16 +474,16 @@
       "en": "Realistic and immersive 3D animation of the Apt water body, created for the Grapheau firm from photogrammetric surveys."
     },
     "longDescription": {
-      "fr": "Ce projet, réalisé pour la société Grapheau, présente une animation 3D photoréaliste du plan d’eau de la ville d’Apt. La scène a été fidèlement reconstruite à partir de données photogrammétriques obtenues via drone et BackPack. Grâce à une combinaison de Blender pour la modélisation, d'Unreal Engine 4.27 pour le rendu temps réel, et d'After Effects pour la post-production, une mise en valeur immersive du site a été produite. Le projet met en lumière une modélisation précise, des textures PBR, un éclairage HDRI et une animation fluide de la caméra pour un rendu final professionnel et fidèle à l'environnement réel.",
-      "en": "This project, created for the Grapheau company, features a photorealistic 3D animation of the Apt water body. The scene was faithfully reconstructed from photogrammetric data acquired by drone and BackPack. Using a combination of Blender for modeling, Unreal Engine 4.27 for real-time rendering, and After Effects for post-production, an immersive showcase of the site was produced. The project highlights precise modeling, PBR textures, HDRI lighting, and smooth camera animation for a professional and realistic final result true to the actual environment."
+      "fr": "<p>Ce projet, réalisé pour la société Grapheau, présente une <strong>animation 3D photoréaliste</strong> du plan d’eau de la ville d’Apt. La scène a été fidèlement reconstruite à partir de <strong>données photogrammétriques</strong> obtenues via drone et BackPack.</p><br/><p>Grâce à une combinaison de Blender pour la modélisation, d'<strong>Unreal Engine 4.27</strong> pour le rendu temps réel, et d'After Effects pour la post-production, une mise en valeur immersive du site a été produite. Le projet met en lumière une modélisation précise, des textures PBR, un éclairage HDRI et une animation fluide de la caméra pour un rendu final professionnel et fidèle à l'environnement réel.</p>",
+      "en": "<p>This project, created for the Grapheau company, features a <strong>photorealistic 3D animation</strong> of the Apt water body. The scene was faithfully reconstructed from <strong>photogrammetric data</strong> acquired by drone and BackPack.</p><br/><p>Using a combination of Blender for modeling, <strong>Unreal Engine 4.27</strong> for real-time rendering, and After Effects for post-production, an immersive showcase of the site was produced. The project highlights precise modeling, PBR textures, HDRI lighting, and smooth camera animation for a professional and realistic final result true to the actual environment.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
     "image": "/assets/project-assets/AnimationApt.webp",
     "images": [
       "/assets/project-assets/AnimationApt.webp",
-      "/assets/project-assets/Apt_NDP.webp",
-      "/assets/project-assets/APT_Image.webp"
+      "/assets/project-assets/APT_Image.webp",
+      "/assets/project-assets/Apt_NDP.webp"
     ],
     "technologies": [
       "Blender",
@@ -501,8 +506,8 @@
       "en": "Creation of the showcase website for the Grapheau engineering consultancy, based on WordPress and Divi."
     },
     "longDescription": {
-      "fr": "Le site grapheau.fr est la vitrine en ligne du cabinet d'ingénieurs-conseils Grapheau. L'objectif était de présenter de manière claire et professionnelle l'ensemble des services (ingénierie, topographie, 3D), de mettre en avant son expertise et de faciliter la prise de contact. Le site a été développé sous WordPress avec le constructeur Divi, et inclut des optimisations SEO pour une meilleure visibilité. Des extensions personnalisées ont également été créées pour répondre aux besoins spécifiques du cabinet.",
-      "en": "The grapheau.fr website is the online showcase for the Grapheau engineering consultancy. The objective was to clearly and professionally present all services (engineering, topography, 3D), highlight its expertise, and facilitate contact. The site was developed on WordPress with the Divi builder and includes SEO optimizations for better visibility. Custom extensions were also created to meet the firm's specific needs."
+      "fr": "<p>Le site grapheau.fr est la vitrine en ligne du cabinet d'ingénieurs-conseils Grapheau. L'objectif était de présenter de manière claire et professionnelle l'ensemble des services (<strong>ingénierie, topographie, 3D</strong>), de mettre en avant son expertise et de faciliter la prise de contact.</p><br/><p>Le site a été développé sous <strong>WordPress</strong> avec le constructeur <strong>Divi</strong>, et inclut des <strong>optimisations SEO</strong> pour une meilleure visibilité. Des extensions personnalisées ont également été créées pour répondre aux besoins spécifiques du cabinet.</p>",
+      "en": "<p>The grapheau.fr website is the online showcase for the Grapheau engineering consultancy. The objective was to clearly and professionally present all services (<strong>engineering, topography, 3D</strong>), highlight its expertise, and facilitate contact.</p><br/><p>The site was developed on <strong>WordPress</strong> with the <strong>Divi</strong> builder and includes <strong>SEO optimizations</strong> for better visibility. Custom extensions were also created to meet the firm's specific needs.</p>"
     },
     "sector": "Développement Web",
     "productionType": "Site Web",
@@ -510,9 +515,9 @@
     "images": [
       "/assets/project-assets/Grapheau_Accueil.webp",
       "/assets/project-assets/Grapheau_APropos.webp",
+      "/assets/project-assets/Grapheau_Contact.webp",
       "/assets/project-assets/Grapheau_QuiSommeNous.webp",
-      "/assets/project-assets/Grapheau_Services.webp",
-      "/assets/project-assets/Grapheau_Contact.webp"
+      "/assets/project-assets/Grapheau_Services.webp"
     ],
     "technologies": [
       "WordPress",
@@ -538,18 +543,18 @@
       "en": "Creation of the showcase website for the vehicle rental agency Location Drive Ventoux, developed with WordPress and Divi."
     },
     "longDescription": {
-      "fr": "Le site de Location Drive Ventoux sert de vitrine en ligne pour l'agence de location de véhicules, qui possède des agences à Saint-Pierre-de-Vassols et Six-Fours-les-Plages. L'objectif principal était de présenter une gamme variée de véhicules (citadines, SUV, utilitaires, exotiques), de détailler les services et formules de location, et de simplifier le processus de réservation en ligne. Construit sur WordPress avec le builder Divi, le site a été optimisé pour le SEO afin d'améliorer sa visibilité et d'attirer une nouvelle clientèle.",
-      "en": "The Location Drive Ventoux website serves as an online showcase for the vehicle rental agency, with branches in Saint-Pierre-de-Vassols and Six-Fours-les-Plages. The main objective was to present a varied range of vehicles (city cars, SUVs, utility vehicles, exotic cars), detail the rental services and packages, and simplify the online booking process. Built on WordPress with the Divi builder, the site has been optimized for SEO to improve its visibility and attract new customers."
+      "fr": "<p>Le site de Location Drive Ventoux sert de vitrine en ligne pour l'agence de <strong>location de véhicules</strong>, qui possède des agences à Saint-Pierre-de-Vassols et Six-Fours-les-Plages. L'objectif principal était de présenter une gamme variée de véhicules (citadines, SUV, utilitaires, exotiques), de détailler les services et formules de location, et de simplifier le processus de réservation en ligne.</p><br/><p>Construit sur <strong>WordPress</strong> avec le builder <strong>Divi</strong>, le site a été optimisé pour le <strong>SEO</strong> afin d'améliorer sa visibilité et d'attirer une nouvelle clientèle.</p>",
+      "en": "<p>The Location Drive Ventoux website serves as an online showcase for the <strong>vehicle rental</strong> agency, with branches in Saint-Pierre-de-Vassols and Six-Fours-les-Plages. The main objective was to present a varied range of vehicles (city cars, SUVs, utility vehicles, exotic cars), detail the rental services and packages, and simplify the online booking process.</p><br/><p>Built on <strong>WordPress</strong> with the <strong>Divi</strong> builder, the site has been optimized for <strong>SEO</strong> to improve its visibility and attract new customers.</p>"
     },
     "sector": "Développement Web",
     "productionType": "Site Web",
     "image": "/assets/project-assets/LDV_Accueil.webp",
     "images": [
       "/assets/project-assets/LDV_Accueil.webp",
-      "/assets/project-assets/LDV_Exotique.webp",
-      "/assets/project-assets/LDV_NosVehicules.webp",
       "/assets/project-assets/LDV_APropos.webp",
-      "/assets/project-assets/LDV_NosAgences.webp"
+      "/assets/project-assets/LDV_Exotique.webp",
+      "/assets/project-assets/LDV_NosAgences.webp",
+      "/assets/project-assets/LDV_NosVehicules.webp"
     ],
     "technologies": [
       "WordPress",
@@ -576,17 +581,17 @@
       "en": "Creation of the showcase website for a charming guesthouse in Provence, developed with WordPress and the Divi builder."
     },
     "longDescription": {
-      "fr": "Le site La Meynardière a été conçu pour être la vitrine en ligne d'un gîte de charme situé au pied du Mont Ventoux. L'objectif était de capturer l'atmosphère provençale et de présenter de manière attrayante les caractéristiques du gîte, ses services, ainsi que les activités touristiques locales. Développé sur WordPress avec Divi, le site facilite la prise de contact et la réservation pour les visiteurs, tout en étant optimisé pour le référencement afin d'attirer une clientèle internationale.",
-      "en": "The La Meynardière website was designed as the online showcase for a charming guesthouse at the foot of Mont Ventoux. The goal was to capture the Provencal atmosphere and attractively present the guesthouse's features, services, and local tourist activities. Developed on WordPress with Divi, the site facilitates contact and booking for visitors, while being SEO-optimized to attract an international clientele."
+      "fr": "<p>Le site La Meynardière a été conçu pour être la vitrine en ligne d'un <strong>gîte de charme</strong> situé au pied du Mont Ventoux. L'objectif était de capturer l'atmosphère provençale et de présenter de manière attrayante les caractéristiques du gîte, ses services, ainsi que les activités touristiques locales.</p><br/><p>Développé sur <strong>WordPress</strong> avec <strong>Divi</strong>, le site facilite la prise de contact et la réservation pour les visiteurs, tout en étant optimisé pour le <strong>référencement</strong> afin d'attirer une clientèle internationale.</p>",
+      "en": "<p>The La Meynardière website was designed as the online showcase for a <strong>charming guesthouse</strong> at the foot of Mont Ventoux. The goal was to capture the Provencal atmosphere and attractively present the guesthouse's features, services, and local tourist activities.</p><br/><p>Developed on <strong>WordPress</strong> with <strong>Divi</strong>, the site facilitates contact and booking for visitors, while being <strong>SEO-optimized</strong> to attract an international clientele.</p>"
     },
     "sector": "Développement Web",
     "productionType": "Site Web",
     "image": "/assets/project-assets/LM_Accueil.webp",
     "images": [
       "/assets/project-assets/LM_Accueil.webp",
+      "/assets/project-assets/LM_Actrivite.webp",
       "/assets/project-assets/LM_Presentation.webp",
-      "/assets/project-assets/LM_Services.webp",
-      "/assets/project-assets/LM_Actrivite.webp"
+      "/assets/project-assets/LM_Services.webp"
     ],
     "technologies": [
       "WordPress",
@@ -613,17 +618,17 @@
       "en": "Showcase of my old portfolio, a presentation of my skills in 3D, interactivity, and web development."
     },
     "longDescription": {
-      "fr": "Cette page présente mon ancien portfolio, conçu pour mettre en avant mes compétences en modélisation 3D, applications interactives et développement web. L'objectif était de créer une expérience visuelle pour l'architecture, l'industrie et la communication. Le site était statique, optimisé pour la performance et hébergé sur GitHub Pages, utilisant des technologies comme HTML5, CSS3, JavaScript et WebGL pour les éléments interactifs.",
-      "en": "This page showcases my old portfolio, designed to highlight my skills in 3D modeling, interactive applications, and web development. The goal was to create a visual experience for architecture, industry, and communication. The site was static, optimized for performance, and hosted on GitHub Pages, using technologies like HTML5, CSS3, JavaScript, and WebGL for interactive elements."
+      "fr": "<p>Cette page présente mon ancien portfolio, conçu pour mettre en avant mes compétences en <strong>modélisation 3D</strong>, <strong>applications interactives</strong> et <strong>développement web</strong>. L'objectif était de créer une expérience visuelle pour l'architecture, l'industrie et la communication.</p><br/><p>Le site était statique, optimisé pour la performance et hébergé sur GitHub Pages, utilisant des technologies comme <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>JavaScript</strong> et <strong>WebGL</strong> pour les éléments interactifs.</p>",
+      "en": "<p>This page showcases my old portfolio, designed to highlight my skills in <strong>3D modeling</strong>, <strong>interactive applications</strong>, and <strong>web development</strong>. The goal was to create a visual experience for architecture, industry, and communication.</p><br/><p>The site was static, optimized for performance, and hosted on GitHub Pages, using technologies like <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>JavaScript</strong>, and <strong>WebGL</strong> for interactive elements.</p>"
     },
     "sector": "Développement Web",
     "productionType": "Site Web",
     "image": "/assets/project-assets/Portfolio_Accueil.webp",
     "images": [
       "/assets/project-assets/Portfolio_Accueil.webp",
-      "/assets/project-assets/Portfolio_Projet.webp",
       "/assets/project-assets/Portfolio_Competence.webp",
-      "/assets/project-assets/Portfolio_Contact.webp"
+      "/assets/project-assets/Portfolio_Contact.webp",
+      "/assets/project-assets/Portfolio_Projet.webp"
     ],
     "technologies": [
       "HTML5",

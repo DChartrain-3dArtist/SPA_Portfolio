@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { content } from '@/lib/content';
 import type { Metadata } from 'next';
@@ -63,16 +62,16 @@ export default function LegalNoticePage() {
                 </Section>
                 
                 <Section title={c.hosting_title}>
-                     <p dangerouslySetInnerHTML={{ __html: c.hosting_content }} />
+                     <div dangerouslySetInnerHTML={{ __html: c.hosting_content }} />
                 </Section>
 
                 <Section title={c.ip_title}>
-                     <p>{c.ip_content1}</p>
-                    <p>{c.ip_content2}</p>
+                     <div dangerouslySetInnerHTML={{ __html: c.ip_content1 }} />
+                     <div dangerouslySetInnerHTML={{ __html: c.ip_content2 }} />
                 </Section>
                 
                 <Section title={c.data_title}>
-                    <p>{c.data_content}</p>
+                    <div dangerouslySetInnerHTML={{ __html: c.data_content }} />
                 </Section>
             </div>
         </main>

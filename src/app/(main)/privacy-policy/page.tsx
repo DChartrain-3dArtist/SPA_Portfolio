@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { content } from '@/lib/content';
 import type { Metadata } from 'next';
@@ -55,70 +54,66 @@ export default function PrivacyPolicyPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-center mb-12">{c.title}</h1>
           
           <Section title={c.introduction_title}>
-            <p>{c.introduction_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.introduction_content }} />
           </Section>
 
           <Section title={c.collection_title}>
-            <p>{c.collection_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.collection_content }} />
             
             <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.user_data_title}</h3>
-            <p>{c.user_data_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.user_data_content }} />
             <ul>
-              {c.user_data_list.map((item, index) => <li key={index}>{item}</li>)}
+              {c.user_data_list.map((item, index) => <li key={index} dangerouslySetInnerHTML={{ __html: item }} />)}
             </ul>
 
             <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.third_party_data_title}</h3>
-             <p>{c.third_party_data_content}</p>
+             <p dangerouslySetInnerHTML={{ __html: c.third_party_data_content }} />
             <ul>
-                <li>
-                    <p dangerouslySetInnerHTML={{ __html: c.third_party_hosting }} />
-                </li>
-                <li>
-                    <p dangerouslySetInnerHTML={{ __html: c.third_party_youtube }} />
-                </li>
+                <li dangerouslySetInnerHTML={{ __html: c.third_party_hosting }} />
+                <li dangerouslySetInnerHTML={{ __html: c.third_party_youtube }} />
             </ul>
-             <p>{c.third_party_responsibility}</p>
+             <p dangerouslySetInnerHTML={{ __html: c.third_party_responsibility }} />
           </Section>
 
           <Section title={c.usage_title}>
-            <p>{c.usage_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.usage_content }} />
             <ul>
-              {c.usage_list.map((item, index) => <li key={index}>{item}</li>)}
+              {c.usage_list.map((item, index) => <li key={index} dangerouslySetInnerHTML={{ __html: item }} />)}
             </ul>
-            <p>{c.usage_share}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.usage_share }} />
           </Section>
           
           <Section title={c.retention_title}>
-            <p>{c.retention_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.retention_content }} />
           </Section>
 
           <Section title={c.cookie_policy_title}>
             <h3 className="text-xl font-bold font-headline mb-2">{c.cookie_what_are_cookies_title}</h3>
-            <p>{c.cookie_what_are_cookies_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.cookie_what_are_cookies_content }} />
             <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.cookie_how_we_use_cookies_title}</h3>
-            <p>{c.cookie_how_we_use_cookies_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.cookie_how_we_use_cookies_content }} />
             <ul>
                 {c.cookie_usage_list.map((item, index) => <li key={index} dangerouslySetInnerHTML={{ __html: item }} />)}
             </ul>
             <h3 className="text-xl font-bold font-headline mt-6 mb-2">{c.cookie_your_choices_title}</h3>
-            <p>{c.cookie_your_choices_content}</p>
-            <p>{c.cookie_manage_preferences}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.cookie_your_choices_content }} />
+            <p dangerouslySetInnerHTML={{ __html: c.cookie_manage_preferences }} />
           </Section>
 
           <Section title={c.rights_title}>
-            <p>{c.rights_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.rights_content }} />
             <ul>
-              {c.rights_list.map((item, index) => <li key={index}>{item}</li>)}
+              {c.rights_list.map((item, index) => <li key={index} dangerouslySetInnerHTML={{ __html: item }} />)}
             </ul>
-            <p>{c.rights_exercise}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.rights_exercise }} />
           </Section>
 
            <Section title={c.security_title}>
-            <p>{c.security_content}</p>
+            <p dangerouslySetInnerHTML={{ __html: c.security_content }} />
           </Section>
 
           <Section title={c.modifications_title}>
-             <p>{c.modifications_content}</p>
+             <p dangerouslySetInnerHTML={{ __html: c.modifications_content }} />
           </Section>
 
         </div>

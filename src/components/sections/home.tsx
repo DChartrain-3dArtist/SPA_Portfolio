@@ -108,7 +108,7 @@ function ServiceCard({
         <h3 className="mb-2 text-xl font-bold font-headline text-card-foreground">
           {title}
         </h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: description }}></p>
       </CardContent>
     </Card>
   );
@@ -140,8 +140,9 @@ export default function HomePage() {
                         dangerouslySetInnerHTML={{ __html: c.subtitle }}
                     >
                     </p>
-                    <p className="mt-6 text-foreground/90 max-w-lg">
-                        {c.intro_paragraph}
+                    <p className="mt-6 text-foreground/90 max-w-lg"
+                        dangerouslySetInnerHTML={{ __html: c.intro_paragraph }}
+                    >
                     </p>
                     <div className="mt-8 flex flex-wrap items-center gap-4">
                         <Button size="lg" asChild className="group">

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -58,7 +57,7 @@ export default function ContactPage() {
           
             <div className="text-center">
                 <PageTitle>{c.title}</PageTitle>
-                <p className="text-foreground/90 mb-12">{c.subtitle}</p>
+                <p className="text-foreground/90 mb-12" dangerouslySetInnerHTML={{ __html: c.subtitle }}></p>
             </div>
             
             {/* La carte de disponibilité est affichée en haut sur mobile pour une visibilité immédiate. */}

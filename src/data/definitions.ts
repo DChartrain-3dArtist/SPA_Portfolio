@@ -25,9 +25,13 @@ export interface VisualizerItem {
   image: string; // URL de l'image de prévisualisation.
   modelUrl: string; // URL du fichier de modèle 3D (.glb).
   hint: string; // Indice pour l'IA ou la recherche d'images.
-  // Champs ajoutés pour lier l'objet à un projet plus large.
   projectId?: string; // ID du projet parent.
   projectTitle?: { fr: string; en: string }; // Titre du projet parent.
+  polycount?: number;
+  materials?: number;
+  software?: string;
+  category?: string; // Nouvelle catégorie pour le filtrage
+  isFeatured?: boolean; // Pour mettre en avant certains modèles
 }
 
 /**

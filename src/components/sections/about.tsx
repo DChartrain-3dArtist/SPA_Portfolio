@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useLanguage } from '@/contexts/language-context';
@@ -182,8 +181,8 @@ function Timeline({ items }: { items: { date: string, period: string; type: 'exp
               <span className="text-muted-foreground font-medium"> @ {exp.company}</span>
             </h4>
           </div>
-          {/* Utilise `whitespace-pre-line` pour respecter les sauts de ligne dans la description. */}
-          <p className="text-muted-foreground text-sm whitespace-pre-line">{exp.description}</p>
+          {/* Utilise `dangerouslySetInnerHTML` pour interpréter le HTML dans la description. */}
+          <p className="text-muted-foreground text-sm" dangerouslySetInnerHTML={{ __html: exp.description }}></p>
         </div>
       ))}
     </div>
@@ -249,8 +248,8 @@ export default function AboutPage() {
                             <AvatarImage src="/assets/data/PhotoProfil.webp" alt="Votre photo" />
                             <AvatarFallback>CD</AvatarFallback>
                         </Avatar>
-                        {/* Affiche le contenu avec les sauts de ligne respectés. */}
-                        <p className="text-foreground/90 whitespace-pre-line">{c.profile_content}</p>
+                        {/* Affiche le contenu avec les balises HTML interprétées. */}
+                        <div className="text-foreground/90 prose prose-invert" dangerouslySetInnerHTML={{ __html: c.profile_content }} />
                         </div>
                     </CardContent>
                     </Card>
@@ -260,8 +259,8 @@ export default function AboutPage() {
                           <CardTitle className="font-headline">{c.journey_title}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                          {/* Affiche le contenu avec les sauts de ligne respectés. */}
-                          <p className="text-foreground/90 whitespace-pre-line">{c.journey_content}</p>
+                          {/* Affiche le contenu avec les balises HTML interprétées. */}
+                          <div className="text-foreground/90 prose prose-invert" dangerouslySetInnerHTML={{ __html: c.journey_content }} />
                            <div className="mt-6 flex flex-wrap justify-center gap-4">
                               <Button asChild>
                                   <a href="#download-cv">

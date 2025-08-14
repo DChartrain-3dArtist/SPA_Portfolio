@@ -1,40 +1,58 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getVisualizerItems } from '@/data/projects';
 import { VisualizerItem } from '@/data/definitions';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Cuboid } from 'lucide-react';
+import { ArrowRight, Cuboid, Library, Tag } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Metadata } from 'next';
+import { useLanguage } from '@/contexts/language-context';
+import { content } from '@/lib/content';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
-// Note: This component is a client component, so we can't export metadata directly.
-// We would need a parent server component to do so. For now, we'll add it in the layout or parent page.
-// As a workaround, we can set the document title directly, but this is not the recommended Next.js way.
+// Composant pour une carte de modèle 3D
+function ItemCard({ item, size = 'normal' }: { item: VisualizerItem, size?: 'normal' | 'featured' }) {
+    const { language } = useLanguage();
+    const isMobile = useIsMobile();
 
-function ItemCard({ item }: { item: VisualizerItem }) {
+    const cardClasses = cn(
+        "block group overflow-hidden relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 h-full flex flex-col",
+        size === 'featured' ? "col-span-2" : ""
+    );
+    
+    const imageContainerClasses = cn(
+        "relative overflow-hidden w-full",
+        size === 'featured' ? "aspect-video" : "aspect-square"
+    );
+
     return (
-      <Link href={`/visualizer/item/${item.id}`} className="block group">
-        <Card className="overflow-hidden relative transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:-translate-y-1 h-full flex flex-col">
-            <div className="relative overflow-hidden w-full aspect-video">
+      <Link href={`/visualizer/item/${item.id}`} className={cardClasses}>
+        <Card className="h-full">
+            <div className={imageContainerClasses}>
                 <Image
                     src={item.image}
-                    alt={item.name.fr}
+                    alt={item.name[language]}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                  <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-semibold backdrop-blur-sm border border-border/50">
                     <Cuboid className="h-4 w-4 text-primary" />
-                    <span>3D</span>
+                    <span>{content[language].visualizer.item_card_badge}</span>
                 </div>
             </div>
-            <CardContent className="p-4 flex flex-col flex-grow justify-center text-center">
-                <h3 className="text-lg font-bold font-headline text-card-foreground mb-2">{item.name.fr}</h3>
-                <div className="hidden mt-auto md:flex items-center justify-center text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Voir le modèle
+            <CardContent className="p-4 flex flex-col flex-grow">
+                <h3 className={cn("font-bold font-headline text-card-foreground mb-1", size === 'featured' ? 'text-xl' : 'text-lg')}>{item.name[language]}</h3>
+                 <p className={cn("text-muted-foreground flex-grow", size === 'featured' ? 'text-sm mb-4' : 'text-xs mb-2')}>{item.description[language]}</p>
+                <div className={cn(
+                    "flex items-center text-sm text-primary font-medium mt-auto",
+                    isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                )}>
+                    {content[language].visualizer.item_card_cta}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
             </CardContent>
@@ -45,8 +63,17 @@ function ItemCard({ item }: { item: VisualizerItem }) {
 
 
 export default function LibraryPage() {
+    const { language } = useLanguage();
+    const c = content[language].visualizer;
+
     const [items, setItems] = useState<VisualizerItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [activeCategory, setActiveCategory] = useState<string>('all');
+    
+    const categories = useMemo(() => {
+        const cats = new Set(items.map(item => item.category || "Autre"));
+        return ['all', ...Array.from(cats)];
+    }, [items]);
 
     useEffect(() => {
         async function loadItems() {
@@ -58,16 +85,20 @@ export default function LibraryPage() {
         loadItems();
     }, []);
 
-    const renderItems = () => {
+    const featuredItems = items.filter(item => item.isFeatured);
+    const regularItems = items.filter(item => !item.isFeatured && (activeCategory === 'all' || item.category === activeCategory));
+
+
+    const renderItems = (itemsToRender: VisualizerItem[], isFeatured = false) => {
         if (isLoading) {
             return (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <Card key={i}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {Array.from({ length: isFeatured ? 2 : 4 }).map((_, i) => (
+                        <Card key={i} className={cn(isFeatured && "md:col-span-2")}>
                             <Skeleton className="w-full aspect-video" />
                             <div className="p-4 space-y-3">
-                                <Skeleton className="h-6 w-3/4 mx-auto" />
-                                <Skeleton className="h-4 w-1/2 mx-auto" />
+                                <Skeleton className="h-6 w-3/4" />
+                                <Skeleton className="h-4 w-1/2" />
                             </div>
                         </Card>
                     ))}
@@ -75,18 +106,18 @@ export default function LibraryPage() {
             );
         }
 
-        if (items.length === 0) {
+        if (itemsToRender.length === 0 && !isFeatured) {
             return (
                 <div className="text-center py-16">
-                    <p className="text-lg text-muted-foreground">Aucun modèle 3D disponible pour le moment.</p>
+                    <p className="text-lg text-muted-foreground">{c.library_empty}</p>
                 </div>
             );
         }
         
         return (
-             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                {items.map(item => (
-                    <ItemCard key={item.id} item={item} />
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {itemsToRender.map(item => (
+                    <ItemCard key={item.id} item={item} size={isFeatured ? 'featured' : 'normal'} />
                 ))}
             </div>
         )
@@ -94,14 +125,43 @@ export default function LibraryPage() {
 
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold font-headline mt-4 mb-2 text-center">Bibliothèque des modèles</h1>
+    <div className="max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold font-headline mt-4 mb-2 text-center">{c.library_title}</h1>
       <p className="mb-12 text-muted-foreground text-center">
-        Explorez, manipulez et examinez tous les modèles 3D disponibles.
+        {c.library_subtitle}
       </p>
-      <div className="max-w-7xl mx-auto">
-        {renderItems()}
-      </div>
+
+      {featuredItems.length > 0 && (
+         <section className="mb-16">
+            <h2 className="text-2xl font-bold font-headline mb-6 flex items-center gap-2">
+                <Library className="h-6 w-6 text-primary" />
+                {c.library_featured_title}
+            </h2>
+            {renderItems(featuredItems, true)}
+        </section>
+      )}
+
+      <section>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <h2 className="text-2xl font-bold font-headline flex items-center gap-2">
+                 <Tag className="h-6 w-6 text-primary" />
+                {c.library_all_title}
+            </h2>
+             <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                {categories.map(category => (
+                    <Button 
+                        key={category} 
+                        variant={activeCategory === category ? 'default' : 'outline'}
+                        onClick={() => setActiveCategory(category)}
+                        className="rounded-full shrink-0"
+                    >
+                        {category === 'all' ? c.filters.all : category}
+                    </Button>
+                ))}
+            </div>
+        </div>
+        {renderItems(regularItems)}
+      </section>
     </div>
   );
 }

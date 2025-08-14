@@ -2,11 +2,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { LogOut } from 'lucide-react';
 import { Breadcrumbs } from './breadcrumbs';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { useBreadcrumb } from '@/contexts/breadcrumb-context';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/contexts/language-context';
@@ -29,6 +26,10 @@ export function VisualizerHeader() {
             ]);
         } else if (pathname === '/visualizer') {
             setBreadcrumbs([{ label: c.header_home_breadcrumb }]);
+        } else if (pathname.startsWith('/visualizer/item')) {
+          // Placeholder, the page itself will set the full breadcrumb
+        } else {
+          setBreadcrumbs([]);
         }
 
         // Cleanup function to reset breadcrumbs when leaving a visualizer path
@@ -43,20 +44,14 @@ export function VisualizerHeader() {
     const showBreadcrumbs = isClient && !isHomePage && breadcrumbs.length > 0;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-        <div className="flex gap-6 md:gap-10">
-          <Link href="/portfolio" className="group flex items-center space-x-2 main-site-cta-text">
-            <Button variant="outline" size="icon" className="main-site-cta">
-                <LogOut className="h-5 w-5" />
-            </Button>
-            <span className="hidden font-bold sm:inline-block group-hover:underline">{c.header_back}</span>
-          </Link>
-        </div>
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-16 items-center justify-between">
+        {/* Espace réservé pour le bouton de menu qui est maintenant à l'extérieur */}
+        <div className="w-10 h-10"></div>
         
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex items-center">
            {showBreadcrumbs && (
-            <div className="rounded-lg bg-card/50 px-3 py-1.5 border">
+            <div className="flex items-center rounded-lg bg-card/50 px-3 py-1.5 border">
                 <Breadcrumbs items={breadcrumbs} />
             </div>
            )}
