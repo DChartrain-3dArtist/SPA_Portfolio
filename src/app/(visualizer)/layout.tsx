@@ -14,8 +14,18 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 
-// Le bouton de bascule est maintenant dans VisualizerSidebar.tsx
-// pour un meilleur contrôle du positionnement par rapport au logo.
+// Le bouton de bascule est dans VisualizerSidebar.tsx pour desktop
+// mais nous avons besoin d'un bouton séparé ici pour mobile.
+
+function MobileMenuToggle() {
+    const { setOpenMobile } = useSidebar();
+    return (
+        <Button variant="ghost" size="icon" className="lg:hidden absolute top-4 left-4 z-50" onClick={() => setOpenMobile(true)}>
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Ouvrir le menu</span>
+        </Button>
+    )
+}
 
 export default function VisualizerLayout({ children }: { children: ReactNode }) {
   const { theme } = useTheme();
@@ -44,6 +54,7 @@ export default function VisualizerLayout({ children }: { children: ReactNode }) 
                <div className={cn("flex flex-1 justify-center", isMobile && "pb-24")}>
                   <SidebarInset>
                     <div className="relative flex min-h-svh flex-1 flex-col">
+                        <MobileMenuToggle />
                         <BackgroundHalos />
                         <VisualizerHeader />
                         <main className="flex-1 w-full px-4 py-8">{children}</main>
