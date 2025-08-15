@@ -1,67 +1,68 @@
-// scripts/generate-sitemap.mjs
+// Ce script est destiné à être exécuté par Node.js avant le build de Next.js.
+// Il lit les projets depuis le fichier JSON, génère un sitemap, et l'écrit dans le dossier `public`.
+
 import fs from 'fs';
-import { getProjects, getVisualizerItems } from '../src/data/projects.js';
+import path from 'path';
+
+// Utilise une importation synchrone de JSON, compatible avec Node.js.
+// On lit le contenu du fichier et on le parse.
+const projectsFilePath = path.join(process.cwd(), 'src', 'data', 'projects.json');
+const projectsFileContent = fs.readFileSync(projectsFilePath, 'utf8');
+const projects = JSON.parse(projectsFileContent);
+
+const BASE_URL = 'https://donovan-dev3d.vercel.app';
 
 async function generateSitemap() {
-  const baseUrl = 'https://donovan-dev3d.vercel.app';
-  const projects = await getProjects();
-  const visualizerItems = await getVisualizerItems();
-
-  const staticPages = [
-    '/',
-    '/portfolio',
-    '/about',
-    '/contact',
-    '/visualizer',
-    '/visualizer/library',
-    '/legal-notice',
-    '/privacy-policy',
-    '/style-guide',
-    '/sitemap',
+  const sitemapEntries = [
+    { url: BASE_URL, lastModified: new Date().toISOString() },
+    { url: `${BASE_URL}/portfolio`, lastModified: new Date().toISOString() },
+    { url: `${BASE_URL}/about`, lastModified: new Date().toISOString() },
+    { url: `${BASE_URL}/contact`, lastModified: new Date().toISOString() },
+    { url: `${BASE_URL}/visualizer`, lastModified: new Date().toISOString() },
+    { url: `${BASE_URL}/visualizer/library`, lastModified: new Date().toISOString() },
   ];
 
-  const sitemap = `
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${staticPages
-    .map((url) => {
-      return `
-    <url>
-      <loc>${baseUrl}${url}</loc>
-      <lastmod>${new Date().toISOString()}</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.7</priority>
-    </url>
-      `;
-    })
-    .join('')}
-  ${projects
-    .map(({ id, date }) => {
-      return `
-    <url>
-      <loc>${baseUrl}/portfolio/${id}</loc>
-      <lastmod>${new Date(date).toISOString()}</lastmod>
-      <changefreq>weekly</changefreq>
-       <priority>0.9</priority>
-    </url>
-      `;
-    })
-    .join('')}
-    ${visualizerItems
-    .map(({ id }) => {
-      return `
-    <url>
-      <loc>${baseUrl}/visualizer/item/${id}</loc>
-      <lastmod>${new Date().toISOString()}</lastmod>
-      <changefreq>weekly</changefreq>
-       <priority>0.8</priority>
-    </url>
-      `;
-    })
-    .join('')}
-</urlset>
-  `;
+  for (const project of projects) {
+    sitemapEntries.push({
+      url: `${BASE_URL}/portfolio/${project.id}`,
+      lastModified: new Date(project.date).toISOString(),
+    });
 
-  fs.writeFileSync('public/site-sitemap.xml', sitemap.trim());
+    if (project.isVisualizable && project.visualizerItems) {
+        for (const item of project.visualizerItems) {
+            sitemapEntries.push({
+                url: `${BASE_URL}/visualizer/item/${item.id}`,
+                lastModified: new Date(project.date).toISOString(),
+            })
+        }
+    }
+  }
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${sitemapEntries
+    .map(
+      ({ url, lastModified }) => `
+    <url>
+      <loc>${url}</loc>
+      <lastmod>${lastModified}</lastmod>
+    </url>
+  `
+    )
+    .join('')}
+</urlset>`;
+
+  try {
+    const publicPath = path.join(process.cwd(), 'public');
+    if (!fs.existsSync(publicPath)) {
+      fs.mkdirSync(publicPath);
+    }
+    fs.writeFileSync(path.join(publicPath, 'site-sitemap.xml'), sitemap, 'utf-8');
+    console.log('Sitemap généré avec succès dans public/site-sitemap.xml');
+  } catch (error) {
+    console.error('Erreur lors de la génération du sitemap :', error);
+    process.exit(1);
+  }
 }
 
 generateSitemap();
