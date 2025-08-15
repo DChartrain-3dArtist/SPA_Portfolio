@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
       // disallow: '/private/', 
     },
     // Spécifie l'emplacement du sitemap pour aider les robots à découvrir toutes les pages.
-    sitemap: 'https://donovan-dev3d.vercel.app/sitemap.xml',
+    sitemap: 'https://donovan-dev3d.vercel.app/site-sitemap.xml',
   }
 }
