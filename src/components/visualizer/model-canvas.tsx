@@ -4,11 +4,11 @@
 
 import React, { Suspense, useEffect, useRef, useState, useCallback } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, useGLTF, useProgress, Html, Environment } from '@react-three/drei';
+import { OrbitControls, useGLTF, useProgress, Html, Environment, useAnimations } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import { Button } from '../ui/button';
-import { Expand, Shrink, Mouse, Fingerprint, Pause, Play, RotateCcw, HelpCircle, X, AlertTriangle, Layers, Sun, Sigma } from 'lucide-react';
+import { Expand, Shrink, Mouse, Fingerprint, Pause, Play, RotateCcw, HelpCircle, X, AlertTriangle, Layers, Sun, Sigma, Film } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
@@ -38,9 +38,35 @@ function Loader() {
     )
 }
 
-function ModelWrapper({ modelUrl, onLoaded, setPolycount, setMaterialCount, wireframe }: { modelUrl: string, onLoaded: (model: THREE.Group) => void, setPolycount: (count: number) => void, setMaterialCount: (count: number) => void, wireframe: boolean }) {
-  const { scene } = useGLTF(modelUrl);
+function ModelWrapper({ modelUrl, onLoaded, setPolycount, setMaterialCount, wireframe, onHasAnimation, isPlayingAnimation }: { modelUrl: string, onLoaded: (model: THREE.Group) => void, setPolycount: (count: number) => void, setMaterialCount: (count: number) => void, wireframe: boolean, onHasAnimation: (hasAnimation: boolean) => void, isPlayingAnimation: boolean }) {
+  const { scene, animations } = useGLTF(modelUrl);
+  const { actions } = useAnimations(animations, scene);
   
+  useEffect(() => {
+    const hasAnimation = animations && animations.length > 0;
+    onHasAnimation(hasAnimation);
+    
+    if (hasAnimation) {
+      const animName = animations[0].name;
+      const action = actions[animName];
+      if (action) {
+          if (isPlayingAnimation) {
+              action.reset().play();
+          } else {
+              action.stop();
+          }
+      }
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      if (actions) {
+        Object.values(actions).forEach(action => action.stop());
+      }
+    }
+
+  }, [animations, actions, onHasAnimation, isPlayingAnimation])
+
   useEffect(() => {
     if(scene) {
       const box = new THREE.Box3().setFromObject(scene);
@@ -133,6 +159,9 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
   const [materialCount, setMaterialCount] = useState(0);
   const [env, setEnv] = useState(environments[0].preset);
   const [isEnvMenuOpen, setIsEnvMenuOpen] = useState(false);
+  const [hasAnimation, setHasAnimation] = useState(false);
+  const [isPlayingAnimation, setIsPlayingAnimation] = useState(true);
+
 
   useEffect(() => {
     async function checkModel() {
@@ -204,6 +233,8 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
                   setPolycount={handlePolycountUpdate}
                   setMaterialCount={handleMaterialCountUpdate}
                   wireframe={wireframe} 
+                  onHasAnimation={setHasAnimation}
+                  isPlayingAnimation={isPlayingAnimation}
                 />
             </Suspense>
             <Suspense fallback={null}>
@@ -223,6 +254,16 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
 
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 p-2 rounded-lg border bg-background/80 backdrop-blur-sm flex items-center gap-4">
             <TooltipProvider>
+              {hasAnimation && (
+                 <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant={isPlayingAnimation ? 'default' : 'outline'} size="icon" onClick={() => setIsPlayingAnimation(prev => !prev)}>
+                        <Film className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent><p>{isPlayingAnimation ? 'Mettre en pause l\'animation' : 'Lancer l\'animation'}</p></TooltipContent>
+                 </Tooltip>
+              )}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant={wireframe ? 'default' : 'outline'} size="icon" onClick={handleToggleWireframe}><Layers className="h-5 w-5" /></Button>

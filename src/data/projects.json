@@ -31,14 +31,321 @@
       "Tailwind CSS",
       "Three.js",
       "React Three Fiber",
-      "Jest",
+      "Genkit",
       "Vercel"
     ],
     "hint": "website mockup code",
-    "date": "2025-04-09",
+    "date": "2025-06-10",
     "isVisualizable": false,
     "videoUrl": "",
     "liveUrl": "/"
+  },
+  {
+    "id": "planetary-gear-rendering",
+    "title": {
+      "fr": "Rendu d'un Réducteur Planétaire",
+      "en": "Planetary Gear Rendering"
+    },
+    "description": {
+      "fr": "Une série de rendus 3D photoréalistes d'un réducteur planétaire, mettant en valeur la précision des composants et l'esthétique mécanique.",
+      "en": "A series of photorealistic 3D renderings of a planetary gear, highlighting component precision and mechanical aesthetics."
+    },
+    "longDescription": {
+      "fr": "<p>Ce projet consiste en une série de rendus 3D photoréalistes mettant en scène un réducteur planétaire. L'objectif est de mettre en évidence la précision des composants mécaniques, de valoriser la conception et de fournir des visuels de haute qualité pour des manuels techniques, des présentations d'ingénierie ou des supports de formation.</p><br><p>La modélisation a été effectuée dans <strong>Cinema 4D</strong>, tandis que la scène, les matériaux et le rendu final ont été réalisés dans <strong>Unreal Engine</strong>, en tirant parti des technologies <strong>Lumen</strong> pour l'éclairage global, <strong>Raytracing</strong> pour les réflexions et ombres précises, et <strong>Nanite</strong> pour une gestion optimisée de la géométrie complexe.</p>",
+      "en": "<p>This project consists of a series of photorealistic 3D renderings featuring a planetary reducer. The goal is to highlight the precision of the mechanical components, showcase the design, and provide high-quality visuals for technical manuals, engineering presentations, or training materials.</p><br><p>Modeling was done in <strong>Cinema 4D</strong>, while the scene, materials, and final rendering were completed in <strong>Unreal Engine</strong>, taking advantage of <strong>Lumen</strong> for global illumination, <strong>Raytracing</strong> for accurate reflections and shadows, and <strong>Nanite</strong> for optimized handling of complex geometry.</p>"
+    },
+    "sector": "Infographie 3D",
+    "productionType": "Rendu",
+    "image": "/assets/project-assets/PLanetaryRender_1.webp",
+    "images": [
+      "/assets/project-assets/PLanetaryRender_1.webp",
+      "/assets/project-assets/PLanetaryRender_2.webp",
+      "/assets/project-assets/PLanetaryRender_3.webp",
+      "/assets/project-assets/PLanetaryRender_4.webp",
+      "/assets/project-assets/PLanetaryRender_5.webp",
+      "/assets/project-assets/PLanetaryRender_6.webp"
+    ],
+    "technologies": [
+      "Cinema 4D",
+      "Unreal Engine",
+      "Raytracing",
+      "Lumen",
+      "Nanite"
+    ],
+    "hint": "planetary gear",
+    "date": "2025-05-15",
+    "isVisualizable": true,
+    "videoUrl": "",
+    "visualizerItems": [
+      {
+        "id": "planetary-gear",
+        "name": {
+          "fr": "Réducteur Planétaire",
+          "en": "Planetary Gear"
+        },
+        "description": {
+          "fr": "Un réducteur mécanique de précision, avec tous ses composants internes (pignons, couronne, etc.). Met en avant la modélisation \"hard-surface\" complexe.",
+          "en": "A precision mechanical reducer, with all its internal components (gears, ring, etc.). Highlights complex hard-surface modeling."
+        },
+        "image": "/assets/project-assets/PLanetaryRender_1.webp",
+        "modelUrl": "/models/PlanetaryWebModel.glb",
+        "hint": "planetary gear",
+        "category": "Mécanique",
+        "software": "Cinema 4D, Unreal Engine",
+        "isFeatured": true
+      }
+    ]
+  },
+  {
+    "id": "production-line-integration",
+    "title": {
+      "fr": "Automatisation de Ligne de Production",
+      "en": "Production Line Automation"
+    },
+    "description": {
+      "fr": "Visualisation et animation d'un portique d'alimentation de bobines, depuis le traitement d'un fichier CAO (STEP) jusqu'au rendu final et à l'animation dans Unreal Engine.",
+      "en": "Visualization and animation of a coil feeding gantry, from processing a CAD (STEP) file to the final rendering and animation in Unreal Engine."
+    },
+    "longDescription": {
+      "fr": "<p>Ce projet illustre le pipeline complet de traitement d'un modèle CAO industriel pour une utilisation en temps réel. Partant d'un fichier <strong>STEP</strong>, la première étape a été de le retravailler dans <strong>Cinema 4D</strong> pour convertir les données surfaciques en un <strong>maillage quadratique optimisé</strong>, essentiel pour le texturing et l'animation.</p><br/><p>La scène a ensuite été assemblée dans <strong>Unreal Engine</strong>, en utilisant des assets photogrammétriques pour créer un environnement de hangar réaliste. J'ai configuré l'éclairage, créé des matériaux procéduraux, puis utilisé <strong>Sequencer</strong> pour produire une courte animation vidéo montrant le fonctionnement de la machine. Le rendu final bénéficie des technologies <strong>Lumen</strong> et <strong>Nanite</strong> pour un réalisme maximal.</p>",
+      "en": "<p>This project illustrates the complete pipeline for processing an industrial CAD model for real-time use. Starting from a <strong>STEP</strong> file, the first step was to rework it in <strong>Cinema 4D</strong> to convert the surface data into an <strong>optimized quad mesh</strong>, essential for texturing and animation.</p><br/><p>The scene was then assembled in <strong>Unreal Engine</strong>, using photogrammetry assets to create a realistic warehouse environment. I set up the lighting, created procedural materials, and then used <strong>Sequencer</strong> to produce a short video animation showing the machine in operation. The final render benefits from <strong>Lumen</strong> and <strong>Nanite</strong> technologies for maximum realism.</p>"
+    },
+    "sector": "Infographie 3D",
+    "productionType": "Animation",
+    "image": "/assets/project-assets/MachinaryRender_ (1).webp",
+    "images": [
+      "/assets/project-assets/MachinaryRender_ (1).webp",
+      "/assets/project-assets/MachinaryRender_ (2).webp",
+      "/assets/project-assets/MachinaryRender_ (3).webp",
+      "/assets/project-assets/MachinaryRender_ (4).webp",
+      "/assets/project-assets/MachinaryRender_ (5).webp",
+      "/assets/project-assets/MachinaryRender_ (6).webp",
+      "/assets/project-assets/MachinaryRender_ (7).webp"
+    ],
+    "technologies": [
+      "Cinema 4D",
+      "Unreal Engine",
+      "CAO",
+      "Sequencer"
+    ],
+    "hint": "machinery production line",
+    "date": "2025-05-10",
+    "isVisualizable": true,
+    "videoUrl": "/assets/project-assets/ProductionLineAnim.mp4",
+    "visualizerItems": [
+      {
+        "id": "film-unwinding-gantry",
+        "name": {
+          "fr": "Portique d'Alimentation de Bobines",
+          "en": "Coil Feeding Gantry"
+        },
+        "description": {
+          "fr": "Un portique de stockage pour six bobines de film plastique, conçu pour garantir une alimentation continue de la ligne de production. Le modèle a été optimisé à partir d'un fichier STEP.",
+          "en": "A storage gantry for six plastic film coils, designed to ensure a continuous supply to the production line. The model has been optimized from a STEP file."
+        },
+        "image": "/assets/project-assets/MachinaryRender_ (1).webp",
+        "modelUrl": "/models/ProductionLine.glb",
+        "hint": "industrial machine",
+        "category": "Industriel",
+        "software": "Cinema 4D, Unreal Engine"
+      }
+    ]
+  },
+  {
+    "id": "japandi-living-room",
+    "title": {
+      "fr": "Ambiance de Salon Style Japandi",
+      "en": "Japandi Style Living Room Vibe"
+    },
+    "description": {
+      "fr": "Rendus photoréalistes d'un salon de style Japandi, une fusion entre le minimalisme scandinave et l'esthétique japonaise.",
+      "en": "Photorealistic renderings of a Japandi style living room, a fusion of Scandinavian minimalism and Japanese aesthetics."
+    },
+    "longDescription": {
+      "fr": "<p>Cette série de rendus explore le <strong>style Japandi</strong>, une tendance de design d'intérieur qui marie l'esthétique épurée et fonctionnelle du design scandinave avec le minimalisme, la chaleur et l'amour des matériaux naturels de l'inspiration japonaise. Le résultat est un espace serein, chaleureux et sans superflu.</p><br><p>La modélisation des assets a été réalisée dans <strong>Cinema 4D</strong>. La scène a ensuite été composée et rendue dans <strong>Unreal Engine</strong>, en utilisant <strong>Lumen</strong> et le <strong>Raytracing</strong> pour obtenir des lumières douces et des ombres précises qui soulignent les textures des matériaux. La post-production a été effectuée avec <strong>Affinity Photo</strong> pour ajuster les couleurs et l'ambiance finale.</p>",
+      "en": "<p>This series of renderings explores the <strong>Japandi style</strong>, an interior design trend that blends the clean, functional aesthetic of Scandinavian design with the minimalism, warmth, and love for natural materials of Japanese inspiration. The result is a serene, warm, and uncluttered space.</p><br><p>Asset modeling was done in <strong>Cinema 4D</strong>. The scene was then composed and rendered in <strong>Unreal Engine</strong>, using <strong>Lumen</strong> and <strong>Raytracing</strong> to achieve soft lighting and precise shadows that highlight the material textures. Post-production was handled with <strong>Affinity Photo</strong> to adjust colors and the final mood.</p>"
+    },
+    "sector": "Visualisation Architecturale",
+    "productionType": "Rendu",
+    "image": "/assets/project-assets/JapandiRender_1.webp",
+    "images": [
+      "/assets/project-assets/JapandiRender_1.webp",
+      "/assets/project-assets/JapandiRender_2.webp",
+      "/assets/project-assets/JapandiRender_3.webp",
+      "/assets/project-assets/JapandiRender_4.webp",
+      "/assets/project-assets/JapandiRender_5.webp",
+      "/assets/project-assets/JapandiRender_6.webp",
+      "/assets/project-assets/JapandiRender_7.webp",
+      "/assets/project-assets/JapandiRender_8.webp"
+    ],
+    "technologies": [
+      "Cinema 4D",
+      "Unreal Engine",
+      "Lumen",
+      "Raytracing",
+      "Affinity Photo"
+    ],
+    "hint": "japandi interior design",
+    "date": "2025-05-05",
+    "isVisualizable": true,
+    "videoUrl": "",
+    "visualizerItems": [
+      {
+        "id": "japandi-lantern-lamp",
+        "name": {
+          "fr": "Lampe Lanterne",
+          "en": "Lantern Lamp"
+        },
+        "description": {
+          "fr": "Une lampe sur pied inspirée des lanternes japonaises, avec une base en bois sombre et un diffuseur en papier de riz.",
+          "en": "A floor lamp inspired by Japanese lanterns, with a dark wood base and a rice paper diffuser."
+        },
+        "image": "/assets/project-assets/JapandiRender_4.webp",
+        "modelUrl": "/models/LightMesh.glb",
+        "hint": "lantern lamp",
+        "category": "Mobilier",
+        "software": "Cinema 4D, Unreal Engine"
+      },
+      {
+        "id": "japandi-sofa",
+        "name": {
+          "fr": "Canapé Modulable",
+          "en": "Modular Sofa"
+        },
+        "description": {
+          "fr": "Un canapé bas et confortable avec un revêtement en tissu bouclé, typique du design Japandi.",
+          "en": "A low and comfortable sofa with a bouclé fabric cover, typical of Japandi design."
+        },
+        "image": "/assets/project-assets/JapandiRender_2.webp",
+        "modelUrl": "/models/Sofa.glb",
+        "hint": "sofa furniture",
+        "category": "Mobilier",
+        "software": "Cinema 4D, Unreal Engine"
+      },
+      {
+        "id": "japandi-table",
+        "name": {
+          "fr": "Table Basse",
+          "en": "Coffee Table"
+        },
+        "description": {
+          "fr": "Une table basse minimaliste alliant la chaleur du bois à l'élégance d'un plateau en marbre.",
+          "en": "A minimalist coffee table combining the warmth of wood with the elegance of a marble top."
+        },
+        "image": "/assets/project-assets/JapandiRender_7.webp",
+        "modelUrl": "/models/Table.glb",
+        "hint": "coffee table",
+        "category": "Mobilier",
+        "software": "Cinema 4D, Unreal Engine"
+      }
+    ]
+  },
+  {
+    "id": "pool-terrace-design",
+    "title": {
+      "fr": "Aménagement Piscine & Terrasse",
+      "en": "Pool & Terrace Design"
+    },
+    "description": {
+      "fr": "Visualisation 3D d'un aménagement extérieur contemporain, avec une piscine à plage immergée, un jacuzzi et une terrasse en bois.",
+      "en": "3D visualization of a contemporary outdoor living space, with a submerged beach pool, jacuzzi, and wooden terrace."
+    },
+    "longDescription": {
+      "fr": "<p>Une visualisation 3D d'un aménagement extérieur contemporain. Ce projet met en scène une piscine avec une <strong>plage immergée</strong>, un coin <strong>jacuzzi</strong> attenant, et une grande terrasse en bois qui fait le lien avec un espace salon extérieur. L'objectif était de créer une ambiance estivale et relaxante, tout en démontrant une maîtrise de la modélisation d'environnements extérieurs, de la végétation, et des rendus d'eau réalistes.</p><br><p>Modélisé dans <strong>Cinema 4D</strong>, le projet a été entièrement rendu dans <strong>Unreal Engine</strong> pour bénéficier de son système d'éclairage dynamique <strong>Lumen</strong>. La post-production sur <strong>Affinity Photo</strong> a permis de sublimer l'image finale.</p>",
+      "en": "<p>A 3D visualization of a contemporary outdoor living space. This project features a pool with a <strong>submerged beach</strong>, an adjoining <strong>jacuzzi</strong> area, and a large wooden terrace connecting to an outdoor lounge area. The goal was to create a summery and relaxing atmosphere while demonstrating mastery of outdoor environment modeling, vegetation, and realistic water rendering.</p><br><p>Modeled in <strong>Cinema 4D</strong>, the project was fully rendered in <strong>Unreal Engine</strong> to take advantage of its dynamic <strong>Lumen</strong> lighting system. Post-production in <strong>Affinity Photo</strong> helped to enhance the final image.</p>"
+    },
+    "sector": "Visualisation Architecturale",
+    "productionType": "Rendu",
+    "image": "/assets/project-assets/ExtArchiRender1.webp",
+    "images": [
+      "/assets/project-assets/ExtArchiRender1.webp",
+      "/assets/project-assets/ExtArchiRender2.webp",
+      "/assets/project-assets/ExtArchiRender3.webp",
+      "/assets/project-assets/ExtArchiRender4.webp",
+      "/assets/project-assets/ExtArchiRender5.webp"
+    ],
+    "technologies": [
+      "Cinema 4D",
+      "Unreal Engine",
+      "Lumen",
+      "Affinity Photo"
+    ],
+    "hint": "poolside lounge",
+    "date": "2025-04-25",
+    "isVisualizable": true,
+    "videoUrl": "",
+    "visualizerItems": [
+      {
+        "id": "riviera-lounge-chair",
+        "name": {
+          "fr": "Chaise Longue",
+          "en": "Lounge Chair"
+        },
+        "description": {
+          "fr": "Une chaise longue moderne avec une structure en aluminium et une assise en textilène, conçue pour résister aux intempéries.",
+          "en": "A modern lounge chair with an aluminum frame and a textilene seat, designed to withstand the elements."
+        },
+        "image": "/assets/project-assets/ExtArchiRender2.webp",
+        "modelUrl": "/models/longchairmodel-opt.glb",
+        "hint": "lounge chair",
+        "category": "Mobilier",
+        "software": "Cinema 4D, Unreal Engine",
+        "isFeatured": true
+      }
+    ]
+  },
+  {
+    "id": "inventor-workshop",
+    "title": {
+      "fr": "L'Orrery de l'Inventeur",
+      "en": "The Inventor's Orrery"
+    },
+    "description": {
+      "fr": "Scène 3D narrative représentant une cabane en bois, éclairée par une lumière fantastique, mettant en scène un système planétaire mécanique.",
+      "en": "A narrative 3D scene depicting a wooden cabin, illuminated by a fantastical light, featuring a mechanical planetary system."
+    },
+    "longDescription": {
+      "fr": "<p>Ce projet personnel est une scène 3D narrative qui se concentre sur le <strong>storytelling visuel</strong>. Elle représente une cabane en bois rustique, dont l'atmosphère est sublimée par un éclairage fantastique et des jeux de lumière. L'élément central est un <strong>\"orrery\"</strong>, un système planétaire mécanique complexe, posé sur une table de travail.</p><br><p>L'objectif était de travailler la composition, l'ambiance et la narration à travers les objets et la lumière, tout en démontrant une maîtrise technique. La modélisation a été faite dans <strong>Cinema 4D</strong>, le rendu photoréaliste dans <strong>Unreal Engine</strong> (avec Lumen/Raytracing), et les touches finales ont été ajoutées via <strong>Affinity Photo</strong>.</p>",
+      "en": "<p>This personal project is a narrative 3D scene that focuses on <strong>visual storytelling</strong>. It depicts a rustic wooden cabin, whose atmosphere is enhanced by fantastical lighting and plays of light. The central element is an <strong>orrery</strong>, a complex mechanical planetary system, placed on a workbench.</p><br><p>The goal was to work on composition, mood, and narration through objects and light, while also demonstrating technical mastery. Modeling was done in <strong>Cinema 4D</strong>, photorealistic rendering in <strong>Unreal Engine</strong> (with Lumen/Raytracing), and the final touches were added using <strong>Affinity Photo</strong>.</p>"
+    },
+    "sector": "Infographie 3D",
+    "productionType": "Rendu",
+    "image": "/assets/project-assets/PlanetarySystemrender_1.webp",
+    "images": [
+      "/assets/project-assets/PlanetarySystemrender_1.webp",
+      "/assets/project-assets/PlanetarySystemrender_2.webp",
+      "/assets/project-assets/PlanetarySystemrender_3.webp",
+      "/assets/project-assets/PlanetarySystemrender_4.webp"
+    ],
+    "technologies": [
+      "Cinema 4D",
+      "Unreal Engine",
+      "Lumen",
+      "Affinity Photo"
+    ],
+    "hint": "fantasy cabin orrery",
+    "date": "2025-04-20",
+    "isVisualizable": true,
+    "videoUrl": "",
+    "visualizerItems": [
+      {
+        "id": "mechanical-orrery",
+        "name": {
+          "fr": "Orrery Mécanique Ancien",
+          "en": "Antique Mechanical Orrery"
+        },
+        "description": {
+          "fr": "Un système planétaire mécanique de style ancien, avec des engrenages complexes et des finitions en laiton. Cet objet illustre la modélisation de précision et le texturing détaillé.",
+          "en": "An antique-style mechanical planetary system, with complex gears and brass finishes. This object showcases precision modeling and detailed texturing."
+        },
+        "image": "/assets/project-assets/PlanetarySystemrender_2.webp",
+        "modelUrl": "/models/planetsystem-opt.glb",
+        "hint": "orrery solar system",
+        "category": "Créatif",
+        "software": "Cinema 4D, Unreal Engine",
+        "isFeatured": false
+      }
+    ]
   },
   {
     "id": "showreel-2025",
@@ -65,7 +372,7 @@
       "/assets/project-assets/Scene3Showreal.webp"
     ],
     "technologies": [
-      "Unreal Engine 5.4",
+      "Unreal Engine",
       "Cinema 4D",
       "Davinci Resolve"
     ],
@@ -97,7 +404,7 @@
     ],
     "technologies": [
       "Cinema 4D",
-      "Unreal Engine 5.5",
+      "Unreal Engine",
       "Davinci Resolve"
     ],
     "hint": "motion design vfx sphere",
@@ -116,8 +423,8 @@
       "en": "Realistic 3D animation of a sports car, highlighting the vehicle's design, lighting, and materials."
     },
     "longDescription": {
-      "fr": "<p>Ce projet est une <strong>animation 3D réaliste</strong> d’une voiture de sport fictive. L’objectif principal était de mettre en valeur le design du véhicule à travers des mouvements de caméra fluides, un <strong>éclairage HDRI</strong> de studio, et une modélisation précise des détails.</p><br/><p>Le rendu a été réalisé avec <strong>Unreal Engine 5.4</strong> pour atteindre un niveau de <strong>photoréalisme</strong> élevé, tandis que la post-production sous <strong>After Effects</strong> a permis de peaufiner les couleurs, les contrastes et d'ajouter des effets de lens-flare pour un résultat final percutant et professionnel.</p>",
-      "en": "<p>This project is a <strong>realistic 3D animation</strong> of a fictional sports car. The main goal was to highlight the vehicle's design through smooth camera movements, studio <strong>HDRI lighting</strong>, and precise detail modeling.</p><br/><p>Rendering was done in <strong>Unreal Engine 5.4</strong> to achieve a high level of <strong>photorealism</strong>, while post-production in <strong>After Effects</strong> was used to refine colors, contrasts, and add lens-flare effects for a striking and professional final result.</p>"
+      "fr": "<p>Ce projet est une <strong>animation 3D réaliste</strong> d’une voiture de sport fictive. L’objectif principal était de mettre en valeur le design du véhicule à travers des mouvements de caméra fluides, un <strong>éclairage HDRI</strong> de studio, et une modélisation précise des détails.</p><br/><p>Le rendu a été réalisé avec <strong>Unreal Engine</strong> pour atteindre un niveau de <strong>photoréalisme</strong> élevé, tandis que la post-production sous <strong>After Effects</strong> a permis de peaufiner les couleurs, les contrastes et d'ajouter des effets de lens-flare pour un résultat final percutant et professionnel.</p>",
+      "en": "<p>This project is a <strong>realistic 3D animation</strong> of a fictional sports car. The main goal was to highlight the vehicle's design through smooth camera movements, studio <strong>HDRI lighting</strong>, and precise detail modeling.</p><br/><p>Rendering was done in <strong>Unreal Engine</strong> to achieve a high level of <strong>photorealism</strong>, while post-production in <strong>After Effects</strong> was used to refine colors, contrasts, and add lens-flare effects for a striking and professional final result.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
@@ -132,8 +439,8 @@
     "technologies": [
       "Blender",
       "Cinema 4D",
-      "Unreal Engine 5.4",
-      "After Effects"
+      "Unreal Engine",
+      "Adobe After Effects"
     ],
     "hint": "car animation",
     "date": "2025-03-20",
@@ -170,8 +477,8 @@
     ],
     "technologies": [
       "Cinema 4D",
-      "Unreal Engine 5.5",
-      "Affinity Photo 2"
+      "Unreal Engine",
+      "Affinity Photo"
     ],
     "hint": "product rendering",
     "date": "2025-01-28",
@@ -188,7 +495,7 @@
       "en": "Promotional 3D animation of the Leica Pegasus, a mobile mapping solution for capturing geospatial data."
     },
     "longDescription": {
-      "fr": "<p>Cette <strong>animation 3D promotionnelle</strong> présente le <strong>Leica Pegasus: BackPack</strong>, une solution de <strong>cartographie mobile</strong> avancée conçue pour capturer des données géospatiales précises. L'objectif était de créer une vidéo promotionnelle réaliste et dynamique de l'appareil, mettant en avant son design et sa technologie.</p><br/><p>Le projet a nécessité une modélisation 3D détaillée, l'application de textures PBR, un éclairage de studio pour valoriser le design, et une animation fluide des caméras. Le rendu a été effectué dans <strong>Unreal Engine</strong>, avec des ajustements en post-production sur After Effects pour un résultat professionnel et percutant.</p>",
+      "fr": "<p>Cette <strong>animation 3D promotionnelle</strong> présente le <strong>Leica Pegasus: BackPack</strong>, une solution de <strong>cartographie mobile</strong> avancée conçue pour capturer des données géospatiales précises. L'objectif était de créer une vidéo promotionnelle réaliste et dynamique de l'appareil, mettant en avant son design et sa technologie.</p><br/><p>Le projet a nécessité une modélisation 3D détaillée, l'application de textures PBR, un éclairage de studio pour valoriser le design, et une animation de caméra fluide. Le rendu a été effectué dans <strong>Unreal Engine</strong>, avec des ajustements en post-production sur After Effects pour un résultat professionnel et percutant.</p>",
       "en": "<p>This <strong>promotional 3D animation</strong> showcases the <strong>Leica Pegasus: BackPack</strong>, an advanced <strong>mobile mapping</strong> solution designed for capturing precise geospatial data. The objective was to create a realistic and dynamic promotional video of the device, highlighting its design and technology.</p><br/><p>The project involved detailed 3D modeling, PBR texturing, studio lighting to highlight the design, and smooth camera animation. Rendering was done in <strong>Unreal Engine</strong>, with post-production adjustments in After Effects for a professional and impactful result.</p>"
     },
     "sector": "Infographie 3D",
@@ -201,7 +508,7 @@
     ],
     "technologies": [
       "Blender",
-      "Unreal Engine 5.1",
+      "Unreal Engine",
       "Adobe After Effects"
     ],
     "hint": "product animation backpack",
@@ -233,7 +540,7 @@
     ],
     "technologies": [
       "Blender",
-      "Unreal Engine 5.1",
+      "Unreal Engine",
       "Adobe After Effects"
     ],
     "hint": "product animation vivax",
@@ -267,7 +574,7 @@
     ],
     "technologies": [
       "Blender",
-      "Unreal Engine 5.1",
+      "Unreal Engine",
       "Adobe After Effects"
     ],
     "hint": "drone animation",
@@ -302,7 +609,7 @@
     ],
     "technologies": [
       "Blender",
-      "Unreal Engine 5.1",
+      "Unreal Engine",
       "Adobe Photoshop"
     ],
     "hint": "product rendering radar",
@@ -320,8 +627,8 @@
       "en": "Android mobile app to configure 3D objects in real time."
     },
     "longDescription": {
-      "fr": "<p>Développée sous <strong>Unreal Engine 5</strong>, cette <strong>application Android</strong> permet de configurer des objets 3D directement sur smartphone. L’utilisateur peut personnaliser les matériaux et couleurs via une interface tactile optimisée.</p><br/><p>Grâce à un <strong>rendu en temps réel</strong> et une interface fluide, le projet illustre parfaitement mes compétences en <strong>développement interactif</strong>, optimisation mobile et UX/UI sur Android. La modélisation a été réalisée dans Cinema 4D, avec des scripts <strong>Blueprints</strong> et <strong>C++</strong>.</p>",
-      "en": "<p>Built with <strong>Unreal Engine 5</strong>, this <strong>Android application</strong> lets users configure 3D objects directly on smartphones. It enables <strong>real-time visualization</strong> and advanced material customization through an intuitive touchscreen UI.</p><br/><p>The project highlights my skills in <strong>interactive development</strong>, mobile performance optimization, and UX/UI on Android. 3D models were created with Cinema 4D and programmed using <strong>Blueprints</strong> and <strong>C++</strong>.</p>"
+      "fr": "<p>Développée sous <strong>Unreal Engine</strong>, cette <strong>application Android</strong> permet de configurer des objets 3D directement sur smartphone. L’utilisateur peut personnaliser les matériaux et couleurs via une interface tactile optimisée.</p><br/><p>Grâce à un <strong>rendu en temps réel</strong> et une interface fluide, le projet illustre parfaitement mes compétences en <strong>développement interactif</strong>, optimisation mobile et UX/UI sur Android. La modélisation a été réalisée dans Cinema 4D, avec des scripts <strong>Blueprints</strong> et <strong>C++</strong>.</p>",
+      "en": "<p>Built with <strong>Unreal Engine</strong>, this <strong>Android application</strong> lets users configure 3D objects directly on smartphones. It enables <strong>real-time visualization</strong> and advanced material customization through an intuitive touchscreen UI.</p><br/><p>The project highlights my skills in <strong>interactive development</strong>, mobile performance optimization, and UX/UI on Android. 3D models were created with Cinema 4D and programmed using <strong>Blueprints</strong> and <strong>C++</strong>.</p>"
     },
     "sector": "3D Temps Réel",
     "productionType": "Application",
@@ -331,7 +638,7 @@
       "/assets/project-assets/Android3d_2.webp"
     ],
     "technologies": [
-      "Unreal Engine 5",
+      "Unreal Engine",
       "Cinema 4D",
       "Blueprints",
       "C++"
@@ -352,8 +659,8 @@
       "en": "Interactive Windows application for real-time 3D desk configuration."
     },
     "longDescription": {
-      "fr": "<p>Développé sous <strong>Unreal Engine 5</strong>, ce <strong>configurateur 3D pour PC</strong> permet à l’utilisateur de personnaliser un bureau en temps réel via une interface intuitive. L’application exploite la puissance graphique des machines Windows pour offrir une expérience fluide avec rendu optimisé.</p><br/><p>La modélisation a été réalisée dans Cinema 4D, la logique interactive via <strong>Blueprints</strong> et <strong>C++</strong>, et l'interface utilisateur a été spécifiquement adaptée au PC. Le projet illustre des compétences avancées en <strong>UX desktop</strong>, <strong>développement interactif</strong> et optimisation graphique sur les plateformes Windows.</p>",
-      "en": "<p>Developed with <strong>Unreal Engine 5</strong>, this <strong>3D configurator for PC</strong> allows users to personalize a desk in real time through a streamlined interface. The app leverages the graphical power of Windows machines for a high-quality, fluid experience.</p><br/><p>Modeling was done in Cinema 4D, with interactivity handled through <strong>Blueprints</strong> and <strong>C++</strong>. The UI was specifically designed for desktop usage. The project showcases advanced skills in <strong>desktop UX</strong>, <strong>interactive development</strong>, and real-time performance optimization on Windows.</p>"
+      "fr": "<p>Développé sous <strong>Unreal Engine</strong>, ce <strong>configurateur 3D pour PC</strong> permet à l’utilisateur de personnaliser un bureau en temps réel via une interface intuitive. L’application exploite la puissance graphique des machines Windows pour offrir une expérience fluide avec rendu optimisé.</p><br/><p>La modélisation a été réalisée dans Cinema 4D, la logique interactive via <strong>Blueprints</strong> et <strong>C++</strong>, et l'interface utilisateur a été spécifiquement adaptée au PC. Le projet illustre des compétences avancées en <strong>UX desktop</strong>, <strong>développement interactif</strong> et optimisation graphique sur les plateformes Windows.</p>",
+      "en": "<p>Developed with <strong>Unreal Engine</strong>, this <strong>3D configurator for PC</strong> allows users to personalize a desk in real time through a streamlined interface. The app leverages the graphical power of Windows machines for a high-quality, fluid experience.</p><br/><p>Modeling was done in Cinema 4D, with interactivity handled through <strong>Blueprints</strong> and <strong>C++</strong>. The UI was specifically designed for desktop usage. The project showcases advanced skills in <strong>desktop UX</strong>, <strong>interactive development</strong>, and real-time performance optimization on Windows.</p>"
     },
     "sector": "3D Temps Réel",
     "productionType": "Application",
@@ -364,7 +671,7 @@
       "/assets/project-assets/Pc3d_3.webp"
     ],
     "technologies": [
-      "Unreal Engine 5",
+      "Unreal Engine",
       "Cinema 4D",
       "Blueprints",
       "C++"
@@ -395,7 +702,7 @@
       "/assets/project-assets/WebglApp.webp"
     ],
     "technologies": [
-      "Unity 6",
+      "Unity",
       "WebGL",
       "C#",
       "Cinema 4D"
@@ -415,8 +722,8 @@
       "en": "Realistic 3D architectural visualization of a house."
     },
     "longDescription": {
-      "fr": "<p>Ce projet présente une <strong>visualisation 3D réaliste</strong> d’une maison fictive. L’objectif principal était de créer une mise en perspective crédible à l’aide de <strong>textures PBR</strong>, d’un <strong>éclairage HDRI</strong> et d’un moteur de rendu temps réel performant (<strong>Unreal Engine 5.2</strong>).</p><br/><p>La conception des plans a été faite avec Live Home 3D, la modélisation avec Cinema 4D, et la post-production avec Adobe Photoshop et After Effects. Ce projet met en avant mes compétences en <strong>modélisation architecturale</strong>, optimisation pour le rendu temps réel, éclairage naturel et maîtrise du pipeline de production 3D.</p>",
-      "en": "<p>This project showcases a <strong>realistic 3D visualization</strong> of a fictional house. The main objective was to deliver a believable architectural rendering using <strong>PBR textures</strong>, <strong>HDRI lighting</strong> and a powerful real-time engine (<strong>Unreal Engine 5.2</strong>).</p><br/><p>Floor plans were designed with Live Home 3D, modeling was done in Cinema 4D, and post-production in Adobe Photoshop and After Effects. The project highlights my skills in <strong>architectural modeling</strong>, real-time rendering optimization, natural lighting and mastery of the 3D production pipeline.</p>"
+      "fr": "<p>Ce projet présente une <strong>visualisation 3D réaliste</strong> d’une maison fictive. L’objectif principal était de créer une mise en perspective crédible à l’aide de <strong>textures PBR</strong>, d’un <strong>éclairage HDRI</strong> et d’un moteur de rendu temps réel performant (<strong>Unreal Engine</strong>).</p><br/><p>La conception des plans a été faite avec Live Home 3D, la modélisation avec Cinema 4D, et la post-production avec Adobe Photoshop et After Effects. Ce projet met en avant mes compétences en <strong>modélisation architecturale</strong>, optimisation pour le rendu temps réel, éclairage naturel et maîtrise du pipeline de production 3D.</p>",
+      "en": "<p>This project showcases a <strong>realistic 3D visualization</strong> of a fictional house. The main objective was to deliver a believable architectural rendering using <strong>PBR textures</strong>, <strong>HDRI lighting</strong> and a powerful real-time engine (<strong>Unreal Engine</strong>).</p><br/><p>Floor plans were designed with Live Home 3D, modeling was done in Cinema 4D, and post-production in Adobe Photoshop and After Effects. The project highlights my skills in <strong>architectural modeling</strong>, real-time rendering optimization, natural lighting and mastery of the 3D production pipeline.</p>"
     },
     "sector": "Visualisation Architecturale",
     "productionType": "Rendu",
@@ -434,7 +741,7 @@
     "technologies": [
       "Live Home 3D",
       "Cinema 4D",
-      "Unreal Engine 5.2",
+      "Unreal Engine",
       "Adobe Photoshop",
       "Adobe After Effects"
     ],
@@ -459,7 +766,7 @@
         "materials": 4,
         "software": "Cinema 4D, Substance Painter, Unreal Engine",
         "category": "Mobilier",
-        "isFeatured": true
+        "isFeatured": false
       }
     ]
   },
@@ -474,8 +781,8 @@
       "en": "Realistic and immersive 3D animation of the Apt water body, created for the Grapheau firm from photogrammetric surveys."
     },
     "longDescription": {
-      "fr": "<p>Ce projet, réalisé pour la société Grapheau, présente une <strong>animation 3D photoréaliste</strong> du plan d’eau de la ville d’Apt. La scène a été fidèlement reconstruite à partir de <strong>données photogrammétriques</strong> obtenues via drone et BackPack.</p><br/><p>Grâce à une combinaison de Blender pour la modélisation, d'<strong>Unreal Engine 4.27</strong> pour le rendu temps réel, et d'After Effects pour la post-production, une mise en valeur immersive du site a été produite. Le projet met en lumière une modélisation précise, des textures PBR, un éclairage HDRI et une animation fluide de la caméra pour un rendu final professionnel et fidèle à l'environnement réel.</p>",
-      "en": "<p>This project, created for the Grapheau company, features a <strong>photorealistic 3D animation</strong> of the Apt water body. The scene was faithfully reconstructed from <strong>photogrammetric data</strong> acquired by drone and BackPack.</p><br/><p>Using a combination of Blender for modeling, <strong>Unreal Engine 4.27</strong> for real-time rendering, and After Effects for post-production, an immersive showcase of the site was produced. The project highlights precise modeling, PBR textures, HDRI lighting, and smooth camera animation for a professional and realistic final result true to the actual environment.</p>"
+      "fr": "<p>Ce projet, réalisé pour la société Grapheau, présente une <strong>animation 3D photoréaliste</strong> du plan d’eau de la ville d’Apt. La scène a été fidèlement reconstruite à partir de <strong>données photogrammétriques</strong> obtenues via drone et BackPack.</p><br/><p>Grâce à une combinaison de Blender pour la modélisation, d'<strong>Unreal Engine</strong> pour le rendu temps réel, et d'After Effects pour la post-production, une mise en valeur immersive du site a été produite. Le projet met en lumière une modélisation précise, des textures PBR, un éclairage HDRI et une animation fluide de la caméra pour un rendu final professionnel et fidèle à l'environnement réel.</p>",
+      "en": "<p>This project, created for the Grapheau company, features a <strong>photorealistic 3D animation</strong> of the Apt water body. The scene was faithfully reconstructed from <strong>photogrammetric data</strong> acquired by drone and BackPack.</p><br/><p>Using a combination of Blender for modeling, <strong>Unreal Engine</strong> for real-time rendering, and After Effects for post-production, an immersive showcase of the site was produced. The project highlights precise modeling, PBR textures, HDRI lighting, and smooth camera animation for a professional and realistic final result true to the actual environment.</p>"
     },
     "sector": "Infographie 3D",
     "productionType": "Animation",
@@ -487,7 +794,7 @@
     ],
     "technologies": [
       "Blender",
-      "Unreal Engine 4.27",
+      "Unreal Engine",
       "After Effects"
     ],
     "hint": "landscape animation",
