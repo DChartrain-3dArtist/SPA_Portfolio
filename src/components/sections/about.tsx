@@ -35,7 +35,12 @@ import {
     SiElementor,
     SiGoogleads,
     SiGoogleanalytics,
-    SiCinema4d
+    SiCinema4d,
+    SiAngular,
+    SiReact,
+    SiTailwindcss,
+    SiBootstrap,
+    SiDotnet
 } from '@icons-pack/react-simple-icons';
 import { cn } from '@/lib/utils';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
@@ -93,11 +98,15 @@ const skills = {
         { name: "WordPress", icon: SiWordpress, color: "text-sky-500" },
         { name: "Elementor", icon: SiElementor, color: "text-pink-500" },
         { name: "Divi", icon: Component, color: "text-purple-400" },
-        { name: "Google Ads", icon: SiGoogleads, color: "text-yellow-500" },
-        { name: "Analytics", icon: SiGoogleanalytics, color: "text-orange-500" },
-        { name: "Screaming Frog", icon: Component, color: "text-green-500" },
+        { name: "React", icon: SiReact, color: "text-sky-400" },
+        { name: "Angular", icon: SiAngular, color: "text-red-600" },
+        { name: "C# .NET", icon: SiDotnet, color: "text-purple-500" },
+        { name: "Tailwind", icon: SiTailwindcss, color: "text-sky-400" },
+        { name: "Bootstrap", icon: SiBootstrap, color: "text-purple-600" },
         { name: "Figma", icon: SiFigma, color: "text-pink-500" },
         { name: "Adobe XD", icon: SiAdobexd, color: "text-pink-400" },
+        { name: "Google Ads", icon: SiGoogleads, color: "text-yellow-500" },
+        { name: "Analytics", icon: SiGoogleanalytics, color: "text-orange-500" },
     ],
 }
 
@@ -396,3 +405,5 @@ export default function AboutPage() {
     </>
   );
 }
+
+    

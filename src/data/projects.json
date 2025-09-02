@@ -97,6 +97,44 @@
     ]
   },
   {
+    "id": "othello-ai-game",
+    "title": {
+      "fr": "Othello AI Game - Projet Fullstack",
+      "en": "Othello AI Game - Fullstack Project"
+    },
+    "description": {
+      "fr": "Projet personnel combinant un backend en C# .NET, un frontend en Angular, et une IA (algorithme MinMax) pour le jeu de société Othello (Reversi).",
+      "en": "Personal project combining a C# .NET backend, an Angular frontend, and an AI (MinMax algorithm) for the classic board game Othello (Reversi)."
+    },
+    "longDescription": {
+      "fr": "<h2>Jeu Othello avec IA</h2><p>Projet personnel combinant un backend en <strong>C# .NET</strong>, un frontend en <strong>Angular/SCSS</strong>, et une intelligence artificielle (algorithme MinMax) pour le jeu classique Othello (Reversi).</p><p>Le projet permet de jouer Joueur vs IA, avec suivi des scores, statistiques et Top 10 par difficulté.</p><h3>Objectifs du projet</h3><ul><li>Démontrer la maîtrise de trois compétences complémentaires : Backend (.NET 8), Frontend (Angular 17+), et IA (MinMax).</li><li>Fournir un projet complet et déployable sur GitHub et en ligne.</li><li>Illustrer la capacité à intégrer plusieurs technologies dans un même projet.</li></ul><h3>Stack technique</h3><p>Le frontend Angular récupère et met à jour les statistiques via l’API REST. Le calcul MinMax de l'IA se fait localement (côté client) pour réduire la charge sur le backend. Une base de données SQLite stocke les scores et le Top 10 par difficulté.</p>",
+      "en": "<h2>Othello Game with AI</h2><p>Personal project combining a backend in <strong>C# .NET</strong>, a frontend in <strong>Angular/SCSS</strong>, and an artificial intelligence (MinMax algorithm) for the classic game Othello (Reversi).</p><p>The project allows Player vs. AI gameplay, with score tracking, statistics, and a Top 10 list per difficulty.</p><h3>Project Goals</h3><ul><li>Demonstrate proficiency in three complementary skills: Backend (.NET 8), Frontend (Angular 17+), and AI (MinMax).</li><li>Provide a complete, deployable project on GitHub and online.</li><li>Illustrate the ability to integrate multiple technologies into a single project.</li></ul><h3>Tech Stack</h3><p>The Angular frontend fetches and updates statistics via the REST API. The AI's MinMax calculation is performed locally (client-side) to reduce the load on the backend. A SQLite database stores scores and the Top 10 for each difficulty level.</p>"
+    },
+    "sector": "Développement Web",
+    "productionType": "Application",
+    "image": "/assets/project-assets/Othelloai1.webp",
+    "images": [
+      "/assets/project-assets/Othelloai1.webp",
+      "/assets/project-assets/Othelloai2.webp",
+      "/assets/project-assets/Othelloai3.webp",
+      "/assets/project-assets/Othelloai4.webp"
+    ],
+    "technologies": [
+      "Angular",
+      "SCSS",
+      "C# .NET",
+      "Entity Framework",
+      "SQLite",
+      "MinMax Algorithm"
+    ],
+    "hint": "othello game board",
+    "date": "2025-05-12",
+    "isVisualizable": false,
+    "videoUrl": "",
+    "liveUrl": "https://othelloai-ln4j.onrender.com/",
+    "githubUrl": "https://github.com/DChartrain-3dArtist/OthelloAi"
+  },
+  {
     "id": "production-line-integration",
     "title": {
       "fr": "Automatisation de Ligne de Production",
@@ -165,7 +203,7 @@
       "fr": "<p>Cette série de rendus explore le <strong>style Japandi</strong>, une tendance de design d'intérieur qui marie l'esthétique épurée et fonctionnelle du design scandinave avec le minimalisme, la chaleur et l'amour des matériaux naturels de l'inspiration japonaise. Le résultat est un espace serein, chaleureux et sans superflu.</p><br><p>La modélisation des assets a été réalisée dans <strong>Cinema 4D</strong>. La scène a ensuite été composée et rendue dans <strong>Unreal Engine</strong>, en utilisant <strong>Lumen</strong> et le <strong>Raytracing</strong> pour obtenir des lumières douces et des ombres précises qui soulignent les textures des matériaux. La post-production a été effectuée avec <strong>Affinity Photo</strong> pour ajuster les couleurs et l'ambiance finale.</p>",
       "en": "<p>This series of renderings explores the <strong>Japandi style</strong>, an interior design trend that blends the clean, functional aesthetic of Scandinavian design with the minimalism, warmth, and love for natural materials of Japanese inspiration. The result is a serene, warm, and uncluttered space.</p><br><p>Asset modeling was done in <strong>Cinema 4D</strong>. The scene was then composed and rendered in <strong>Unreal Engine</strong>, using <strong>Lumen</strong> and <strong>Raytracing</strong> to achieve soft lighting and precise shadows that highlight the material textures. Post-production was handled with <strong>Affinity Photo</strong> to adjust colors and the final mood.</p>"
     },
-    "sector": "Visualisation Architecturale",
+    "sector": "Infographie 3D",
     "productionType": "Rendu",
     "image": "/assets/project-assets/JapandiRender_1.webp",
     "images": [
@@ -254,7 +292,7 @@
       "fr": "<p>Une visualisation 3D d'un aménagement extérieur contemporain. Ce projet met en scène une piscine avec une <strong>plage immergée</strong>, un coin <strong>jacuzzi</strong> attenant, et une grande terrasse en bois qui fait le lien avec un espace salon extérieur. L'objectif était de créer une ambiance estivale et relaxante, tout en démontrant une maîtrise de la modélisation d'environnements extérieurs, de la végétation, et des rendus d'eau réalistes.</p><br><p>Modélisé dans <strong>Cinema 4D</strong>, le projet a été entièrement rendu dans <strong>Unreal Engine</strong> pour bénéficier de son système d'éclairage dynamique <strong>Lumen</strong>. La post-production sur <strong>Affinity Photo</strong> a permis de sublimer l'image finale.</p>",
       "en": "<p>A 3D visualization of a contemporary outdoor living space. This project features a pool with a <strong>submerged beach</strong>, an adjoining <strong>jacuzzi</strong> area, and a large wooden terrace connecting to an outdoor lounge area. The goal was to create a summery and relaxing atmosphere while demonstrating mastery of outdoor environment modeling, vegetation, and realistic water rendering.</p><br><p>Modeled in <strong>Cinema 4D</strong>, the project was fully rendered in <strong>Unreal Engine</strong> to take advantage of its dynamic <strong>Lumen</strong> lighting system. Post-production in <strong>Affinity Photo</strong> helped to enhance the final image.</p>"
     },
-    "sector": "Visualisation Architecturale",
+    "sector": "Infographie 3D",
     "productionType": "Rendu",
     "image": "/assets/project-assets/ExtArchiRender1.webp",
     "images": [
@@ -725,7 +763,7 @@
       "fr": "<p>Ce projet présente une <strong>visualisation 3D réaliste</strong> d’une maison fictive. L’objectif principal était de créer une mise en perspective crédible à l’aide de <strong>textures PBR</strong>, d’un <strong>éclairage HDRI</strong> et d’un moteur de rendu temps réel performant (<strong>Unreal Engine</strong>).</p><br/><p>La conception des plans a été faite avec Live Home 3D, la modélisation avec Cinema 4D, et la post-production avec Adobe Photoshop et After Effects. Ce projet met en avant mes compétences en <strong>modélisation architecturale</strong>, optimisation pour le rendu temps réel, éclairage naturel et maîtrise du pipeline de production 3D.</p>",
       "en": "<p>This project showcases a <strong>realistic 3D visualization</strong> of a fictional house. The main objective was to deliver a believable architectural rendering using <strong>PBR textures</strong>, <strong>HDRI lighting</strong> and a powerful real-time engine (<strong>Unreal Engine</strong>).</p><br/><p>Floor plans were designed with Live Home 3D, modeling was done in Cinema 4D, and post-production in Adobe Photoshop and After Effects. The project highlights my skills in <strong>architectural modeling</strong>, real-time rendering optimization, natural lighting and mastery of the 3D production pipeline.</p>"
     },
-    "sector": "Visualisation Architecturale",
+    "sector": "Infographie 3D",
     "productionType": "Rendu",
     "image": "/assets/project-assets/Archi_1.webp",
     "images": [
@@ -948,3 +986,5 @@
     "isVisualizable": false
   }
 ]
+
+    
