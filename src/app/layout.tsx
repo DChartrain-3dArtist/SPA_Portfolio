@@ -91,7 +91,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/assets/data/apple-touch-icon.jpg" />
 
         {/* Balise de vérification pour la Google Search Console. */}
-        <meta name="google-site-verification" content="ST56g-SXhHTanGGB3VO_XaHresA_4bKWrW5W6_gKpNI" />
+        <meta name="google-site-verification" content="SnIuiDI-vgFpHU-9oT44pMQNlqb7vP5N2rAZm4DhtZ8" />
         
         {/* Script pour injecter les données structurées au format JSON-LD. */}
         <Script
