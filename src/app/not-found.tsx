@@ -21,12 +21,12 @@ export default function NotFound() {
         Oups ! Il semblerait que vous ayez suivi une piste qui ne mène nulle part.
       </p>
       <p className="text-muted-foreground">
-        La page que vous cherchez a peut-être été déplacée ou n'a jamais existé.
+        La page que vous cherchez a peut-être été déplacée ou n&apos;a jamais existé.
       </p>
       <Button asChild size="lg" className="mt-10">
         <Link href="/">
           <Home className="mr-2" />
-          Retourner à l'accueil
+          Retourner à l&apos;accueil
         </Link>
       </Button>
     </div>

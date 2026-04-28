@@ -3,10 +3,8 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
-import { getProjects } from '@/data/projects';
 import { sectors, productionTypes, type Sector, type ProductionType, Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,17 +17,15 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import { Search, Mail, RotateCcw, Grid, List, Cuboid, Sparkles, Film, SlidersHorizontal, ChevronDown, Home } from 'lucide-react';
+import { Search, Mail, RotateCcw, Grid, List, Cuboid, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ProjectCard } from '@/components/portfolio/project-card';
 import { Badge } from '../ui/badge';
-import { Skeleton } from '../ui/skeleton';
 
 /**
  * Composant de titre de page réutilisable.
@@ -46,17 +42,12 @@ function PageTitle({ children }: { children: React.ReactNode }) {
  * Gère l'affichage, le filtrage et le tri des projets.
  * @returns Un composant React pour la page portfolio.
  */
-export default function PortfolioPage() {
+export default function PortfolioPage({ initialProjects }: { initialProjects: Project[] }) {
   const { language } = useLanguage();
   const c = content[language].portfolio;
   const isMobile = useIsMobile();
   const filterSectionRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
   
-  // États pour les données et l'UI
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   // États pour les filtres et l'affichage
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [activeSector, setActiveSector] = useState<Sector | 'all'>('all');
@@ -67,22 +58,12 @@ export default function PortfolioPage() {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
 
-  // Charge les projets au montage du composant.
-  useEffect(() => {
-    async function loadProjects() {
-      setIsLoading(true);
-      const fetchedProjects = await getProjects();
-      setProjects(fetchedProjects);
-      setIsLoading(false);
-    }
-    loadProjects();
-  }, []);
-
   // Synchronise les filtres avec les paramètres de l'URL au chargement.
   useEffect(() => {
-    const sectorParam = searchParams.get('sector');
-    const typeParam = searchParams.get('type');
-    const techParam = searchParams.get('tech');
+    const params = new URLSearchParams(window.location.search);
+    const sectorParam = params.get('sector');
+    const typeParam = params.get('type');
+    const techParam = params.get('tech');
 
     if (sectorParam && sectors.includes(sectorParam as Sector)) {
         setActiveSector(sectorParam as Sector);
@@ -93,25 +74,25 @@ export default function PortfolioPage() {
     if (techParam) {
         setSelectedTechnologies([techParam]);
     }
-  }, [searchParams]);
+  }, []);
   
   // Calcule le projet le plus récent pour lui attribuer un badge spécial.
   const latestProject = useMemo(() => {
-    if (!projects || projects.length === 0) return null;
-    const sortedByDate = [...projects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    if (!initialProjects || initialProjects.length === 0) return null;
+    const sortedByDate = [...initialProjects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return sortedByDate.length > 0 ? sortedByDate[0] : null;
-  }, [projects]);
+  }, [initialProjects]);
   
   // Calcule la liste de toutes les technologies uniques disponibles pour le filtre.
   const allTechnologies = useMemo(() => {
     const techSet = new Set<string>();
-    projects.forEach(p => p.technologies.forEach(t => techSet.add(t)));
+    initialProjects.forEach(p => p.technologies.forEach(t => techSet.add(t)));
     return Array.from(techSet).sort();
-  }, [projects]);
+  }, [initialProjects]);
 
   // Logique principale de filtrage et de tri des projets.
   const filteredAndSortedProjects = useMemo(() => {
-    let filtered = projects;
+    let filtered = initialProjects;
     
     if (showVisualizableOnly) {
       filtered = filtered.filter(p => p.isVisualizable);
@@ -148,7 +129,7 @@ export default function PortfolioPage() {
     });
 
     return sorted;
-  }, [projects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly, selectedTechnologies]);
+  }, [initialProjects, activeSector, activeProductionType, searchTerm, sortOrder, language, showVisualizableOnly, selectedTechnologies]);
   
   const handleSectorClick = (sector: Sector) => {
     setActiveSector(prev => (prev === sector ? 'all' : sector));
@@ -165,25 +146,6 @@ export default function PortfolioPage() {
   };
 
   const renderProjects = () => {
-    if (isLoading) {
-      const gridCols = layout === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1';
-      return (
-        <div className={cn("grid gap-8 w-full", gridCols)}>
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i}>
-              <Skeleton className="w-full aspect-video" />
-              <div className="p-6 space-y-4">
-                <Skeleton className="h-4 w-2/3" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-1/2" />
-              </div>
-            </Card>
-          ))}
-        </div>
-      );
-    }
-
     if (filteredAndSortedProjects.length === 0) {
         return (
             <div className="text-center py-16 px-4 sm:px-6 lg:px-8">

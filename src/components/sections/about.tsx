@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Download, Mail, Briefcase, GraduationCap, Component, FileCode, Star, Palette, Printer, Home } from 'lucide-react';
+import { Download, Mail, Briefcase, GraduationCap, Component, FileCode, Palette, Printer } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
@@ -48,6 +48,21 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
+type SkillItem = {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+};
+
+type TimelineItem = {
+  date: string;
+  period: string;
+  type: 'experience' | 'formation';
+  role: string;
+  company: string;
+  description: string;
+};
+
 /**
  * Composant de titre de page réutilisable.
  * @param {object} props - Les propriétés du composant.
@@ -59,7 +74,7 @@ function PageTitle({ children }: { children: React.ReactNode }) {
 }
 
 // Données statiques pour les compétences, organisées par catégorie.
-const skills = {
+const skills: Record<string, SkillItem[]> = {
     "Logiciels 3D & Moteurs": [
         { name: "Blender", icon: SiBlender, color: "text-orange-500" },
         { name: "Maya", icon: SiAutodesk, color: "text-sky-500" },
@@ -115,7 +130,7 @@ const skills = {
  * @param {object} props - Les propriétés du composant.
  * @returns Un composant React pour une compétence.
  */
-function SkillCard({ icon: Icon, name, color, className }: { icon: React.ElementType, name: string, color: string, className?: string }) {
+function SkillCard({ icon: Icon, name, color, className }: { icon: React.ComponentType<{ className?: string }>, name: string, color: string, className?: string }) {
     return (
         <div className={cn("group relative flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 border border-border/50 hover:border-primary/50", className)}>
             <div className={cn("transition-colors group-hover:opacity-80", color)}>
@@ -132,7 +147,7 @@ function SkillCard({ icon: Icon, name, color, className }: { icon: React.Element
  * @param {object} props - Les propriétés du composant.
  * @returns Un composant React de frise chronologique.
  */
-function Timeline({ items }: { items: { date: string, period: string; type: 'experience' | 'formation'; role: string; company: string; description: string }[]}) {
+function Timeline({ items }: { items: TimelineItem[]}) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [dotPosition, setDotPosition] = useState(0);
 
@@ -232,11 +247,11 @@ export default function AboutPage() {
     logicielsSkills,
     programmationSkills,
     webSkills
-  ] = Object.values(skills);
+  ] = Object.values(skills) as [SkillItem[], SkillItem[], SkillItem[]];
 
   // Trie la frise chronologique par date la plus récente.
-  const sortedTimeline = useMemo(() => {
-    return [...c.timeline].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedTimeline = useMemo<TimelineItem[]>(() => {
+    return [...(c.timeline as TimelineItem[])].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [c.timeline]);
 
   return (

@@ -15,7 +15,6 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import {getProjects, getVisualizerItems} from '@/data/projects';
 import {content} from '@/lib/content';
-import {Language} from '@/contexts/language-context';
 
 // Schéma d'entrée pour la fonction publique `chat`
 const ChatbotInputSchema = z.object({
@@ -78,7 +77,7 @@ const chatbotFlow = ai.defineFlow(
     inputSchema: ChatbotInputSchema,
     outputSchema: ChatbotOutputSchema,
   },
-  async (input) => {
+  async (input): Promise<ChatbotOutput> => {
     const {language} = input;
 
     // Ajout de la vérification de la clé API
@@ -90,7 +89,7 @@ const chatbotFlow = ai.defineFlow(
           : "Oops, it seems the Google AI service is experiencing some difficulties. I am unable to process your request at the moment. While the service recovers, I suggest you explore the projects directly.";
       return {
         text: errorMessage,
-        action: {type: 'navigate', path: '/portfolio'},
+        action: {type: 'navigate' as const, path: '/portfolio'},
       };
     }
     
@@ -122,9 +121,7 @@ const chatbotFlow = ai.defineFlow(
     };
 
     try {
-        console.log('[CHATBOT_BACKEND] Step 1: Envoi du prompt à l\'IA avec le message:', input.message);
         const { output } = await chatbotPrompt(promptInput);
-        console.log('[CHATBOT_BACKEND] Step 2: Réponse brute et structurée reçue de l\'IA:', JSON.stringify(output, null, 2));
 
         if (!output) {
             throw new Error('IA response is empty or invalid.');
@@ -133,12 +130,13 @@ const chatbotFlow = ai.defineFlow(
         // La réponse est déjà dans le bon format, on la retourne directement.
         return output;
 
-    } catch(e: any) {
-        console.error('[CHATBOT_BACKEND] Erreur dans le flow:', e);
+    } catch (error: unknown) {
+        console.error('[CHATBOT_BACKEND] Erreur dans le flow:', error);
         let errorMessage;
+        const message = error instanceof Error ? error.message : '';
         
         // Gestion spécifique de l'erreur de quota
-        if (e.message && (e.message.includes('503') || e.message.includes('overloaded') || e.message.includes('RESOURCE_EXHAUSTED'))) {
+        if (message && (message.includes('503') || message.includes('overloaded') || message.includes('RESOURCE_EXHAUSTED'))) {
             errorMessage = language === 'fr'
                 ? "Le service IA de Google est très sollicité en ce moment et mes circuits sont un peu surchargés. Je ne peux donc pas vous répondre. En attendant que la situation se normalise, n'hésitez pas à explorer le portfolio manuellement."
                 : "The Google AI service is currently in high demand, and my circuits are a bit overloaded, so I can't respond right now. While things get back to normal, please feel free to explore the portfolio directly.";
@@ -150,7 +148,7 @@ const chatbotFlow = ai.defineFlow(
         
         return { 
           text: errorMessage,
-          action: { type: 'navigate', path: '/portfolio' }
+          action: { type: 'navigate' as const, path: '/portfolio' }
         };
     }
   }

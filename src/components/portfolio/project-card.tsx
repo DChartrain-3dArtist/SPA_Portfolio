@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/language-context';
 import type { Project } from '@/data/definitions';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Cuboid, Sparkles, Film, Rows3 } from 'lucide-react';
+import { ArrowRight, Cuboid, Sparkles, Film } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,7 +22,7 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
   const { language } = useLanguage();
   const c = content[language];
   const isMobile = useIsMobile();
-  const { id, title, image, sector, productionType, hint, description, isVisualizable, date, videoUrl } = project;
+  const { id, title, image, sector, productionType, description, isVisualizable, date, videoUrl } = project;
 
   const getSectorBadgeClass = () => {
     switch (sector) {

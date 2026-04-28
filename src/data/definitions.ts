@@ -63,6 +63,7 @@ export interface Project {
   videoUrl?: string; // URL optionnelle d'une vidéo de présentation (locale ou YouTube).
   visualizerItems?: VisualizerItem[]; // Liste optionnelle d'objets 3D associés au projet.
   liveUrl?: string; // URL optionnelle vers le site ou l'application en ligne.
+  githubUrl?: string; // URL optionnelle vers le dépôt source.
 }
 
 // Constantes listant les secteurs et types de production pour les filtres du portfolio.

@@ -37,7 +37,6 @@ import { useTheme } from '@/contexts/theme-context';
 import { content } from '@/lib/content';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Header } from './header';
 import { LogoSVG } from '../logo-svg';
 import { Chatbot } from '../chatbot/chatbot';
 
@@ -162,9 +161,10 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuButton
                 asChild
                 size="lg"
-                variant={isNavItemActive(item.href) ? 'default' : 'ghost'}
+                variant={isNavItemActive(item.href) ? 'default' : 'default'}
                 isActive={isNavItemActive(item.href)}
                 tooltip={item.label}
+                className={!isNavItemActive(item.href) ? 'bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : undefined}
               >
                 <Link href={item.href}>
                   <item.icon />

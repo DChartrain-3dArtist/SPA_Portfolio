@@ -1,32 +1,24 @@
 
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import {
-  Code,
-  Cuboid,
   Github,
   Linkedin,
   Mail,
-  Swords,
   Instagram,
   Youtube,
-  ChevronRight,
   Monitor,
   Dices,
   Palette,
   ArrowRight,
-  ExternalLink,
-  Bot,
-  Figma,
-  Component,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Header } from '@/components/layout/header';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';

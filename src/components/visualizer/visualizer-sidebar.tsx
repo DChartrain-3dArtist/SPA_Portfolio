@@ -11,7 +11,6 @@ import {
   SidebarSeparator,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSkeleton,
   useSidebar,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
@@ -21,27 +20,21 @@ import {
   Briefcase,
   User,
   Mail,
-  Cuboid,
   LayoutGrid,
   Menu,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
-import { getVisualizerItems } from '@/data/projects';
 import type { VisualizerItem } from '@/data/definitions';
-import { useState, useEffect } from 'react';
 import { LogoSVG } from '../logo-svg';
 import { ScrollArea } from '../ui/scroll-area';
 import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
 
-export function VisualizerSidebar() {
+export function VisualizerSidebar({ items }: { items: VisualizerItem[] }) {
   const pathname = usePathname();
   const { language } = useLanguage();
   const c = content[language];
-  const [items, setItems] = useState<VisualizerItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { setOpenMobile, toggleSidebar, isMobile } = useSidebar();
 
   const handleLinkClick = () => {
@@ -49,16 +42,6 @@ export function VisualizerSidebar() {
         setOpenMobile(false);
     }
   }
-
-  useEffect(() => {
-    async function loadItems() {
-      setIsLoading(true);
-      const fetchedItems = await getVisualizerItems();
-      setItems(fetchedItems);
-      setIsLoading(false);
-    }
-    loadItems();
-  }, []);
 
   const visualizerNav = [
     { href: '/visualizer', label: c.visualizer.header_home_breadcrumb, icon: Home },
@@ -123,9 +106,10 @@ export function VisualizerSidebar() {
                     <SidebarMenuButton
                         asChild
                         size="default"
-                        variant={pathname === item.href ? 'default' : 'ghost'}
+                        variant={pathname === item.href ? 'default' : 'default'}
                         isActive={pathname === item.href}
                         tooltip={item.label}
+                        className={pathname !== item.href ? 'bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : undefined}
                     >
                         <Link href={item.href} onClick={handleLinkClick}>
                         <item.icon />
@@ -139,12 +123,6 @@ export function VisualizerSidebar() {
                   Modèles 3D
                 </p>
                 <SidebarMenuSub>
-                    {isLoading && (
-                        <>
-                            <SidebarMenuSkeleton showIcon />
-                            <SidebarMenuSkeleton showIcon />
-                        </>
-                    )}
                     {items.map((item) => (
                     <SidebarMenuItem key={item.id}>
                         <SidebarMenuSubButton
@@ -171,8 +149,9 @@ export function VisualizerSidebar() {
                     <SidebarMenuButton
                         asChild
                         size="default"
-                        variant='ghost'
+                        variant='default'
                         tooltip={item.label}
+                        className="bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     >
                         <Link href={item.href} onClick={handleLinkClick}>
                         <item.icon />

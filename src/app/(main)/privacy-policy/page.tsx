@@ -47,7 +47,7 @@ export default function PrivacyPolicyPage() {
           <Button asChild variant="outline" className="mb-8">
               <Link href="/">
                   <Home className="mr-2" />
-                  Retour à l'accueil
+                  Retour à l&apos;accueil
               </Link>
           </Button>
 

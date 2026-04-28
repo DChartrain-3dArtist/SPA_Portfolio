@@ -1,178 +1,44 @@
 
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-'use client';
+import ItemDetailPage from '@/components/visualizer/item-detail-page';
+import { getVisualizerItems, getVisualizerItem } from '@/data/projects';
 
-import dynamic from 'next/dynamic';
-import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'next/navigation';
-import { getVisualizerItem } from '@/data/projects';
-import { VisualizerItem } from '@/data/definitions';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Briefcase, Library, AlertTriangle, Layers, Palette, Cpu } from 'lucide-react';
-import { useBreadcrumb } from '@/contexts/breadcrumb-context';
-import { useLanguage } from '@/contexts/language-context';
-import { content } from '@/lib/content';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import CountUp from 'react-countup';
-import { useInView } from 'react-intersection-observer';
+type Props = {
+  params: { id: string };
+};
 
-const ModelCanvas = dynamic(() => import('@/components/visualizer/model-canvas'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full items-center justify-center rounded-lg border bg-card/50">
-      <p className="text-foreground">Chargement du visualiseur...</p>
-    </div>
-  ),
-});
+export async function generateStaticParams() {
+  const items = await getVisualizerItems();
 
-function StatCounter({ end, suffix }: { end: number; suffix?: string }) {
-    const { ref, inView } = useInView({
-        triggerOnce: true,
-        threshold: 0.1,
-    });
-
-    return (
-        <span ref={ref}>
-            {inView ? <CountUp end={end} duration={2} separator=" " /> : '0'}
-            {suffix}
-        </span>
-    );
+  return items.map((item) => ({
+    id: item.id,
+  }));
 }
 
-export default function ItemDetailPage() {
-  const params = useParams();
-  const id = typeof params.id === 'string' ? params.id : '';
-  const [item, setItem] = useState<VisualizerItem | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [polycount, setPolycount] = useState(0);
-  const [materialCount, setMaterialCount] = useState(0);
-  const { setBreadcrumbs } = useBreadcrumb();
-  const { language } = useLanguage();
-  const c = content[language];
-
-  useEffect(() => {
-    if (!id) return;
-    async function loadItem() {
-      setIsLoading(true);
-      const fetchedItem = await getVisualizerItem(id);
-      setItem(fetchedItem);
-      if (fetchedItem) {
-        setBreadcrumbs([
-          { label: c.visualizer.header_home_breadcrumb, href: '/visualizer' },
-          { label: c.visualizer.header_library_breadcrumb, href: '/visualizer/library' },
-          { label: fetchedItem.name[language] },
-        ]);
-      }
-      setIsLoading(false);
-    }
-    loadItem();
-
-    return () => {
-       setBreadcrumbs([]);
-    }
-  }, [id, setBreadcrumbs, language, c]);
-
-  const handlePolycountChange = useCallback((count: number) => {
-    setPolycount(count);
-  }, []);
-
-  const handleMaterialCountChange = useCallback((count: number) => {
-    setMaterialCount(count);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div>
-        <div className="flex items-center justify-between mt-4 mb-8">
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-10 w-36" />
-        </div>
-        <div className="h-[60vh] w-full">
-            <Skeleton className="h-full w-full rounded-lg" />
-        </div>
-      </div>
-    );
-  }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const item = await getVisualizerItem(params.id);
 
   if (!item) {
-    return (
-      <div>
-        <h1 className="text-4xl font-bold font-headline mt-4">{c.visualizer.item_detail_not_found}</h1>
-        <div className="mt-8 flex items-center justify-center h-96 border rounded-lg bg-card/50">
-          <div className="text-center text-destructive">
-            <AlertTriangle className="mx-auto h-12 w-12 mb-4" />
-            <p className="font-bold">{c.visualizer.item_detail_not_found_message}</p>
-          </div>
-        </div>
-      </div>
-    );
+    return {
+      title: 'Modele non trouve',
+      description: "Le modele 3D demande n'existe pas ou n'est plus disponible.",
+    };
   }
 
-  return (
-     <div>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 mb-8 gap-4">
-            <h1 className="text-4xl font-bold font-headline">{item.name[language]}</h1>
-            {item.projectId && (
-                 <Button asChild>
-                    <Link href={`/portfolio/${item.projectId}`}>
-                        <Briefcase className="mr-2" />
-                        {c.visualizer.item_detail_cta_project}
-                    </Link>
-                </Button>
-            )}
-        </div>
-        <div className="mt-8 h-[50vh] md:h-[65vh] w-full max-w-6xl mx-auto">
-            <ModelCanvas 
-              modelUrl={item.modelUrl} 
-              onPolycountChange={handlePolycountChange}
-              onMaterialCountChange={handleMaterialCountChange}
-            />
-        </div>
+  return {
+    title: item.name.fr,
+    description: item.description.fr,
+  };
+}
 
-        <div className="my-12 max-w-4xl mx-auto">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl">{c.visualizer.tech_details_title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground mb-6">{item.description[language]}</p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
-                        <div className="flex items-center gap-3">
-                            <Layers className="h-6 w-6 text-primary"/>
-                            <div>
-                                <p className="font-semibold">{c.visualizer.tech_details_polycount}</p>
-                                <p className="text-muted-foreground font-mono"><StatCounter end={polycount} /></p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Palette className="h-6 w-6 text-primary"/>
-                            <div>
-                                <p className="font-semibold">{c.visualizer.tech_details_materials}</p>
-                                <p className="text-muted-foreground font-mono"><StatCounter end={materialCount} /></p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3 col-span-2 md:col-span-1">
-                            <Cpu className="h-6 w-6 text-primary"/>
-                            <div>
-                                <p className="font-semibold">{c.visualizer.tech_details_software}</p>
-                                <p className="text-muted-foreground">{item.software || 'N/A'}</p>
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
+export default async function Page({ params }: Props) {
+  const item = await getVisualizerItem(params.id);
 
-       <div className="flex justify-center">
-            <Button asChild>
-                <Link href="/visualizer/library">
-                    <Library className="mr-2" />
-                    {c.visualizer.item_detail_cta_library}
-                </Link>
-            </Button>
-       </div>
-    </div>
-  );
+  if (!item) {
+    notFound();
+  }
+
+  return <ItemDetailPage item={item} />;
 }

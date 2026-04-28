@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Settings, Sun, Moon, Languages } from 'lucide-react';
+import { Settings, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -12,8 +12,6 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useLanguage } from '@/contexts/language-context';
 import { useTheme } from '@/contexts/theme-context';
-import { cn } from '@/lib/utils';
-
 export function Header() {
   const { language, setLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
@@ -36,7 +34,7 @@ export function Header() {
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Réglages</h4>
               <p className="text-sm text-muted-foreground">
-                Personnalisez l'affichage du site.
+                Personnalisez l&apos;affichage du site.
               </p>
             </div>
             <div className="grid gap-2">

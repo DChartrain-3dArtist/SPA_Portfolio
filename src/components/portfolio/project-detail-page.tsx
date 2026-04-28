@@ -3,17 +3,15 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
-import { getProjects } from '@/data/projects';
 import { Project } from '@/data/definitions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/header';
-import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, ArrowRight, CalendarDays, AlertTriangle, Film, Home, Linkedin, Share2 } from 'lucide-react';
+import { ArrowLeft, Maximize, Mail, Cuboid, ExternalLink, CalendarDays, Linkedin } from 'lucide-react';
 import { SiX } from '@icons-pack/react-simple-icons';
 import { cn } from '@/lib/utils';
 import {
@@ -32,7 +30,6 @@ import {
 } from "@/components/ui/dialog"
 import { ProjectCard } from '@/components/portfolio/project-card';
 import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import Script from 'next/script';
 
 // Fonction pour déterminer la classe CSS du badge de secteur.
@@ -54,49 +51,20 @@ const getSectorBadgeClass = (sector?: Project['sector']) => {
  * Composant de la page de détail d'un projet.
  * Affiche toutes les informations d'un projet spécifique, y compris les galeries, les vidéos et les liens.
  * @param {object} props - Les propriétés du composant.
- * @param {string} props.projectId - L'ID du projet à afficher.
+ * @param {Project} props.project - Le projet courant.
  * @returns Un composant React pour la page de détail du projet.
  */
-export default function ProjectDetailPage({ projectId }: { projectId: string }) {
-  const router = useRouter();
+export default function ProjectDetailPage({
+  project,
+  suggestedProjects,
+  latestProject,
+}: {
+  project: Project;
+  suggestedProjects: Project[];
+  latestProject: Project | null;
+}) {
   const { language } = useLanguage();
   const c = content[language].portfolio;
-
-  const [project, setProject] = useState<Project | null>(null);
-  const [allProjects, setAllProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Charge les données du projet et de tous les autres projets au montage.
-  useEffect(() => {
-    async function loadData() {
-      setIsLoading(true);
-      const fetchedProjects = await getProjects();
-      setAllProjects(fetchedProjects);
-      
-      const currentProject = fetchedProjects.find(p => p.id === projectId);
-      if (currentProject) {
-        setProject(currentProject);
-      } else {
-        setProject(null);
-      }
-      setIsLoading(false);
-    }
-    if (projectId) {
-      loadData();
-    }
-  }, [projectId]);
-
-  // Suggère d'autres projets à voir, en excluant le projet actuel.
-  const suggestedProjects = useMemo(() => {
-    return allProjects.filter(p => p.id !== projectId).slice(0, 3);
-  }, [allProjects, projectId]);
-
-  // Identifie le projet le plus récent pour lui attribuer un badge spécial.
-  const latestProject = useMemo(() => {
-    if (allProjects.length === 0) return null;
-    const sortedByDate = [...allProjects].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    return sortedByDate.length > 0 ? sortedByDate[0] : null;
-  }, [allProjects]);
   
   // États et logique pour le carrousel d'images.
   const [api, setApi] = useState<CarouselApi>();
@@ -142,61 +110,6 @@ export default function ProjectDetailPage({ projectId }: { projectId: string }) 
     };
   }, [project, language]);
 
-  // Affiche un squelette de chargement pendant que les données sont récupérées.
-  if (isLoading) {
-    return (
-      <>
-        <Header />
-        <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-          <Skeleton className="h-8 w-48 mb-8" />
-          <article>
-            <header className="mb-8">
-              <div className="flex flex-wrap items-center gap-4 mb-4">
-                <Skeleton className="h-6 w-24 rounded-full" />
-                <Skeleton className="h-6 w-24 rounded-full" />
-                <Skeleton className="h-6 w-32 rounded-full" />
-              </div>
-              <Skeleton className="h-16 w-3/4 mb-4" />
-              <div className="flex flex-wrap gap-2">
-                <Skeleton className="h-5 w-16 rounded-full" />
-                <Skeleton className="h-5 w-20 rounded-full" />
-                <Skeleton className="h-5 w-24 rounded-full" />
-              </div>
-            </header>
-            <div className="mb-12">
-              <Skeleton className="w-full aspect-video rounded-lg" />
-            </div>
-            <div className="prose prose-invert prose-lg max-w-none mx-auto mb-16 space-y-4">
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-3/4" />
-            </div>
-          </article>
-        </main>
-      </>
-    )
-  }
-
-  // Affiche un message si le projet n'est pas trouvé.
-  if (!project) {
-     return (
-      <>
-        <Header />
-        <main className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-           <Link href="/portfolio" className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline underline-offset-4 mb-8">
-              <ArrowLeft className="h-5 w-5" />
-              <span>{c.back_to_portfolio}</span>
-            </Link>
-          <div className="flex flex-col items-center justify-center text-center h-96 border rounded-lg bg-card/50">
-             <AlertTriangle className="mx-auto h-12 w-12 mb-4 text-destructive" />
-            <h1 className="text-2xl font-bold">Projet non trouvé</h1>
-            <p className="text-muted-foreground mt-2">Le projet que vous cherchez n'existe pas ou a été déplacé.</p>
-          </div>
-        </main>
-      </>
-    )
-  }
-  
   // Formate la date du projet.
   const formattedDate = new Date(project.date).toLocaleDateString(language, {
     year: 'numeric',

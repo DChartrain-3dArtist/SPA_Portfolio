@@ -1,7 +1,6 @@
 
 'use client';
 
-import Link from 'next/link';
 import { Breadcrumbs } from './breadcrumbs';
 import { usePathname } from 'next/navigation';
 import { useBreadcrumb } from '@/contexts/breadcrumb-context';

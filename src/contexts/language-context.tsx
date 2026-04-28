@@ -3,6 +3,7 @@
 
 import type { ReactNode } from 'react';
 import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { DEFAULT_LANGUAGE, isLanguage, LANGUAGE_COOKIE_NAME } from '@/lib/preferences';
 
 // Type définissant les langues supportées par l'application.
 export type Language = 'fr' | 'en';
@@ -17,12 +18,12 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 // Fonction pour obtenir la langue initiale depuis le navigateur ou les cookies.
-const getInitialLanguage = (): Language => {
+const getInitialLanguage = (fallback: Language): Language => {
     if (typeof window === 'undefined') {
-        return 'fr'; // Langue par défaut côté serveur
+        return fallback;
     }
-    const storedLang = localStorage.getItem('language') as Language;
-    if (storedLang && ['fr', 'en'].includes(storedLang)) {
+    const storedLang = localStorage.getItem(LANGUAGE_COOKIE_NAME) ?? undefined;
+    if (isLanguage(storedLang)) {
         return storedLang;
     }
     const browserLang = navigator.language.split('-')[0];
@@ -37,30 +38,31 @@ const getInitialLanguage = (): Language => {
  * @param {ReactNode} props.children - Les composants enfants.
  * @returns Le fournisseur de contexte.
  */
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Initialise avec une valeur par défaut, on la mettra à jour côté client
-  const [language, setLanguageState] = useState<Language>('fr');
+export function LanguageProvider({
+  children,
+  initialLanguage = DEFAULT_LANGUAGE,
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
-        localStorage.setItem('language', lang);
+        localStorage.setItem(LANGUAGE_COOKIE_NAME, lang);
+        document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=31536000; samesite=lax`;
         document.documentElement.lang = lang;
     }
   }
 
-  // Effet pour mettre à jour la langue après le premier rendu côté client
   useEffect(() => {
-    const initialLanguage = getInitialLanguage();
-    setLanguageState(initialLanguage);
-    document.documentElement.lang = initialLanguage;
-  }, []);
-
-  // Effet pour mettre à jour l'attribut `lang` de la balise <html>
-  // à chaque changement de langue, ce qui est bon pour l'accessibilité et le SEO.
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
+    const resolvedLanguage = getInitialLanguage(initialLanguage);
+    setLanguageState(resolvedLanguage);
+    localStorage.setItem(LANGUAGE_COOKIE_NAME, resolvedLanguage);
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${resolvedLanguage}; path=/; max-age=31536000; samesite=lax`;
+    document.documentElement.lang = resolvedLanguage;
+  }, [initialLanguage]);
 
   // useMemo pour optimiser en ne recréant l'objet de valeur que si la langue change.
   const value = useMemo(() => ({ language, setLanguage }), [language]);

@@ -3,9 +3,7 @@
 
 import { Linkedin, Instagram, Youtube, Github } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { LogoSVG } from '../logo-svg';
-import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
 
 export function Footer() {

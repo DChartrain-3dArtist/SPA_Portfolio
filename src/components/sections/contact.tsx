@@ -4,11 +4,9 @@
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
 import { ContactForm } from '@/components/contact-form';
-import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Linkedin, Instagram, Youtube, Github, Home } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { Header } from '../layout/header';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
-import Link from 'next/link';
 
 /**
  * Composant de titre de page réutilisable.

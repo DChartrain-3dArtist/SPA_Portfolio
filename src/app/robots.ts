@@ -3,6 +3,8 @@
 // https://nextjs.org/docs/app/api-reference/file-conventions/robots
 
 import { MetadataRoute } from 'next'
+
+import { absoluteUrl } from '@/lib/site';
  
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -14,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
       // disallow: '/private/', 
     },
     // Spécifie l'emplacement du sitemap pour aider les robots à découvrir toutes les pages.
-    sitemap: 'https://donovan-dev3d.vercel.app/site-sitemap.xml',
+    sitemap: absoluteUrl('/sitemap.xml'),
   }
 }

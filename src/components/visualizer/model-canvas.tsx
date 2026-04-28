@@ -3,8 +3,9 @@
 'use client';
 
 import React, { Suspense, useEffect, useRef, useState, useCallback } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useProgress, Html, Environment, useAnimations } from '@react-three/drei';
+import type { EnvironmentProps } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import { Button } from '../ui/button';
@@ -61,7 +62,7 @@ function ModelWrapper({ modelUrl, onLoaded, setPolycount, setMaterialCount, wire
     // Cleanup on unmount
     return () => {
       if (actions) {
-        Object.values(actions).forEach(action => action.stop());
+        Object.values(actions).forEach(action => action?.stop());
       }
     }
 
@@ -156,7 +157,6 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
   const [modelExists, setModelExists] = useState<boolean | null>(null);
   const [wireframe, setWireframe] = useState(false);
   const [polycount, setPolycount] = useState(0);
-  const [materialCount, setMaterialCount] = useState(0);
   const [env, setEnv] = useState(environments[0].preset);
   const [isEnvMenuOpen, setIsEnvMenuOpen] = useState(false);
   const [hasAnimation, setHasAnimation] = useState(false);
@@ -169,12 +169,12 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
       try {
         const response = await fetch(modelUrl, { method: 'HEAD' });
         setModelExists(response.ok);
-      } catch (error) { setModelExists(false); }
+      } catch { setModelExists(false); }
     }
     checkModel();
   }, [modelUrl]);
 
-  const onLoaded = useCallback((model: THREE.Group) => {
+  const onLoaded = useCallback(() => {
     if (!isLoaded) {
       setShowHelp(true);
       setIsLoaded(true);
@@ -215,7 +215,6 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
   }, [onPolycountChange]);
   
   const handleMaterialCountUpdate = useCallback((count: number) => {
-    setMaterialCount(count);
     onMaterialCountChange(count);
   }, [onMaterialCountChange]);
 
@@ -238,7 +237,7 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
                 />
             </Suspense>
             <Suspense fallback={null}>
-                <Environment preset={env as any} />
+                <Environment preset={env as NonNullable<EnvironmentProps['preset']>} />
             </Suspense>
             <OrbitControls ref={controlsRef} autoRotate={isRotating} autoRotateSpeed={0.8} />
         </Canvas>
@@ -261,7 +260,7 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
                         <Film className="h-5 w-5" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent><p>{isPlayingAnimation ? 'Mettre en pause l\'animation' : 'Lancer l\'animation'}</p></TooltipContent>
+                    <TooltipContent><p>{isPlayingAnimation ? 'Mettre en pause l&apos;animation' : 'Lancer l&apos;animation'}</p></TooltipContent>
                  </Tooltip>
               )}
               <Tooltip>
@@ -278,7 +277,7 @@ export default function ModelCanvas({ modelUrl, onPolycountChange, onMaterialCou
                       <Sun className="h-5 w-5" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent><p>Changer l'éclairage</p></TooltipContent>
+                  <TooltipContent><p>Changer l&apos;éclairage</p></TooltipContent>
                 </Tooltip>
                  <Card className={cn("absolute bottom-full mb-2 w-auto p-2 space-y-1 z-20", !isEnvMenuOpen && "hidden")}>
                     <RadioGroup value={env} onValueChange={setEnv} className="p-2 space-y-1">

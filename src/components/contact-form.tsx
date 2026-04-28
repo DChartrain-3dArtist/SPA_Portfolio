@@ -13,7 +13,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, Send } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 
 /**
@@ -79,7 +78,7 @@ export function ContactForm() {
           description: result.message || c.form_error,
         });
       }
-    } catch (error) {
+    } catch {
       // Gère les erreurs réseau.
       toast({
         variant: "destructive",
