@@ -6,7 +6,7 @@ import ItemDetailPage from '@/components/visualizer/item-detail-page';
 import { getVisualizerItems, getVisualizerItem } from '@/data/projects';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export async function generateStaticParams() {
@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const item = await getVisualizerItem(params.id);
+  const { id } = await params;
+  const item = await getVisualizerItem(id);
 
   if (!item) {
     return {
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const item = await getVisualizerItem(params.id);
+  const { id } = await params;
+  const item = await getVisualizerItem(id);
 
   if (!item) {
     notFound();

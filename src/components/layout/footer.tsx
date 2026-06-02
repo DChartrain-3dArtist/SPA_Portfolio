@@ -1,6 +1,4 @@
 
-'use client';
-
 import { Linkedin, Instagram, Youtube, Github } from 'lucide-react';
 import Link from 'next/link';
 import { LogoSVG } from '../logo-svg';

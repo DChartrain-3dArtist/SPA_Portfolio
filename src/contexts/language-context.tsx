@@ -2,7 +2,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import { DEFAULT_LANGUAGE, isLanguage, LANGUAGE_COOKIE_NAME } from '@/lib/preferences';
 
 // Type définissant les langues supportées par l'application.
@@ -16,19 +16,6 @@ interface LanguageContextType {
 
 // Création du contexte React pour la gestion de la langue.
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-// Fonction pour obtenir la langue initiale depuis le navigateur ou les cookies.
-const getInitialLanguage = (fallback: Language): Language => {
-    if (typeof window === 'undefined') {
-        return fallback;
-    }
-    const storedLang = localStorage.getItem(LANGUAGE_COOKIE_NAME) ?? undefined;
-    if (isLanguage(storedLang)) {
-        return storedLang;
-    }
-    const browserLang = navigator.language.split('-')[0];
-    return browserLang === 'fr' ? 'fr' : 'en';
-}
 
 /**
  * Fournisseur de contexte pour la langue.
@@ -47,25 +34,30 @@ export function LanguageProvider({
 }) {
   const [language, setLanguageState] = useState<Language>(initialLanguage);
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== 'undefined') {
-        localStorage.setItem(LANGUAGE_COOKIE_NAME, lang);
-        document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=31536000; samesite=lax`;
-        document.documentElement.lang = lang;
+  useEffect(() => {
+    const storedLang = localStorage.getItem(LANGUAGE_COOKIE_NAME) ?? undefined;
+
+    if (isLanguage(storedLang)) {
+      setLanguageState(storedLang);
+      return;
     }
-  }
+
+    const browserLang = navigator.language.split('-')[0];
+    setLanguageState(browserLang === 'fr' ? 'fr' : 'en');
+  }, []);
 
   useEffect(() => {
-    const resolvedLanguage = getInitialLanguage(initialLanguage);
-    setLanguageState(resolvedLanguage);
-    localStorage.setItem(LANGUAGE_COOKIE_NAME, resolvedLanguage);
-    document.cookie = `${LANGUAGE_COOKIE_NAME}=${resolvedLanguage}; path=/; max-age=31536000; samesite=lax`;
-    document.documentElement.lang = resolvedLanguage;
-  }, [initialLanguage]);
+    document.documentElement.lang = language;
+    localStorage.setItem(LANGUAGE_COOKIE_NAME, language);
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${language}; path=/; max-age=31536000; samesite=lax`;
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+  }, []);
 
   // useMemo pour optimiser en ne recréant l'objet de valeur que si la langue change.
-  const value = useMemo(() => ({ language, setLanguage }), [language]);
+  const value = useMemo(() => ({ language, setLanguage }), [language, setLanguage]);
 
   return (
     <LanguageContext.Provider value={value}>

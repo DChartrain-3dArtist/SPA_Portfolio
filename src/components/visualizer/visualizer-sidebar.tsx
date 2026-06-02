@@ -54,15 +54,15 @@ export function VisualizerSidebar({ items }: { items: VisualizerItem[] }) {
     { href: '/contact', label: c.nav.contact, icon: Mail },
   ];
 
-  const SidebarToggleButton = () => (
-     <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={toggleSidebar} 
-        className="shrink-0"
+  const toggleButton = (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleSidebar}
+      className="shrink-0"
     >
-        <Menu className="h-6 w-6" />
-        <span className="sr-only">Ouvrir/Fermer le menu</span>
+      <Menu className="h-6 w-6" />
+      <span className="sr-only">Ouvrir/Fermer le menu</span>
     </Button>
   );
 
@@ -71,7 +71,7 @@ export function VisualizerSidebar({ items }: { items: VisualizerItem[] }) {
       <SidebarHeader className="flex flex-col items-center group-data-[collapsible=icon]:gap-4">
         {/* En vue icône, le bouton est au-dessus du logo */}
         <div className="hidden group-data-[collapsible=icon]:flex">
-            <SidebarToggleButton />
+            {toggleButton}
         </div>
          {/* En vue complète, le bouton est à droite du logo */}
         <div className="flex items-center justify-between w-full group-data-[collapsible=icon]:hidden">
@@ -87,7 +87,7 @@ export function VisualizerSidebar({ items }: { items: VisualizerItem[] }) {
                 Visualiseur
             </span>
             </Link>
-            <SidebarToggleButton />
+            {toggleButton}
         </div>
          {/* En vue icône, le logo est affiché seul en dessous du bouton */}
          <Link href="/visualizer" className="hidden group-data-[collapsible=icon]:flex">

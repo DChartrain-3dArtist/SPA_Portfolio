@@ -5,7 +5,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation';
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function generateStaticParams() {
@@ -20,7 +20,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const id = params.id
+  const { id } = await params
   const projects = await getProjects()
   const project = projects.find(p => p.id === id);
 
@@ -46,14 +46,15 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: Props) {
+    const { id } = await params;
     const projects = await getProjects();
-    const project = projects.find((entry) => entry.id === params.id);
+    const project = projects.find((entry) => entry.id === id);
 
     if (!project) {
       notFound();
     }
 
-    const suggestedProjects = projects.filter((entry) => entry.id !== params.id).slice(0, 3);
+    const suggestedProjects = projects.filter((entry) => entry.id !== id).slice(0, 3);
     const latestProject = [...projects].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )[0] ?? null;

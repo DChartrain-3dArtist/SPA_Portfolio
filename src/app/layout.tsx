@@ -1,7 +1,6 @@
 import './globals.css';
 import { ClientWrapper } from '@/components/layout/client-wrapper';
-import { Space_Grotesk } from 'next/font/google';
-import { cn } from '@/lib/utils';
+import Script from 'next/script';
 import type { Metadata, Viewport } from 'next';
 
 import {
@@ -11,14 +10,6 @@ import {
   THEME_COOKIE_NAME,
 } from '@/lib/preferences';
 import { absoluteUrl, siteConfig } from '@/lib/site';
-
-// Importe la police Space Grotesk depuis Google Fonts.
-// `subsets` spécifie les jeux de caractères à précharger.
-// `variable` l'expose en tant que variable CSS pour une utilisation facile avec Tailwind.
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -31,7 +22,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
   icons: {
     icon: [
-      { url: '/assets/data/favicon.ico', sizes: 'any' },
+      { url: '/assets/data/favicon-96x96.png', sizes: 'any' },
       { url: '/assets/data/favicon.svg', type: 'image/svg+xml' },
     ],
     apple: [{ url: '/assets/data/apple-touch-icon.png' }],
@@ -107,14 +98,18 @@ export default function RootLayout({
 
   return (
     <html lang={DEFAULT_LANGUAGE} className={DEFAULT_THEME} suppressHydrationWarning>
-       <head>
-        <script dangerouslySetInnerHTML={{ __html: preferencesScript }} />
-        <script
+      <body className="font-body antialiased">
+        <Script
+          id="preferences-script"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: preferencesScript }}
+        />
+        <Script
+          id="structured-data"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-      </head>
-      <body className={cn("font-body antialiased", spaceGrotesk.variable)}>
         <ClientWrapper initialLanguage={DEFAULT_LANGUAGE} initialTheme={DEFAULT_THEME}>
             {children}
         </ClientWrapper>

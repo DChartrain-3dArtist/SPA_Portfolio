@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Send, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -30,33 +30,28 @@ export function Chatbot({ show }: { show: boolean }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showCtaBubble, setShowCtaBubble] = useState(false);
+  const [isCtaBubbleReady, setIsCtaBubbleReady] = useState(false);
   const [ctaBubbleDismissed, setCtaBubbleDismissed] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { language } = useLanguage();
 
-  useEffect(() => {
-    if (show && !ctaBubbleDismissed && !isOpen) {
-      const timer = setTimeout(() => {
-        setShowCtaBubble(true);
-      }, 4000);
-      return () => clearTimeout(timer);
-    } else {
-      setShowCtaBubble(false);
-    }
-  }, [show, ctaBubbleDismissed, isOpen]);
+  const welcomeMessage = useMemo(
+    () =>
+      language === 'fr'
+        ? "Bienvenue. Je suis AURIA (Assistant Utilitaire de Recherche et d’Information par Intelligence Artificielle), créée pour vous guider à travers le portfolio de Donovan. Posez-moi une question sur ses compétences, un projet spécifique, ou demandez-moi comment le contacter."
+        : "Welcome. I am AURIA (AI Utility for Research and Information), created to guide you through Donovan's portfolio. Ask me a question about his skills, a specific project, or how to contact him.",
+    [language]
+  );
 
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
-        const welcomeMessage = language === 'fr' 
-            ? "Bienvenue. Je suis AURIA (Assistant Utilitaire de Recherche et d’Information par Intelligence Artificielle), créée pour vous guider à travers le portfolio de Donovan. Posez-moi une question sur ses compétences, un projet spécifique, ou demandez-moi comment le contacter."
-            : "Welcome. I am AURIA (AI Utility for Research and Information), created to guide you through Donovan's portfolio. Ask me a question about his skills, a specific project, or how to contact him.";
-      setMessages([
-        { id: 0, role: 'assistant', text: welcomeMessage }
-      ]);
+    if (show && !ctaBubbleDismissed && !isOpen && !isCtaBubbleReady) {
+      const timer = setTimeout(() => {
+        setIsCtaBubbleReady(true);
+      }, 4000);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen, messages.length, language]);
+  }, [show, ctaBubbleDismissed, isOpen, isCtaBubbleReady]);
   
   useEffect(() => {
     if (isOpen && scrollAreaRef.current) {
@@ -70,14 +65,19 @@ export function Chatbot({ show }: { show: boolean }) {
   }, [messages, isOpen]);
   
   const handleDismissCtaBubble = () => {
-    setShowCtaBubble(false);
+    setIsCtaBubbleReady(false);
     setCtaBubbleDismissed(true);
   };
 
   const handleOpenChat = () => {
     setIsOpen(true);
-    setShowCtaBubble(false);
+    setIsCtaBubbleReady(false);
     setCtaBubbleDismissed(true);
+    setMessages((prevMessages) =>
+      prevMessages.length > 0
+        ? prevMessages
+        : [{ id: 0, role: 'assistant', text: welcomeMessage }]
+    );
   };
 
   const handleSendMessage = useCallback(async (e: React.FormEvent) => {
@@ -139,6 +139,7 @@ export function Chatbot({ show }: { show: boolean }) {
   const ctaBubbleText = language === 'fr' 
     ? "Bonjour ! Je suis AURIA, l'assistante IA de Donovan. Une question sur un projet ou une compétence ? Je peux trouver la réponse pour vous !"
     : "Hello! I'm AURIA, Donovan's AI assistant. Have a question about a project or a skill? I can find the answer for you!";
+  const showCtaBubble = show && !ctaBubbleDismissed && !isOpen && isCtaBubbleReady;
 
   return (
     <div className={cn(!show && "hidden")}>

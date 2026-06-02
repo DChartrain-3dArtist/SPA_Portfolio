@@ -8,14 +8,10 @@ import { cn } from '@/lib/utils';
 import { LogoSVG } from '@/components/logo-svg';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Space_Grotesk } from 'next/font/google';
 import Link from 'next/link';
 import { Mail, Home } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { content } from '@/lib/content';
-
-// Initialisation de la police de caractères pour les titres.
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
 
 /**
  * Composant réutilisable pour une section de la charte graphique.
@@ -150,7 +146,7 @@ export default function StyleGuideClientPage() {
                     title={c.typography_title}
                     description={c.typography_description}
                 >
-                   <div className={spaceGrotesk.variable}>
+                   <div>
                        <TypographySample name="Titre H1" size="5xl" weight="Bold" fontClass="text-5xl font-bold font-headline">
                             {c.h1_sample}
                        </TypographySample>

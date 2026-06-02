@@ -1,6 +1,7 @@
 
 'use client';
 
+import dynamic from 'next/dynamic';
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +39,15 @@ import { content } from '@/lib/content';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { LogoSVG } from '../logo-svg';
-import { Chatbot } from '../chatbot/chatbot';
+import { CHATBOT_VISIBLE_PATHS, isNavItemActive } from '@/lib/navigation';
+
+const Chatbot = dynamic(
+  () => import('../chatbot/chatbot').then((module) => module.Chatbot),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const { isMobile } = useSidebar();
@@ -54,17 +63,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
     { href: '/contact', label: c.nav.contact, icon: Mail },
     { href: '/visualizer', label: c.nav.visualizer, icon: Cuboid, variant: 'outline' as const, isCta: true },
   ];
-
-  const isNavItemActive = (itemHref: string) => {
-    if (itemHref === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(itemHref);
-  }
-
-  // Define which pages should show the chatbot
-  const chatbotVisiblePages = ['/', '/portfolio', '/about', '/contact'];
-  const showChatbot = chatbotVisiblePages.includes(pathname);
+  const showChatbot = CHATBOT_VISIBLE_PATHS.includes(
+    pathname as (typeof CHATBOT_VISIBLE_PATHS)[number]
+  );
 
 
   const sidebarContent = (
@@ -155,16 +156,16 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       </SidebarHeader>
 
       <SidebarContent className="flex-grow">
-        <SidebarMenu className="w-full p-4 flex flex-col justify-center h-full">
+          <SidebarMenu className="w-full p-4 flex flex-col justify-center h-full">
           {navItems.filter(item => !item.isCta).map((item) => (
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton
                 asChild
                 size="lg"
-                variant={isNavItemActive(item.href) ? 'default' : 'default'}
-                isActive={isNavItemActive(item.href)}
+                variant={'default'}
+                isActive={isNavItemActive(pathname, item.href)}
                 tooltip={item.label}
-                className={!isNavItemActive(item.href) ? 'bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : undefined}
+                className={!isNavItemActive(pathname, item.href) ? 'bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' : undefined}
               >
                 <Link href={item.href}>
                   <item.icon />
@@ -234,7 +235,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           <div className="fixed bottom-0 left-0 z-50 h-20 w-full border-t border-border bg-background/95 pb-4 backdrop-blur">
             <nav className="grid h-full grid-cols-5 items-stretch">
               {navItems.map((item) => {
-                const isActive = isNavItemActive(item.href);
+                const isActive = isNavItemActive(pathname, item.href);
                 return (
                   <Link
                     key={item.href}

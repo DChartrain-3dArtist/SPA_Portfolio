@@ -10,27 +10,18 @@ const MOBILE_BREAKPOINT = 1024 // lg de Tailwind
  * @returns `true` si la largeur de la fenêtre est inférieure au `MOBILE_BREAKPOINT`, sinon `false`.
  */
 export function useIsMobile() {
-  // L'état `isMobile` est `undefined` au début pour gérer le rendu côté serveur (SSR).
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
-
-  React.useEffect(() => {
-    // Media Query List pour écouter les changements de taille de la fenêtre.
+  const subscribe = React.useCallback((onStoreChange: () => void) => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    
-    // Fonction de rappel pour mettre à jour l'état lorsque la taille de la fenêtre change.
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    }
+    mql.addEventListener("change", onStoreChange)
+    return () => mql.removeEventListener("change", onStoreChange)
+  }, [])
 
-    // Ajoute un écouteur d'événement pour le changement de média query.
-    mql.addEventListener("change", onChange)
-    
-    // Définit l'état initial au premier montage côté client.
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+  const getSnapshot = React.useCallback(
+    () => window.innerWidth < MOBILE_BREAKPOINT,
+    []
+  )
 
-    // Fonction de nettoyage pour retirer l'écouteur lorsque le composant est démonté.
-    return () => mql.removeEventListener("change", onChange)
-  }, []) // Le tableau de dépendances vide assure que cet effet ne s'exécute qu'une fois côté client.
+  const getServerSnapshot = React.useCallback(() => false, [])
 
-  return !!isMobile // Convertit `undefined` en `false` pour le rendu initial côté serveur.
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }

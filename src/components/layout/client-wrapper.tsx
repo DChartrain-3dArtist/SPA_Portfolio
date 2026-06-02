@@ -61,14 +61,6 @@ export function ClientWrapper({
                           })(window,document,'script','dataLayer','GTM-TCVSRQ9F');
                         `}
                     </Script>
-                    <noscript>
-                        <iframe
-                            src="https://www.googletagmanager.com/ns.html?id=GTM-TCVSRQ9F"
-                            height="0"
-                            width="0"
-                            style={{ display: 'none', visibility: 'hidden' }}
-                        />
-                    </noscript>
                 </>
             )}
 

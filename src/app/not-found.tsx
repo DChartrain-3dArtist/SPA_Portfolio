@@ -1,6 +1,4 @@
 
-'use client';
-
 import { Button } from '@/components/ui/button';
 import { Home, Telescope } from 'lucide-react';
 import Link from 'next/link';

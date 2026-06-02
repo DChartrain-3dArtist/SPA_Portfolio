@@ -2,7 +2,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import { DEFAULT_THEME, isTheme, THEME_COOKIE_NAME } from '@/lib/preferences';
 
 // Type définissant les thèmes disponibles.
@@ -25,19 +25,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
  * @param {ReactNode} props.children - Les composants enfants.
  * @returns Le fournisseur de contexte.
  */
-function resolveInitialTheme(fallback: Theme): Theme {
-  if (typeof window === 'undefined') {
-    return fallback;
-  }
-
-  const storedTheme = localStorage.getItem(THEME_COOKIE_NAME) ?? undefined;
-  if (isTheme(storedTheme)) {
-    return storedTheme;
-  }
-
-  return fallback;
-}
-
 export function ThemeProvider({
   children,
   initialTheme = DEFAULT_THEME,
@@ -48,9 +35,12 @@ export function ThemeProvider({
   const [theme, setThemeState] = useState<Theme>(initialTheme);
 
   useEffect(() => {
-    const resolvedTheme = resolveInitialTheme(initialTheme);
-    setThemeState(resolvedTheme);
-  }, [initialTheme]);
+    const storedTheme = localStorage.getItem(THEME_COOKIE_NAME) ?? undefined;
+
+    if (isTheme(storedTheme)) {
+      setThemeState(storedTheme);
+    }
+  }, []);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -60,15 +50,15 @@ export function ThemeProvider({
     document.cookie = `${THEME_COOKIE_NAME}=${theme}; path=/; max-age=31536000; samesite=lax`;
   }, [theme]);
 
-  const setTheme = (nextTheme: Theme) => {
+  const setTheme = useCallback((nextTheme: Theme) => {
     setThemeState(nextTheme);
-  };
+  }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setThemeState(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+  }, []);
 
-  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme]);
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme, setTheme, toggleTheme]);
 
   return (
     <ThemeContext.Provider value={value}>
