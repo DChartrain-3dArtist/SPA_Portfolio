@@ -2,16 +2,25 @@
 import ProjectDetailPage from "@/components/portfolio/project-detail-page";
 import { getProjects } from "@/data/projects";
 import type { Metadata, ResolvingMetadata } from 'next'
+import { notFound } from 'next/navigation';
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
+}
+
+export async function generateStaticParams() {
+  const projects = await getProjects();
+
+  return projects.map((project) => ({
+    id: project.id,
+  }));
 }
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const id = params.id
+  const { id } = await params
   const projects = await getProjects()
   const project = projects.find(p => p.id === id);
 
@@ -36,7 +45,25 @@ export async function generateMetadata(
   }
 }
 
+export default async function Page({ params }: Props) {
+    const { id } = await params;
+    const projects = await getProjects();
+    const project = projects.find((entry) => entry.id === id);
 
-export default function Page({ params }: Props) {
-    return <ProjectDetailPage projectId={params.id} />
+    if (!project) {
+      notFound();
+    }
+
+    const suggestedProjects = projects.filter((entry) => entry.id !== id).slice(0, 3);
+    const latestProject = [...projects].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )[0] ?? null;
+
+    return (
+      <ProjectDetailPage
+        project={project}
+        suggestedProjects={suggestedProjects}
+        latestProject={latestProject}
+      />
+    );
 }

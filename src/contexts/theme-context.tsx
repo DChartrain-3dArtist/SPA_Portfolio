@@ -2,7 +2,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
+import { DEFAULT_THEME, isTheme, THEME_COOKIE_NAME } from '@/lib/preferences';
 
 // Type définissant les thèmes disponibles.
 export type Theme = 'light' | 'dark';
@@ -24,25 +25,40 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
  * @param {ReactNode} props.children - Les composants enfants.
  * @returns Le fournisseur de contexte.
  */
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  // État pour stocker le thème actuel, initialisé à 'dark'.
-  const [theme, setTheme] = useState<Theme>('dark');
+export function ThemeProvider({
+  children,
+  initialTheme = DEFAULT_THEME,
+}: {
+  children: ReactNode;
+  initialTheme?: Theme;
+}) {
+  const [theme, setThemeState] = useState<Theme>(initialTheme);
 
-  // Effet pour appliquer le thème actuel au document HTML.
-  // Il ajoute/supprime les classes 'light'/'dark' sur la balise <html>.
+  useEffect(() => {
+    const storedTheme = localStorage.getItem(THEME_COOKIE_NAME) ?? undefined;
+
+    if (isTheme(storedTheme)) {
+      setThemeState(storedTheme);
+    }
+  }, []);
+
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
+    localStorage.setItem(THEME_COOKIE_NAME, theme);
+    document.cookie = `${THEME_COOKIE_NAME}=${theme}; path=/; max-age=31536000; samesite=lax`;
   }, [theme]);
 
-  // Fonction pour basculer entre les thèmes 'light' et 'dark'.
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+  const setTheme = useCallback((nextTheme: Theme) => {
+    setThemeState(nextTheme);
+  }, []);
 
-  // useMemo pour optimiser la valeur du contexte.
-  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme]);
+  const toggleTheme = useCallback(() => {
+    setThemeState(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  }, []);
+
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme, setTheme, toggleTheme]);
 
   return (
     <ThemeContext.Provider value={value}>

@@ -5,11 +5,10 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
-import { Library, Mail, Briefcase, Code, Cuboid, Eye, Link as LinkIcon } from 'lucide-react';
+import { Library, Mail, Briefcase, Code, Cuboid } from 'lucide-react';
 import Link from 'next/link';
 import { content } from '@/lib/content';
 import { useLanguage } from '@/contexts/language-context';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 // Dynamically import the background component to ensure it's client-side only
 const HeroBackground = dynamic(

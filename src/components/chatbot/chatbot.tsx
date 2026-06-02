@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Send, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,16 +9,20 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { chat, ChatbotOutput } from '@/ai/chatbot-flow';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/language-context';
 import { cn } from '@/lib/utils';
+
+type ChatbotAction = {
+  type: 'navigate';
+  path: string;
+} | undefined;
 
 type Message = {
   id: number;
   role: 'user' | 'assistant';
   text: string;
-  action?: ChatbotOutput['action'];
+  action?: ChatbotAction;
 };
 
 export function Chatbot({ show }: { show: boolean }) {
@@ -26,33 +30,28 @@ export function Chatbot({ show }: { show: boolean }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showCtaBubble, setShowCtaBubble] = useState(false);
+  const [isCtaBubbleReady, setIsCtaBubbleReady] = useState(false);
   const [ctaBubbleDismissed, setCtaBubbleDismissed] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { language } = useLanguage();
 
-  useEffect(() => {
-    if (show && !ctaBubbleDismissed && !isOpen) {
-      const timer = setTimeout(() => {
-        setShowCtaBubble(true);
-      }, 4000);
-      return () => clearTimeout(timer);
-    } else {
-      setShowCtaBubble(false);
-    }
-  }, [show, ctaBubbleDismissed, isOpen]);
+  const welcomeMessage = useMemo(
+    () =>
+      language === 'fr'
+        ? "Bienvenue. Je suis AURIA (Assistant Utilitaire de Recherche et d’Information par Intelligence Artificielle), créée pour vous guider à travers le portfolio de Donovan. Posez-moi une question sur ses compétences, un projet spécifique, ou demandez-moi comment le contacter."
+        : "Welcome. I am AURIA (AI Utility for Research and Information), created to guide you through Donovan's portfolio. Ask me a question about his skills, a specific project, or how to contact him.",
+    [language]
+  );
 
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
-        const welcomeMessage = language === 'fr' 
-            ? "Bienvenue. Je suis AURIA (Assistant Utilitaire de Recherche et d’Information par Intelligence Artificielle), créée pour vous guider à travers le portfolio de Donovan. Posez-moi une question sur ses compétences, un projet spécifique, ou demandez-moi comment le contacter."
-            : "Welcome. I am AURIA (AI Utility for Research and Information), created to guide you through Donovan's portfolio. Ask me a question about his skills, a specific project, or how to contact him.";
-      setMessages([
-        { id: 0, role: 'assistant', text: welcomeMessage }
-      ]);
+    if (show && !ctaBubbleDismissed && !isOpen && !isCtaBubbleReady) {
+      const timer = setTimeout(() => {
+        setIsCtaBubbleReady(true);
+      }, 4000);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen, messages.length, language]);
+  }, [show, ctaBubbleDismissed, isOpen, isCtaBubbleReady]);
   
   useEffect(() => {
     if (isOpen && scrollAreaRef.current) {
@@ -66,21 +65,24 @@ export function Chatbot({ show }: { show: boolean }) {
   }, [messages, isOpen]);
   
   const handleDismissCtaBubble = () => {
-    setShowCtaBubble(false);
+    setIsCtaBubbleReady(false);
     setCtaBubbleDismissed(true);
   };
 
   const handleOpenChat = () => {
     setIsOpen(true);
-    setShowCtaBubble(false);
+    setIsCtaBubbleReady(false);
     setCtaBubbleDismissed(true);
+    setMessages((prevMessages) =>
+      prevMessages.length > 0
+        ? prevMessages
+        : [{ id: 0, role: 'assistant', text: welcomeMessage }]
+    );
   };
 
   const handleSendMessage = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isLoading) return;
-
-    console.log(`[CHATBOT_FRONTEND] Step 1: Envoi du message : ${inputValue}`);
     
     const userMessage: Message = { id: Date.now(), role: 'user', text: inputValue };
     setMessages(prev => [...prev, userMessage]);
@@ -89,22 +91,31 @@ export function Chatbot({ show }: { show: boolean }) {
 
     try {
       // Appel au backend
-      const response = await chat({ message: inputValue, language });
-      console.log('[CHATBOT_FRONTEND] Step 2: Réponse reçue du backend :', JSON.stringify(response, null, 2));
+      const apiResponse = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: inputValue, language }),
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error(`Chatbot request failed with status ${apiResponse.status}`);
+      }
+
+      const response = (await apiResponse.json()) as { text: string; action?: ChatbotAction };
       
-      // Création du message de l'assistant avec le texte ET l'action
       const assistantMessage: Message = { 
         id: Date.now() + 1, 
         role: 'assistant', 
         text: response.text, 
-        action: response.action // L'action est maintenant directement dans la réponse
+        action: response.action
       };
-      console.log('[CHATBOT_FRONTEND] Step 3: Création de l\'objet message de l\'assistant :', JSON.stringify(assistantMessage, null, 2));
 
       setMessages(prev => [...prev, assistantMessage]);
 
-    } catch (error: any) {
-      let errorMessageText = language === 'fr'
+    } catch {
+      const errorMessageText = language === 'fr'
           ? 'Désolé, une erreur inattendue est survenue. Veuillez réessayer plus tard.'
           : 'Sorry, an unexpected error occurred. Please try again later.';
       
@@ -116,7 +127,7 @@ export function Chatbot({ show }: { show: boolean }) {
   }, [inputValue, isLoading, language]);
 
 
-  const handleActionClick = (action: ChatbotOutput['action']) => {
+  const handleActionClick = (action: ChatbotAction) => {
     if (action?.path) {
       router.push(action.path);
       setIsOpen(false);
@@ -128,6 +139,7 @@ export function Chatbot({ show }: { show: boolean }) {
   const ctaBubbleText = language === 'fr' 
     ? "Bonjour ! Je suis AURIA, l'assistante IA de Donovan. Une question sur un projet ou une compétence ? Je peux trouver la réponse pour vous !"
     : "Hello! I'm AURIA, Donovan's AI assistant. Have a question about a project or a skill? I can find the answer for you!";
+  const showCtaBubble = show && !ctaBubbleDismissed && !isOpen && isCtaBubbleReady;
 
   return (
     <div className={cn(!show && "hidden")}>
@@ -198,7 +210,6 @@ export function Chatbot({ show }: { show: boolean }) {
                    <div className="p-4 space-y-4">
                     {messages.map((message) => {
                       const hasAction = !!(message.action && message.action.path);
-                      console.log(`[CHATBOT_FRONTEND] Step 4: Rendu d'un message. Contient une action ? ${hasAction}`);
                       return (
                       <div key={message.id} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
                         {message.role === 'assistant' && (

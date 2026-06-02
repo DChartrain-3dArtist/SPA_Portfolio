@@ -48,7 +48,7 @@ export function CookieConsentBanner() {
     >
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-sm text-foreground text-center md:text-left">
-          Ce site utilise des cookies pour analyser le trafic et améliorer votre expérience. En cliquant sur "Accepter", vous consentez à notre utilisation des cookies.{' '}
+          Ce site utilise des cookies pour analyser le trafic et améliorer votre expérience. En cliquant sur &quot;Accepter&quot;, vous consentez à notre utilisation des cookies.{' '}
           <Link href="/privacy-policy" className="underline hover:text-primary">
             En savoir plus
           </Link>.

@@ -1,6 +1,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,9 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, Send } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 
 /**
@@ -27,33 +27,37 @@ export function ContactForm() {
   const v = content[language].validation;
   const { toast } = useToast();
 
-  // Schéma de validation Zod, mémorisé pour les performances.
-  const formSchema = useMemo(() => z.object({
-    name: z.string().min(2, { message: v.name_min }),
-    email: z.string().email({ message: v.email_invalid }),
-    company: z.string().optional(),
-    phone: z.string().optional(),
-    message: z.string().min(10, { message: v.message_min }),
-  }), [v]);
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, { message: v.name_min }),
+        email: z.string().email({ message: v.email_invalid }),
+        phone: z.string().optional(),
+        message: z
+          .string()
+          .min(10, { message: v.message_min })
+          .max(2000, { message: v.message_max }),
+        legalConsent: z.boolean().refine((value) => value, {
+          message: v.legal_required,
+        }),
+      }),
+    [v]
+  );
 
-  // Initialisation de react-hook-form.
-  const form = useForm<z.infer<typeof formSchema>>({
+  type ContactFormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      company: "",
-      phone: "",
-      message: "",
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      legalConsent: false,
     },
   });
 
-  /**
-   * Fonction de soumission du formulaire.
-   * Envoie les données à l'API route /api/contact.
-   * @param values - Les valeurs validées du formulaire.
-   */
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: ContactFormValues) => {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -72,17 +76,15 @@ export function ContactForm() {
         });
         form.reset();
       } else {
-        // Gère les erreurs de validation ou autres erreurs serveur.
         toast({
-          variant: "destructive",
+          variant: 'destructive',
           title: c.form_error_title,
           description: result.message || c.form_error,
         });
       }
-    } catch (error) {
-      // Gère les erreurs réseau.
+    } catch {
       toast({
-        variant: "destructive",
+        variant: 'destructive',
         title: c.form_error_title,
         description: 'Impossible de contacter le serveur. Veuillez réessayer.',
       });
@@ -100,7 +102,6 @@ export function ContactForm() {
       <CardContent className="flex flex-col flex-grow">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col flex-grow">
-            {/* Grille pour les champs Nom et Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -129,36 +130,19 @@ export function ContactForm() {
                 )}
               />
             </div>
-            {/* Grille pour les champs Entreprise et Téléphone */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{c.form_company}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={c.form_company_placeholder} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{c.form_phone}</FormLabel>
-                    <FormControl>
-                      <Input type="tel" placeholder={c.form_phone_placeholder} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            {/* Champ pour le message */}
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{c.form_phone}</FormLabel>
+                  <FormControl>
+                    <Input type="tel" placeholder={c.form_phone_placeholder} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="message"
@@ -166,13 +150,51 @@ export function ContactForm() {
                 <FormItem className="flex flex-col flex-grow">
                   <FormLabel>{c.form_message}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={c.form_message_placeholder} {...field} className="flex-grow min-h-[150px]" />
+                    <Textarea
+                      placeholder={c.form_message_placeholder}
+                      maxLength={2000}
+                      {...field}
+                      className="flex-grow min-h-[180px]"
+                    />
                   </FormControl>
+                  <FormDescription>{c.form_message_hint}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {/* Bouton de soumission */}
+            <FormField
+              control={form.control}
+              name="legalConsent"
+              render={({ field }) => (
+                <FormItem className="space-y-3 rounded-lg border border-border/50 bg-muted/30 p-4">
+                  <div className="flex items-start gap-3">
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={field.value}
+                        onChange={(event) => field.onChange(event.target.checked)}
+                        className="mt-1 h-4 w-4 rounded border-border accent-primary"
+                      />
+                    </FormControl>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      <FormLabel className="font-normal leading-relaxed text-foreground">
+                        {c.form_legal_label}
+                      </FormLabel>
+                      <p className="leading-relaxed">
+                        <Link href="/legal-notice" className="underline underline-offset-4 hover:text-primary">
+                          {c.form_legal_link_legal}
+                        </Link>{' '}
+                        {' / '}
+                        <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-primary">
+                          {c.form_legal_link_privacy}
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
               <Send className="mr-2 h-4 w-4" />
               {form.formState.isSubmitting ? c.form_sending : c.form_submit}

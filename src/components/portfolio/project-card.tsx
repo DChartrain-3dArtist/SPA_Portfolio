@@ -7,10 +7,11 @@ import { useLanguage } from '@/contexts/language-context';
 import type { Project } from '@/data/definitions';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Cuboid, Sparkles, Film, Rows3 } from 'lucide-react';
+import { ArrowRight, Cuboid, Sparkles, Film } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { content } from '@/lib/content';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { getSectorBadgeClass } from '@/lib/project-ui';
 
 interface ProjectCardProps {
   project: Project;
@@ -22,20 +23,7 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
   const { language } = useLanguage();
   const c = content[language];
   const isMobile = useIsMobile();
-  const { id, title, image, sector, productionType, hint, description, isVisualizable, date, videoUrl } = project;
-
-  const getSectorBadgeClass = () => {
-    switch (sector) {
-      case 'Infographie 3D':
-        return 'bg-orange-500 hover:bg-orange-500/90 text-white border-transparent';
-      case '3D Temps Réel':
-        return 'bg-emerald-500 hover:bg-emerald-500/90 text-white border-transparent';
-      case 'Développement Web':
-        return 'bg-violet-500 hover:bg-violet-500/90 text-white border-transparent';
-      default:
-        return '';
-    }
-  };
+  const { id, title, image, sector, productionType, description, isVisualizable, date, videoUrl } = project;
 
   const formattedDate = new Date(date).toLocaleDateString(language, {
     year: 'numeric',
@@ -119,7 +107,7 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
                 </div>
                 <CardContent className="p-4 flex flex-col flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                        <Badge className={cn("w-fit", getSectorBadgeClass())}>{sector}</Badge>
+                        <Badge className={cn("w-fit", getSectorBadgeClass(sector))}>{sector}</Badge>
                         <Badge variant="outline" className="w-fit">{productionType}</Badge>
                     </div>
                     <h3 className="text-lg font-bold font-headline text-card-foreground mb-2">{title[language]}</h3>
@@ -152,7 +140,7 @@ export function ProjectCard({ project, layout = 'grid', isLatest = false }: Proj
             </div>
             <CardContent className="p-6 flex flex-col flex-grow">
                 <div className="flex items-center gap-2 mb-2">
-                    <Badge className={cn("w-fit", getSectorBadgeClass())}>{sector}</Badge>
+                    <Badge className={cn("w-fit", getSectorBadgeClass(sector))}>{sector}</Badge>
                     <Badge variant="outline" className="w-fit">{productionType}</Badge>
                 </div>
                 <h3 className="text-xl font-bold font-headline text-card-foreground mb-2">{title[language]}</h3>

@@ -1,6 +1,6 @@
 
 import type {Config} from 'tailwindcss';
-import { MotionValue } from 'framer-motion';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
   darkMode: ['class'],
@@ -112,5 +112,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

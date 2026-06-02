@@ -4,9 +4,50 @@
 
 import type { Project, VisualizerItem } from './definitions';
 import projectsData from './projects.json';
+import {z} from 'zod';
 
-// Importe les données brutes des projets depuis le fichier JSON.
-const projects: Project[] = projectsData;
+const localizedStringSchema = z.object({
+  fr: z.string(),
+  en: z.string(),
+});
+
+const visualizerItemSchema = z.object({
+  id: z.string(),
+  name: localizedStringSchema,
+  description: localizedStringSchema,
+  image: z.string(),
+  modelUrl: z.string(),
+  hint: z.string(),
+  projectId: z.string().optional(),
+  projectTitle: localizedStringSchema.optional(),
+  polycount: z.number().optional(),
+  materials: z.number().optional(),
+  software: z.string().optional(),
+  category: z.string().optional(),
+  isFeatured: z.boolean().optional(),
+});
+
+const projectSchema = z.object({
+  id: z.string(),
+  title: localizedStringSchema,
+  description: localizedStringSchema,
+  longDescription: localizedStringSchema,
+  sector: z.enum(['Infographie 3D', '3D Temps Réel', 'Développement Web']),
+  productionType: z.enum(['Rendu', 'Animation', 'Application', 'Site Web']),
+  image: z.string(),
+  images: z.array(z.string()),
+  technologies: z.array(z.string()),
+  hint: z.string(),
+  date: z.string(),
+  isVisualizable: z.boolean(),
+  videoUrl: z.string().optional(),
+  visualizerItems: z.array(visualizerItemSchema).optional(),
+  liveUrl: z.string().optional(),
+  githubUrl: z.string().optional(),
+});
+
+// Valide les données importées une fois au chargement du module.
+const projects: Project[] = z.array(projectSchema).parse(projectsData);
 
 /**
  * Récupère la liste de tous les projets.

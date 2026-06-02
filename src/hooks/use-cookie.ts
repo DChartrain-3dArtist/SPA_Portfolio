@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 /**
  * Hook personnalisé pour gérer la lecture et l'écriture de cookies.
@@ -14,33 +14,21 @@ import { useState, useEffect, useCallback } from 'react';
  */
 export function useCookie(key: string, initialValue: string | null): [string | null, (value: string | null) => void] {
   const [storedValue, setStoredValue] = useState<string | null>(initialValue);
-  const [isClient, setIsClient] = useState(false);
 
-  // Ce `useEffect` s'exécute une seule fois après le premier rendu côté client.
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Ce `useEffect` lit la valeur du cookie une fois que nous sommes sûrs d'être côté client.
-  useEffect(() => {
-    if (isClient) {
-      try {
-        const item = window.localStorage.getItem(key);
-        setStoredValue(item);
-      } catch (error) {
-        console.warn(`Erreur lors de la lecture du cookie "${key}" :`, error);
-        setStoredValue(initialValue);
-      }
+    try {
+      setStoredValue(window.localStorage.getItem(key));
+    } catch (error) {
+      console.warn(`Erreur lors de la lecture du cookie "${key}" :`, error);
     }
-  }, [key, initialValue, isClient]);
+  }, [key]);
 
   /**
    * Fonction pour définir une nouvelle valeur pour le cookie.
    * Utilise `useCallback` pour la mémorisation et l'optimisation.
    */
   const setValue = useCallback((value: string | null) => {
-    // Ne rien faire si nous sommes côté serveur.
-    if (!isClient) {
+    if (typeof window === 'undefined') {
       return;
     }
 
@@ -56,7 +44,7 @@ export function useCookie(key: string, initialValue: string | null): [string | n
     } catch (error) {
       console.warn(`Erreur lors de l'écriture du cookie "${key}" :`, error);
     }
-  }, [key, isClient]);
+  }, [key]);
 
   return [storedValue, setValue];
 }
